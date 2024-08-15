@@ -11,12 +11,16 @@ config_version=5
 [application]
 
 config/name="Gmtk Game Jam 2024"
+run/main_scene="res://Scenes/control.tscn"
 config/features=PackedStringArray("4.2", "GL Compatibility")
 config/icon="res://icon.svg"
 
 [editor_plugins]
 
+
 enabled=PackedStringArray("res://addons/nv.file_system/plugin.cfg")
+enabled=PackedStringArray("res://addons/Todo_Manager/plugin.cfg")
+
 
 [rendering]
 
