@@ -1,2 +1,5 @@
 # Godot 4+ specific ignores
 .godot/
+addons/nv.file_system/plugin.cfg
+addons/nv.file_system/nv.file_system.gd
+addons/nv.file_system/config.cfg
