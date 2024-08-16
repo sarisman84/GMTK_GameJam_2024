@@ -1,0 +1,39 @@
+[gd_scene load_steps=5 format=3 uid="uid://dg5exlrfhub1e"]
+
+[ext_resource type="PackedScene" uid="uid://22o2pk2n1acn" path="res://Assets/Presets/Gameplay/p_player_avatar.tscn" id="1_0n4tj"]
+[ext_resource type="PackedScene" uid="uid://dpe565itb8uxd" path="res://Assets/Presets/Level Assets/Testing/box.tscn" id="2_mrrtk"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_oqbqu"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_mkdcg"]
+size = Vector3(100000, 50, 1)
+
+[node name="test_level" type="Node"]
+
+[node name="player_avatar" parent="." instance=ExtResource("1_0n4tj")]
+position = Vector2(-2.8554, -15.1899)
+
+[node name="geometry" type="Node" parent="."]
+
+[node name="floor" type="Node2D" parent="geometry"]
+
+[node name="collider" type="StaticBody2D" parent="geometry/floor"]
+
+[node name="shape" type="CollisionShape2D" parent="geometry/floor/collider"]
+shape = SubResource("WorldBoundaryShape2D_oqbqu")
+
+[node name="sprite" type="MeshInstance2D" parent="geometry/floor"]
+position = Vector2(0, 25)
+mesh = SubResource("BoxMesh_mkdcg")
+
+[node name="box" parent="geometry" instance=ExtResource("2_mrrtk")]
+position = Vector2(164, -10)
+
+[node name="box2" parent="geometry" instance=ExtResource("2_mrrtk")]
+position = Vector2(243, -10)
+
+[node name="box3" parent="geometry" instance=ExtResource("2_mrrtk")]
+position = Vector2(-183, -10)
+
+[node name="box4" parent="geometry" instance=ExtResource("2_mrrtk")]
+position = Vector2(-324, -10)

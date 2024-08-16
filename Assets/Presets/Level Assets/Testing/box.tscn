@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://dpe565itb8uxd"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_oob5h"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_selbb"]
+size = Vector3(20, 20, 3)
+
+[node name="box" type="Node2D"]
+position = Vector2(167, -10)
+
+[node name="collider" type="StaticBody2D" parent="."]
+
+[node name="shape" type="CollisionShape2D" parent="collider"]
+shape = SubResource("RectangleShape2D_oob5h")
+
+[node name="sprite" type="MeshInstance2D" parent="."]
+mesh = SubResource("BoxMesh_selbb")

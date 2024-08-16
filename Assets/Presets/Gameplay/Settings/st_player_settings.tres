@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="PlayerSettings" load_steps=4 format=3 uid="uid://cfq4k6xv4lmu"]
+
+[ext_resource type="Script" path="res://Scripts/Gameplay/Player/player_settings.gd" id="1_c8fa2"]
+[ext_resource type="Resource" uid="uid://bgxh0y5aycs16" path="res://Assets/Presets/Gameplay/Settings/st_large_settings.tres" id="1_pjdtu"]
+[ext_resource type="Resource" uid="uid://cermdsx1fmak5" path="res://Assets/Presets/Gameplay/Settings/st_small_settings.tres" id="3_y7rj7"]
+
+[resource]
+script = ExtResource("1_c8fa2")
+speed = 300.0
+jump_height_in_px = 50.0
+max_health = 3
+default_zoom = 5.0
+can_attack = true
+attack_damage = 1.0
+large_scale_settings = ExtResource("1_pjdtu")
+small_scale_settings = ExtResource("3_y7rj7")

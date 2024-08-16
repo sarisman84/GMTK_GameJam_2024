@@ -1,0 +1,36 @@
+[gd_scene load_steps=7 format=3 uid="uid://22o2pk2n1acn"]
+
+[ext_resource type="Script" path="res://Scripts/Gameplay/Player/avatar_controller.gd" id="1_mu8og"]
+[ext_resource type="Resource" uid="uid://cfq4k6xv4lmu" path="res://Assets/Presets/Gameplay/Settings/st_player_settings.tres" id="2_jaml8"]
+[ext_resource type="Script" path="res://Scripts/Gameplay/Player/health_node.gd" id="3_ll31o"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_r1k3x"]
+height = 35.0
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_85xlw"]
+size = Vector2(20, 35)
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_7aaut"]
+height = 36.0
+
+[node name="player_avatar" type="CharacterBody2D"]
+script = ExtResource("1_mu8og")
+player_settings = ExtResource("2_jaml8")
+
+[node name="shape" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_r1k3x")
+
+[node name="camera" type="Camera2D" parent="."]
+zoom = Vector2(8, 8)
+position_smoothing_enabled = true
+
+[node name="sprite" type="Sprite2D" parent="."]
+texture = SubResource("PlaceholderTexture2D_85xlw")
+
+[node name="health" type="StaticBody2D" parent="."]
+collision_layer = 2
+collision_mask = 0
+script = ExtResource("3_ll31o")
+
+[node name="hurtbox" type="CollisionShape2D" parent="health"]
+shape = SubResource("CapsuleShape2D_7aaut")
