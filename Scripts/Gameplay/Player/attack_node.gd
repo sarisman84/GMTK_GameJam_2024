@@ -4,10 +4,15 @@ class_name AttackNode
 @onready var m_hitbox = $hitbox
 
 var m_target_pos: Vector2
+var m_default_hitbox_scale : Vector2
 var m_current_targets: Array[HealthNode]
+
 var m_cur_rate: float
+var m_scaled_pos : Vector2
+
 
 func _ready() -> void:
+	m_default_hitbox_scale = m_hitbox.scale
 	m_target_pos = m_hitbox.position
 	m_hitbox.position = Vector2.ZERO
 	body_entered.connect(m_on_entity_enter)
@@ -19,19 +24,25 @@ func _process(_delta) -> void:
 	m_cur_rate = min(m_cur_rate, 0)
 
 
+func scale_hitbox(scale_multiplier : float) -> void:
+	m_scaled_pos = m_target_pos * scale_multiplier
+	m_hitbox.scale = m_default_hitbox_scale * scale_multiplier
+
+
 func switch_face(_direction: int) -> void:
-	m_hitbox.position = m_target_pos * _direction
+	m_hitbox.position = m_scaled_pos * _direction
 
 func attack_current_targets(attack_damage: float, attack_rate_in_seconds: float) -> void:
-	for i in range(m_current_targets.size()):
-		var target = m_current_targets[i]
-		#Should the entry be invalid, remove it and continue
-		if not target:
-			m_current_targets.remove_at(i)
-			continue
-		target.apply_damage(attack_damage)
-		m_cur_rate = attack_rate_in_seconds
-		print("attacked ", target.owner.name)
+	if m_cur_rate <= 0:
+		for i in range(m_current_targets.size()):
+			var target = m_current_targets[i]
+			#Should the entry be invalid, remove it and continue
+			if not target:
+				m_current_targets.remove_at(i)
+				continue
+			target.apply_damage(attack_damage)
+			m_cur_rate = attack_rate_in_seconds
+
 
 
 func m_on_entity_enter(_body: Variant) -> void:

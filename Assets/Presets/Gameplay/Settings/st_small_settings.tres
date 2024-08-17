@@ -5,8 +5,10 @@
 [resource]
 script = ExtResource("1_icf73")
 scale_multiplier = 0.1
-can_attack_override = false
-attack_damage_override = 0.0
+override_attack = false
+attack_damage = 0.0
+attack_rate_in_seconds = 0.25
+can_attack = false
 override_jump_height = false
 jump_height = 0.0
 override_speed = false
