@@ -51,11 +51,7 @@ func _ready() -> void:
 
 	m_init_default_scales()
 	m_init_health()
-
-
-	m_current_size = default_size
-	m_apply_settings(m_current_size)
-	m_attack.switch_face(1)
+	reset_player()
 
 func add_dash_charge():
 	m_cur_dash_count += 1
@@ -70,6 +66,13 @@ func m_init_health() -> void:
 
 
 func m_on_player_death() -> void:
+	pass
+
+func reset_player() -> void:
+	m_current_size = default_size
+	m_apply_settings(m_current_size)
+	m_attack.switch_face(1)
+	m_health.reset_health()
 	pass
 
 func m_get_jump_velocity(target_height: float) -> float:
