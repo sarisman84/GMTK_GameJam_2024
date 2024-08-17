@@ -3,7 +3,7 @@ class_name OnboardingPopup
 
 @export var keybind_keywords: Array[BindKeyword]
 @export var screen_position: Vector2
-@onready var m_label: RichTextLabel = $text_entry
+@onready var m_label: RichTextLabel = $anchor/text_entry
 
 var m_target_anchor: Node2D
 var m_owner: Node2D
