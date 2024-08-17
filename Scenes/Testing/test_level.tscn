@@ -10,11 +10,11 @@
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_oqbqu"]
 
-[sub_resource type="BoxMesh" id="BoxMesh_mkdcg"]
-size = Vector3(100000, 50, 1)
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_u8inq"]
 
-[node name="test_level" type="Node"]
+[node name="test_level" type="Node" node_paths=PackedStringArray("test")]
 script = ExtResource("1_xrki1")
+test = NodePath("geometry/box")
 
 [node name="player_avatar" parent="." instance=ExtResource("1_0n4tj")]
 position = Vector2(-2.8554, -15.1899)
@@ -28,10 +28,10 @@ position = Vector2(-2.8554, -15.1899)
 [node name="shape" type="CollisionShape2D" parent="geometry/floor/collider"]
 shape = SubResource("WorldBoundaryShape2D_oqbqu")
 
-[node name="sprite" type="MeshInstance2D" parent="geometry/floor"]
-position = Vector2(0, 1387)
-scale = Vector2(1, 55.48)
-mesh = SubResource("BoxMesh_mkdcg")
+[node name="sprite" type="Sprite2D" parent="geometry/floor"]
+position = Vector2(49, 19667)
+scale = Vector2(281908, 39334)
+texture = SubResource("PlaceholderTexture2D_u8inq")
 
 [node name="box" parent="geometry" instance=ExtResource("2_mrrtk")]
 position = Vector2(164, -10)
