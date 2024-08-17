@@ -27,10 +27,10 @@ var m_default_sprite_scale: Vector2
 
 #Temp Data
 var m_final_gravity: float
-var m_cur_dash_duration_in_seconds : float
-var m_cur_dash_direction : Vector2
-var m_cur_dash_hover_duration_in_seconds : float
-var m_cur_dash_count : int
+var m_cur_dash_duration_in_seconds: float
+var m_cur_dash_direction: Vector2
+var m_cur_dash_hover_duration_in_seconds: float
+var m_cur_dash_count: int
 
 # Current Scale Data
 var m_current_size: int
@@ -51,11 +51,7 @@ func _ready() -> void:
 
 	m_init_default_scales()
 	m_init_health()
-
-
-	m_current_size = default_size
-	m_apply_settings(m_current_size)
-	m_attack.switch_face(1)
+	reset_player()
 
 func add_dash_charge():
 	m_cur_dash_count += 1
@@ -70,6 +66,16 @@ func m_init_health() -> void:
 
 
 func m_on_player_death() -> void:
+	var coords = get_node("/root/Global").latest_checkpoint[1]
+	position = coords
+	reset_player()
+	pass
+
+func reset_player() -> void:
+	m_current_size = default_size
+	m_apply_settings(m_current_size)
+	m_attack.switch_face(1)
+	m_health.reset_health()
 	pass
 
 func m_get_jump_velocity(target_height: float) -> float:
@@ -80,10 +86,10 @@ func m_apply_settings(type: int) -> void:
 	var m_normal := 0
 	var m_small := -1
 	var m_large := 1
-	
+
 	#Change sprite
-	m_sprite.texture = sprites[type+1]
-	
+	m_sprite.texture = sprites[type + 1]
+
 	# No changes if normal sized
 	if type == m_normal:
 		m_final_gravity = m_default_gravity
@@ -93,7 +99,7 @@ func m_apply_settings(type: int) -> void:
 		m_current_attack_damage = player_settings.attack_damage
 		m_current_attack_flag = player_settings.can_attack
 		m_current_attack_rate_in_seconds = player_settings.attack_rate_in_seconds
-		
+
 
 	#TODO - Clean this mess up
 	# Apply small scale settings if applicaple
@@ -178,7 +184,7 @@ func m_handle_movement(delta: float) -> void:
 	var dir = Input.get_axis("move_left", "move_right")
 	#Apply it
 	if dir:
-		m_sprite.flip_h = dir > 0
+		m_sprite.flip_h = dir < 0
 		if abs(dir * (m_current_speed * m_current_scale_multiplier)) > abs(velocity.x):
 			velocity.x = dir * (m_current_speed * m_current_scale_multiplier)
 		else:
@@ -228,7 +234,6 @@ func m_handle_dash_aim(_delta) -> void:
 		m_cur_dash_direction = (m_mouse_pos - position).normalized()
 		m_cur_dash_duration_in_seconds = player_settings.dash_duration_in_seconds
 		m_cur_dash_hover_duration_in_seconds = 0
-
 
 
 func _physics_process(delta: float) -> void:
