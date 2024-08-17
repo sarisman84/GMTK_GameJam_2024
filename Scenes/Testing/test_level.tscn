@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://dg5exlrfhub1e"]
+[gd_scene load_steps=12 format=3 uid="uid://dg5exlrfhub1e"]
 
 [ext_resource type="PackedScene" uid="uid://22o2pk2n1acn" path="res://Assets/Presets/Gameplay/p_player_avatar.tscn" id="1_0n4tj"]
 [ext_resource type="Script" path="res://Scripts/Testing/test_level.gd" id="1_xrki1"]
@@ -7,6 +7,8 @@
 [ext_resource type="PackedScene" uid="uid://drgwce8forlmj" path="res://Assets/Presets/Gameplay/Enemies/e_goomba.tscn" id="4_cyvds"]
 [ext_resource type="PackedScene" uid="uid://68nfrbuhhe34" path="res://Assets/Presets/Gameplay/checkpoint.tscn" id="5_o74n6"]
 [ext_resource type="PackedScene" uid="uid://cjwn8wu630x8a" path="res://Assets/Presets/Level Assets/Testing/la_test_interact.tscn" id="6_7pydr"]
+[ext_resource type="AudioStream" uid="uid://cg2yib5ey461g" path="res://Assets/Music/sfx_music_level.wav" id="8_4fb6b"]
+[ext_resource type="AudioStream" uid="uid://cy12ysfpji50n" path="res://Assets/SFX/ambience/sfx_levelAmbience.wav" id="9_s884x"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_oqbqu"]
 
@@ -60,3 +62,12 @@ position = Vector2(-72, -16)
 
 [node name="test_interact" parent="interactables" instance=ExtResource("6_7pydr")]
 position = Vector2(-378, -10)
+
+[node name="level_music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("8_4fb6b")
+autoplay = true
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("9_s884x")
+volume_db = -4.685
+autoplay = true
