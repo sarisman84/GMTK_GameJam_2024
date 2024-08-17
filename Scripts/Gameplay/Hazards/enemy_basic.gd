@@ -17,9 +17,9 @@ func m_on_hazard_death() -> void:
 func _physics_process(delta):
 	if not is_on_floor():
 		velocity.y += m_gravity
-		
+
 	velocity.x = m_speed * m_dir
 	move_and_slide()
-	
+
 	if is_on_wall():
 		m_dir = -m_dir

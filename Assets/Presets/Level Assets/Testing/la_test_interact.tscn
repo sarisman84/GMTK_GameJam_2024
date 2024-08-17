@@ -1,0 +1,23 @@
+[gd_scene load_steps=5 format=3 uid="uid://cjwn8wu630x8a"]
+
+[ext_resource type="Script" path="res://Scripts/Testing/test_interaction.gd" id="1_x708m"]
+[ext_resource type="Script" path="res://Scripts/Gameplay/Interactables/interactable.gd" id="2_xphhi"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4m52p"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_yu11b"]
+
+[node name="test_interact" type="Node2D"]
+script = ExtResource("1_x708m")
+
+[node name="interactable" type="StaticBody2D" parent="."]
+collision_layer = 4
+collision_mask = 4
+script = ExtResource("2_xphhi")
+
+[node name="shape" type="CollisionShape2D" parent="interactable"]
+shape = SubResource("RectangleShape2D_4m52p")
+
+[node name="sprite" type="Sprite2D" parent="interactable/shape"]
+scale = Vector2(20, 20)
+texture = SubResource("PlaceholderTexture2D_yu11b")
