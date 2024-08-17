@@ -22,7 +22,7 @@ func _ready() -> void:
 
 func _process(_delta) -> void:
 	m_cur_rate -= _delta
-	m_cur_rate = min(m_cur_rate, 0)
+	m_cur_rate = max(m_cur_rate, 0)
 
 
 func scale_hitbox(scale_multiplier : float) -> void:

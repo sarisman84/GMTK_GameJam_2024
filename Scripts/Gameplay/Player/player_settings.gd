@@ -10,6 +10,11 @@ extends Resource
 @export var can_attack : bool = true
 @export var attack_damage : float = 1
 @export var attack_rate_in_seconds : float = 0.25
+@export_group("Dash")
+@export var dash_duration_in_seconds : float = 0.25
+@export var dash_speed : float = 400
+@export var dash_hover_duration_in_seconds : float = 3
+@export var dash_count : int = 1
 @export_group("Large")
 @export var large_scale_settings : ScaleSettings
 @export_group("Small")

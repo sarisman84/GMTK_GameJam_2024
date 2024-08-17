@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://22o2pk2n1acn"]
+[gd_scene load_steps=13 format=3 uid="uid://22o2pk2n1acn"]
 
 [ext_resource type="Script" path="res://Scripts/Gameplay/Player/avatar_controller.gd" id="1_mu8og"]
 [ext_resource type="Resource" uid="uid://cfq4k6xv4lmu" path="res://Assets/Presets/Gameplay/Settings/st_player_settings.tres" id="2_jaml8"]
