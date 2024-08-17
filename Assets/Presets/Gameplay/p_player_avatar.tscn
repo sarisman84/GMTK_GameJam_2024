@@ -6,6 +6,7 @@
 [ext_resource type="Script" path="res://Scripts/Gameplay/Interactables/health_node.gd" id="3_ou4yy"]
 [ext_resource type="Script" path="res://Scripts/Gameplay/Player/attack_node.gd" id="4_t4erc"]
 [ext_resource type="Script" path="res://Scripts/Gameplay/Player/interact_node.gd" id="5_qrnek"]
+[ext_resource type="Script" path="res://Scripts/Gameplay/Player/pickupmanager.gd" id="6_2d2kh"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_r1k3x"]
 height = 35.0
@@ -30,7 +31,7 @@ player_settings = ExtResource("2_jaml8")
 shape = SubResource("CapsuleShape2D_r1k3x")
 
 [node name="camera" type="Camera2D" parent="."]
-zoom = Vector2(8, 8)
+zoom = Vector2(5, 5)
 position_smoothing_enabled = true
 
 [node name="sprite" type="Sprite2D" parent="."]
@@ -69,6 +70,9 @@ script = ExtResource("5_qrnek")
 [node name="hitbox" type="CollisionShape2D" parent="interact"]
 position = Vector2(17, 0)
 shape = SubResource("RectangleShape2D_spgse")
+
+[node name="pickup_manager" type="Node" parent="."]
+script = ExtResource("6_2d2kh")
 
 [connection signal="body_entered" from="interact" to="interact" method="_on_body_entered"]
 [connection signal="body_exited" from="interact" to="interact" method="_on_body_exited"]
