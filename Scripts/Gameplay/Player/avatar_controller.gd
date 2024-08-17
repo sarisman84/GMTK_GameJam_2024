@@ -7,6 +7,7 @@ enum Size {Normal = 0, Small = -1, Large = 1}
 @export var player_settings: PlayerSettings
 @export_category("other")
 @export var default_size: Size = Size.Normal
+@export var sprites: Array[Texture2D]
 
 @onready var m_camera: Camera2D = $camera
 @onready var m_collider: CollisionShape2D = $shape
@@ -72,7 +73,10 @@ func m_apply_settings(type: int) -> void:
 	var m_normal := 0
 	var m_small := -1
 	var m_large := 1
-
+	
+	#Change sprite
+	m_sprite.texture = sprites[type+1]
+	
 	# No changes if normal sized
 	if type == m_normal:
 		m_final_gravity = m_default_gravity
@@ -82,6 +86,7 @@ func m_apply_settings(type: int) -> void:
 		m_current_attack_damage = player_settings.attack_damage
 		m_current_attack_flag = player_settings.can_attack
 		m_current_attack_rate_in_seconds = player_settings.attack_rate_in_seconds
+		
 
 	#TODO - Clean this mess up
 	# Apply small scale settings if applicaple
