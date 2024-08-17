@@ -9,6 +9,7 @@ extends Resource
 @export_group("Attack")
 @export var can_attack : bool = true
 @export var attack_damage : float = 1
+@export var attack_rate_in_seconds : float = 0.25
 @export_group("Large")
 @export var large_scale_settings : ScaleSettings
 @export_group("Small")

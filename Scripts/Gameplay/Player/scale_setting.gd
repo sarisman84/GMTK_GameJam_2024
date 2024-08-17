@@ -3,8 +3,10 @@ extends Resource
 
 @export var scale_multiplier: float = 10
 @export_group("Attack")
-@export var can_attack_override: bool
-@export var attack_damage_override: float
+@export var override_attack: bool
+@export var attack_damage: float
+@export var attack_rate_in_seconds : float = 0.25
+@export var can_attack: bool
 @export_group("Jump")
 @export var override_jump_height: bool
 @export var jump_height: float

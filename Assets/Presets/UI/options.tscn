@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://i4qh1n763ojh"]
 
-[ext_resource type="PackedScene" uid="uid://dgmtmh7klvk66" path="res://Scenes/UI/volume_slider.tscn" id="1_q01d2"]
+[ext_resource type="PackedScene" uid="uid://dgmtmh7klvk66" path="res://Assets/Presets/UI/volume_slider.tscn" id="1_q01d2"]
 [ext_resource type="AudioStream" uid="uid://btsx2nkidhemh" path="res://Assets/Music/test.mp3" id="2_msrb7"]
 
 [node name="options" type="CanvasLayer"]
