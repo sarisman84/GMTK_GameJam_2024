@@ -14,6 +14,8 @@ var m_default_scale : Vector2
 func _ready() -> void:
 	m_default_scale = m_hurtbox.scale
 
+func reset_health() -> void:
+	m_current_health = m_max_health
 
 func set_health_node_owner(node : Node2D) -> void:
 	m_owner = node

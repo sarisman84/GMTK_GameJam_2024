@@ -16,5 +16,6 @@ attack_rate_in_seconds = 0.25
 dash_duration_in_seconds = 0.25
 dash_speed = 400.0
 dash_hover_duration_in_seconds = 3.0
+dash_count = 1
 large_scale_settings = ExtResource("1_pjdtu")
 small_scale_settings = ExtResource("3_y7rj7")
