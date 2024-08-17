@@ -12,9 +12,15 @@ enum Size {Normal = 0, Small = -1, Large = 1}
 @onready var m_sprite: Sprite2D = $sprite
 @onready var m_health: HealthNode = $health
 @onready var m_attack: AttackNode = $attack
+@onready var m_interact: InteractNode = $interact
 
-var m_hand_inventory
+#Default Info
 var m_default_gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
+var m_default_col_scale : Vector2
+var m_default_sprite_scale : Vector2
+
+#Temp Data
+var m_hand_inventory
 var m_final_gravity: float
 
 # Current Scale Data
@@ -32,11 +38,22 @@ var m_current_attack_flag : bool
 var m_current_attack_rate_in_seconds : float
 
 func _ready() -> void:
-	m_health.set_health_node_owner(self)
-	m_health.on_death.connect(m_on_player_death)
+	m_init_default_scales()
+	m_init_health()
+
+
 	m_current_size = default_size
 	m_apply_settings(m_current_size)
 	m_attack.switch_face(1)
+
+func m_init_default_scales() -> void:
+	m_default_col_scale = m_collider.scale
+	m_default_sprite_scale = m_sprite.scale
+
+func m_init_health() -> void:
+	m_health.set_health_node_owner(self)
+	m_health.on_death.connect(m_on_player_death)
+
 
 func m_on_player_death() -> void:
 	pass
@@ -112,16 +129,23 @@ func m_apply_settings(type: int) -> void:
 	m_camera.zoom = Vector2.ONE * player_settings.default_zoom * (1.0 / m_current_scale_multiplier)
 
 	#Apply new default collision size
-	m_collider.scale = Vector2.ONE * m_current_scale_multiplier
+	m_collider.scale = m_default_col_scale * m_current_scale_multiplier
 
 	#Apply new default sprite size
-	m_sprite.scale = Vector2.ONE * m_current_scale_multiplier
+	m_sprite.scale = m_default_sprite_scale * m_current_scale_multiplier
 
 	#Apply new default gravity
 	m_current_gravity = m_final_gravity * m_current_scale_multiplier
 
 	#Apply new default max health
 	m_health.set_max_health(player_settings.max_health * m_current_scale_multiplier)
+
+	#Apply new default scale to attack, health and interact hitboxes
+	m_attack.scale_hitbox(m_current_scale_multiplier)
+	m_health.scale_hitbox(m_current_scale_multiplier)
+	m_interact.scale_hitbox(m_current_scale_multiplier)
+
+
 
 func handle_movement(delta: float) -> void:
 	if not is_on_floor():
@@ -137,8 +161,9 @@ func handle_movement(delta: float) -> void:
 	#Apply it
 	if dir:
 		velocity.x = dir * (m_current_speed * m_current_scale_multiplier)
-		# Switch Attack Face Direction
+		# Switch Attack and Interact Face Direction
 		m_attack.switch_face(dir)
+		m_interact.switch_face(dir)
 	else:
 		#LERP back to 0
 		velocity.x = move_toward(velocity.x, 0, (m_current_speed * m_current_scale_multiplier))
@@ -167,6 +192,10 @@ func _process(_delta: float) -> void:
 
 	if Input.is_action_pressed("attack") and m_current_attack_flag:
 		m_attack.attack_current_targets(m_current_attack_damage, m_current_attack_rate_in_seconds)
+
+
+	if Input.is_action_just_pressed("interact"):
+		m_interact.try_to_interact()
 
 
 # func _physics_process(delta):

@@ -4,9 +4,16 @@ class_name HealthNode
 signal on_death
 signal on_damage_taken
 
+@onready var m_hurtbox = $hurtbox
+
 var m_max_health : int
 var m_current_health : float = -1
 var m_owner : Node2D
+var m_default_scale : Vector2
+
+func _ready() -> void:
+	m_default_scale = m_hurtbox.scale
+
 
 func set_health_node_owner(node : Node2D) -> void:
 	m_owner = node
@@ -26,4 +33,6 @@ func apply_damage(incoming_damage : float) -> void:
 	if m_current_health <= 0:
 		on_death.emit()
 
+func scale_hitbox(new_scale : float) -> void:
+	m_hurtbox.scale = m_default_scale * new_scale
 
