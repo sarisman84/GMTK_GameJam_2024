@@ -22,11 +22,15 @@ signal on_size_change(size_id, new_scale)
 
 #Default Info
 var m_default_gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
-var m_default_col_scale : Vector2
-var m_default_sprite_scale : Vector2
+var m_default_col_scale: Vector2
+var m_default_sprite_scale: Vector2
 
 #Temp Data
 var m_final_gravity: float
+var m_cur_dash_duration_in_seconds : float
+var m_cur_dash_direction : Vector2
+var m_cur_dash_hover_duration_in_seconds : float
+var m_cur_dash_count : int
 
 # Current Scale Data
 var m_current_size: int
@@ -38,9 +42,9 @@ var m_current_speed: float
 var m_current_jump_height: float
 
 #Current Attack Data
-var m_current_attack_damage : float
-var m_current_attack_flag : bool
-var m_current_attack_rate_in_seconds : float
+var m_current_attack_damage: float
+var m_current_attack_flag: bool
+var m_current_attack_rate_in_seconds: float
 
 func _ready() -> void:
 	m_pickup_manager.init_manager(self)
@@ -52,6 +56,9 @@ func _ready() -> void:
 	m_current_size = default_size
 	m_apply_settings(m_current_size)
 	m_attack.switch_face(1)
+
+func add_dash_charge():
+	m_cur_dash_count += 1
 
 func m_init_default_scales() -> void:
 	m_default_col_scale = m_collider.scale
@@ -159,8 +166,7 @@ func m_apply_settings(type: int) -> void:
 	on_size_change.emit(m_current_size, m_current_scale_multiplier)
 
 
-
-func handle_movement(delta: float) -> void:
+func m_handle_movement(delta: float) -> void:
 	if not is_on_floor():
 		velocity.y += m_current_gravity * delta
 
@@ -170,27 +176,75 @@ func handle_movement(delta: float) -> void:
 
 	#Fetch horizontal input
 	var dir = Input.get_axis("move_left", "move_right")
-
 	#Apply it
 	if dir:
-		velocity.x = dir * (m_current_speed * m_current_scale_multiplier)
+		m_sprite.flip_h = dir > 0
+		if abs(dir * (m_current_speed * m_current_scale_multiplier)) > abs(velocity.x):
+			velocity.x = dir * (m_current_speed * m_current_scale_multiplier)
+		else:
+			velocity.x = lerp(velocity.x, 0.0, 0.1)
 		# Switch Attack and Interact Face Direction
 		m_attack.switch_face(dir)
 		m_interact.switch_face(dir)
 	else:
 		#LERP back to 0
-		velocity.x = move_toward(velocity.x, 0, (m_current_speed * m_current_scale_multiplier))
+		velocity.x = lerp(velocity.x, 0.0, 0.1)
+		#velocity.x = move_toward(velocity.x, 0, (m_current_speed * m_current_scale_multiplier))
+	# move_and_slide()
 
+func m_handle_hover(_delta: float) -> void:
+	velocity = Vector2.ZERO
+	pass
+	#if not is_on_floor():
+		#velocity.y += (m_current_gravity / 12.0) * _delta
 
+func m_handle_dash(_delta: float) -> void:
+	# var x_dir = Input.get_axis("move_left", "move_right")
+	# var y_dir = Input.get_axis("up", "down")
+	# if x_dir == 0 && y_dir == 0:
+	# 	x_dir = 1 if m_sprite.flip_h else -1
+	# var vector = Vector2(x_dir, y_dir).normalized()
+	# var speed = 400
+	# velocity = vector * speed * m_current_scale_multiplier
+	velocity = m_cur_dash_direction * player_settings.dash_speed * m_current_scale_multiplier
+	pass
 
+func m_handle_dash_aim(_delta) -> void:
+	if is_on_floor():
+		m_cur_dash_count = player_settings.dash_count
 
-	move_and_slide()
+	m_cur_dash_duration_in_seconds -= _delta
+	m_cur_dash_duration_in_seconds = max(m_cur_dash_duration_in_seconds, 0)
+
+	m_cur_dash_hover_duration_in_seconds -= _delta
+	m_cur_dash_hover_duration_in_seconds = max(m_cur_dash_hover_duration_in_seconds, 0)
+
+	if Input.is_action_just_pressed("dash") and m_cur_dash_hover_duration_in_seconds <= 0 and m_cur_dash_count > 0 and m_current_size < Size.Large:
+		m_cur_dash_hover_duration_in_seconds = player_settings.dash_hover_duration_in_seconds
+		m_cur_dash_count -= 1
+
+	if m_cur_dash_hover_duration_in_seconds > 0 and Input.is_action_just_released("dash"):
+		var m_mouse_pos = get_global_mouse_position()
+		m_cur_dash_direction = (m_mouse_pos - position).normalized()
+		m_cur_dash_duration_in_seconds = player_settings.dash_duration_in_seconds
+		m_cur_dash_hover_duration_in_seconds = 0
+
 
 
 func _physics_process(delta: float) -> void:
-	handle_movement(delta)
+	if m_cur_dash_hover_duration_in_seconds > 0:
+		m_handle_hover(delta)
+	elif m_cur_dash_duration_in_seconds > 0:
+		m_handle_dash(delta)
+	else:
+		m_handle_movement(delta)
+	move_and_slide()
+
 
 func _process(_delta: float) -> void:
+
+	m_handle_dash_aim(_delta)
+
 	#Link up Scale Mechanic to input
 	var m_old_size = m_current_size
 	if Input.is_action_just_pressed("enlarge"):

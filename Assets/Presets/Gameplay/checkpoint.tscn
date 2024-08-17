@@ -1,4 +1,4 @@
-[gd_scene load_steps=3 format=3 uid="uid://b72atme84mxtw"]
+[gd_scene load_steps=3 format=3 uid="uid://68nfrbuhhe34"]
 
 [ext_resource type="Script" path="res://Scripts/Gameplay/checkpoint.gd" id="1_41wld"]
 
