@@ -66,6 +66,9 @@ func m_init_health() -> void:
 
 
 func m_on_player_death() -> void:
+	var coords = get_node("/root/Global").latest_checkpoint[1]
+	position = coords
+	reset_player()
 	pass
 
 func reset_player() -> void:
@@ -83,10 +86,10 @@ func m_apply_settings(type: int) -> void:
 	var m_normal := 0
 	var m_small := -1
 	var m_large := 1
-	
+
 	#Change sprite
 	m_sprite.texture = sprites[type + 1]
-	
+
 	# No changes if normal sized
 	if type == m_normal:
 		m_final_gravity = m_default_gravity
@@ -96,7 +99,7 @@ func m_apply_settings(type: int) -> void:
 		m_current_attack_damage = player_settings.attack_damage
 		m_current_attack_flag = player_settings.can_attack
 		m_current_attack_rate_in_seconds = player_settings.attack_rate_in_seconds
-		
+
 
 	#TODO - Clean this mess up
 	# Apply small scale settings if applicaple
@@ -181,7 +184,7 @@ func m_handle_movement(delta: float) -> void:
 	var dir = Input.get_axis("move_left", "move_right")
 	#Apply it
 	if dir:
-		m_sprite.flip_h = dir > 0
+		m_sprite.flip_h = dir < 0
 		if abs(dir * (m_current_speed * m_current_scale_multiplier)) > abs(velocity.x):
 			velocity.x = dir * (m_current_speed * m_current_scale_multiplier)
 		else:
