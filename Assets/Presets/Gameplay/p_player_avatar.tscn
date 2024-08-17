@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://22o2pk2n1acn"]
+[gd_scene load_steps=10 format=3 uid="uid://22o2pk2n1acn"]
 
 [ext_resource type="Script" path="res://Scripts/Gameplay/Player/avatar_controller.gd" id="1_mu8og"]
 [ext_resource type="Resource" uid="uid://cfq4k6xv4lmu" path="res://Assets/Presets/Gameplay/Settings/st_player_settings.tres" id="2_jaml8"]
 [ext_resource type="Script" path="res://Scripts/Gameplay/Player/health_node.gd" id="3_ll31o"]
+[ext_resource type="Script" path="res://Scripts/Gameplay/Player/attack_node.gd" id="4_t4erc"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_r1k3x"]
 height = 35.0
@@ -12,6 +13,11 @@ size = Vector2(20, 35)
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_7aaut"]
 height = 36.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_xvjqu"]
+radius = 13.0
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_7imwf"]
 
 [node name="player_avatar" type="CharacterBody2D"]
 script = ExtResource("1_mu8og")
@@ -34,3 +40,16 @@ script = ExtResource("3_ll31o")
 
 [node name="hurtbox" type="CollisionShape2D" parent="health"]
 shape = SubResource("CapsuleShape2D_7aaut")
+
+[node name="attack" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 2
+script = ExtResource("4_t4erc")
+
+[node name="hitbox" type="CollisionShape2D" parent="attack"]
+position = Vector2(13, 0)
+shape = SubResource("CircleShape2D_xvjqu")
+
+[node name="debug_indicator" type="Sprite2D" parent="attack/hitbox"]
+scale = Vector2(18, 18)
+texture = SubResource("PlaceholderTexture2D_7imwf")

@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://dg5exlrfhub1e"]
+[gd_scene load_steps=6 format=3 uid="uid://dg5exlrfhub1e"]
 
 [ext_resource type="PackedScene" uid="uid://22o2pk2n1acn" path="res://Assets/Presets/Gameplay/p_player_avatar.tscn" id="1_0n4tj"]
-[ext_resource type="PackedScene" uid="uid://dpe565itb8uxd" path="res://Assets/Presets/Level Assets/Testing/box.tscn" id="2_mrrtk"]
+[ext_resource type="PackedScene" uid="uid://dpe565itb8uxd" path="res://Assets/Presets/Level Assets/Testing/la_box.tscn" id="2_mrrtk"]
+[ext_resource type="PackedScene" uid="uid://bnqs42m1yl0gp" path="res://Assets/Presets/Gameplay/Hazards/h_target_dummy.tscn" id="3_503xl"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_oqbqu"]
 
@@ -37,3 +38,8 @@ position = Vector2(-183, -10)
 
 [node name="box4" parent="geometry" instance=ExtResource("2_mrrtk")]
 position = Vector2(-324, -10)
+
+[node name="hazards" type="Node" parent="."]
+
+[node name="target_dummy" parent="hazards" instance=ExtResource("3_503xl")]
+position = Vector2(-124, -10)

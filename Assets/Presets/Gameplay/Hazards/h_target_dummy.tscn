@@ -1,0 +1,22 @@
+[gd_scene load_steps=5 format=3 uid="uid://bnqs42m1yl0gp"]
+
+[ext_resource type="Script" path="res://Scripts/Gameplay/Hazards/target_dummy.gd" id="1_osf67"]
+[ext_resource type="Script" path="res://Scripts/Gameplay/Player/health_node.gd" id="2_ied2n"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_48fdj"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_8geye"]
+
+[node name="target_dummy" type="Node2D"]
+script = ExtResource("1_osf67")
+
+[node name="health" type="StaticBody2D" parent="."]
+collision_layer = 3
+script = ExtResource("2_ied2n")
+
+[node name="shape" type="CollisionShape2D" parent="health"]
+shape = SubResource("RectangleShape2D_48fdj")
+
+[node name="sprite" type="Sprite2D" parent="."]
+scale = Vector2(20, 20)
+texture = SubResource("PlaceholderTexture2D_8geye")
