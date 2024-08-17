@@ -1,0 +1,30 @@
+[gd_scene load_steps=6 format=3 uid="uid://d1osocw8xisi2"]
+
+[ext_resource type="Script" path="res://Scripts/Gameplay/Player/health_node.gd" id="1_bduod"]
+[ext_resource type="Script" path="res://Scripts/Gameplay/Hazards/breakbox.gd" id="1_y34uk"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3p638"]
+size = Vector2(20, 60)
+
+[sub_resource type="BoxMesh" id="BoxMesh_6dssb"]
+size = Vector3(20, 60, 3)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_abksl"]
+size = Vector2(20, 60)
+
+[node name="breakbox" type="Node2D"]
+script = ExtResource("1_y34uk")
+
+[node name="collider" type="StaticBody2D" parent="."]
+
+[node name="shape" type="CollisionShape2D" parent="collider"]
+shape = SubResource("RectangleShape2D_3p638")
+
+[node name="sprite" type="MeshInstance2D" parent="."]
+mesh = SubResource("BoxMesh_6dssb")
+
+[node name="health" type="StaticBody2D" parent="."]
+script = ExtResource("1_bduod")
+
+[node name="hurtbox" type="CollisionShape2D" parent="health"]
+shape = SubResource("RectangleShape2D_abksl")
