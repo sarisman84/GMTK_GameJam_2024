@@ -1,18 +1,17 @@
-[gd_scene load_steps=13 format=3 uid="uid://22o2pk2n1acn"]
+[gd_scene load_steps=14 format=3 uid="uid://22o2pk2n1acn"]
 
 [ext_resource type="Script" path="res://Scripts/Gameplay/Player/avatar_controller.gd" id="1_mu8og"]
 [ext_resource type="Resource" uid="uid://cfq4k6xv4lmu" path="res://Assets/Presets/Gameplay/Settings/st_player_settings.tres" id="2_jaml8"]
-[ext_resource type="Texture2D" uid="uid://c7p2anminc78d" path="res://Assets/Art/characters.png" id="3_gjod8"]
+[ext_resource type="Texture2D" uid="uid://2ypg4hc8y6k" path="res://Assets/Art/normal_sprite.png" id="3_6qeu8"]
 [ext_resource type="Script" path="res://Scripts/Gameplay/Interactables/health_node.gd" id="3_ou4yy"]
+[ext_resource type="Texture2D" uid="uid://dmh1r3w5ropku" path="res://Assets/Art/small_sprite.png" id="3_pf1gt"]
 [ext_resource type="Script" path="res://Scripts/Gameplay/Player/attack_node.gd" id="4_t4erc"]
 [ext_resource type="Script" path="res://Scripts/Gameplay/Player/interact_node.gd" id="5_qrnek"]
 [ext_resource type="Script" path="res://Scripts/Gameplay/Player/pickupmanager.gd" id="6_2d2kh"]
+[ext_resource type="Texture2D" uid="uid://bd8jnffsvp4fp" path="res://Assets/Art/large_sprite.png" id="8_74o4t"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_r1k3x"]
 height = 35.0
-
-[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_85xlw"]
-size = Vector2(20, 35)
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_7aaut"]
 height = 36.0
@@ -26,6 +25,7 @@ size = Vector2(54, 52)
 [node name="player_avatar" type="CharacterBody2D"]
 script = ExtResource("1_mu8og")
 player_settings = ExtResource("2_jaml8")
+sprites = Array[Texture2D]([ExtResource("3_pf1gt"), ExtResource("3_6qeu8"), ExtResource("8_74o4t")])
 
 [node name="shape" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_r1k3x")
@@ -33,17 +33,6 @@ shape = SubResource("CapsuleShape2D_r1k3x")
 [node name="camera" type="Camera2D" parent="."]
 zoom = Vector2(5, 5)
 position_smoothing_enabled = true
-
-[node name="sprite" type="Sprite2D" parent="."]
-visible = false
-texture = SubResource("PlaceholderTexture2D_85xlw")
-
-[node name="Imp" type="Sprite2D" parent="."]
-position = Vector2(-1, -2)
-scale = Vector2(0.0326213, 0.0326213)
-texture = ExtResource("3_gjod8")
-region_enabled = true
-region_rect = Rect2(710.908, 969.935, 990.031, 1221.36)
 
 [node name="health" type="StaticBody2D" parent="."]
 collision_layer = 2
@@ -73,6 +62,10 @@ shape = SubResource("RectangleShape2D_spgse")
 
 [node name="pickup_manager" type="Node" parent="."]
 script = ExtResource("6_2d2kh")
+
+[node name="sprite" type="Sprite2D" parent="."]
+scale = Vector2(0.0744512, 0.0720436)
+texture = ExtResource("8_74o4t")
 
 [connection signal="body_entered" from="interact" to="interact" method="_on_body_entered"]
 [connection signal="body_exited" from="interact" to="interact" method="_on_body_exited"]
