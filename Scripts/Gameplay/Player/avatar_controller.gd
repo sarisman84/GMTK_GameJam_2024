@@ -27,10 +27,10 @@ var m_default_sprite_scale: Vector2
 
 #Temp Data
 var m_final_gravity: float
-var m_cur_dash_duration_in_seconds : float
-var m_cur_dash_direction : Vector2
-var m_cur_dash_hover_duration_in_seconds : float
-var m_cur_dash_count : int
+var m_cur_dash_duration_in_seconds: float
+var m_cur_dash_direction: Vector2
+var m_cur_dash_hover_duration_in_seconds: float
+var m_cur_dash_count: int
 
 # Current Scale Data
 var m_current_size: int
@@ -82,7 +82,7 @@ func m_apply_settings(type: int) -> void:
 	var m_large := 1
 	
 	#Change sprite
-	m_sprite.texture = sprites[type+1]
+	m_sprite.texture = sprites[type + 1]
 	
 	# No changes if normal sized
 	if type == m_normal:
@@ -228,7 +228,6 @@ func m_handle_dash_aim(_delta) -> void:
 		m_cur_dash_direction = (m_mouse_pos - position).normalized()
 		m_cur_dash_duration_in_seconds = player_settings.dash_duration_in_seconds
 		m_cur_dash_hover_duration_in_seconds = 0
-
 
 
 func _physics_process(delta: float) -> void:
