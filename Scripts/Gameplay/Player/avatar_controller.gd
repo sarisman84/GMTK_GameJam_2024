@@ -47,6 +47,7 @@ var m_current_attack_flag: bool
 var m_current_attack_rate_in_seconds: float
 
 func _ready() -> void:
+	Onboarding.assign_new_owner(self)
 	m_pickup_manager.init_manager(self)
 
 	m_init_default_scales()
