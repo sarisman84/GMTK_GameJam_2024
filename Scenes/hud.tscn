@@ -1,0 +1,69 @@
+[gd_scene load_steps=6 format=3 uid="uid://jm6jhaxg4ep8"]
+
+[ext_resource type="Script" path="res://Scripts/Gameplay/Player/hud_controller.gd" id="1_hfewv"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4rd44"]
+bg_color = Color(0.635294, 0.623529, 0.596078, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_oj3ka"]
+bg_color = Color(0, 1, 0, 0.686275)
+border_width_left = 4
+border_width_top = 4
+border_width_bottom = 4
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jufmq"]
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xqvvb"]
+bg_color = Color(0.0627451, 0, 0.980392, 1)
+border_width_left = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0, 0, 0, 1)
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[node name="hud" type="CanvasLayer"]
+script = ExtResource("1_hfewv")
+
+[node name="healthbar" type="ProgressBar" parent="."]
+offset_left = 120.0
+offset_top = 24.0
+offset_right = 400.0
+offset_bottom = 96.0
+theme_override_font_sizes/font_size = 40
+theme_override_styles/background = SubResource("StyleBoxFlat_4rd44")
+theme_override_styles/fill = SubResource("StyleBoxFlat_oj3ka")
+step = 1.0
+value = 50.0
+
+[node name="energybar" type="ProgressBar" parent="."]
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 104.0
+offset_bottom = 104.0
+theme_override_styles/background = SubResource("StyleBoxFlat_jufmq")
+theme_override_styles/fill = SubResource("StyleBoxFlat_xqvvb")
+step = 1.0
+value = 75.0
+fill_mode = 3
