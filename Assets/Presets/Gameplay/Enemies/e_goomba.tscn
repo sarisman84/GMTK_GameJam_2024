@@ -1,0 +1,28 @@
+[gd_scene load_steps=6 format=3 uid="uid://drgwce8forlmj"]
+
+[ext_resource type="Script" path="res://Scripts/Gameplay/Hazards/enemy_basic.gd" id="1_8lmf6"]
+[ext_resource type="Script" path="res://Scripts/Gameplay/Player/health_node.gd" id="2_qwxwg"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bommy"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_l1p4n"]
+size = Vector3(20, 20, 3)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mk00o"]
+
+[node name="goomba" type="CharacterBody2D"]
+script = ExtResource("1_8lmf6")
+
+[node name="shape" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_bommy")
+
+[node name="sprite" type="MeshInstance2D" parent="."]
+mesh = SubResource("BoxMesh_l1p4n")
+
+[node name="health" type="StaticBody2D" parent="."]
+collision_layer = 2
+collision_mask = 0
+script = ExtResource("2_qwxwg")
+
+[node name="hurtbox" type="CollisionShape2D" parent="health"]
+shape = SubResource("RectangleShape2D_mk00o")
