@@ -150,27 +150,39 @@ func m_apply_settings(type: int) -> void:
 func handle_movement(delta: float) -> void:
 	if not is_on_floor():
 		velocity.y += m_current_gravity * delta
-
+	
 	#Apply jump height using velocity conversion
 	if Input.is_action_pressed("jump") and is_on_floor():
 		velocity.y = m_get_jump_velocity(m_current_jump_height * m_current_scale_multiplier)
-
+	
 	#Fetch horizontal input
 	var dir = Input.get_axis("move_left", "move_right")
-
 	#Apply it
 	if dir:
-		velocity.x = dir * (m_current_speed * m_current_scale_multiplier)
+		m_sprite.flip_h = dir>0
+		if abs(dir * (m_current_speed * m_current_scale_multiplier))>abs(velocity.x):
+			velocity.x = dir * (m_current_speed * m_current_scale_multiplier)
+		else:
+			velocity.x=lerp(velocity.x,0.0,0.1)
 		# Switch Attack and Interact Face Direction
 		m_attack.switch_face(dir)
 		m_interact.switch_face(dir)
 	else:
 		#LERP back to 0
-		velocity.x = move_toward(velocity.x, 0, (m_current_speed * m_current_scale_multiplier))
-
-
-
-
+		velocity.x=lerp(velocity.x,0.0,0.1)
+		#velocity.x = move_toward(velocity.x, 0, (m_current_speed * m_current_scale_multiplier))
+	
+	if Input.is_action_just_pressed("dash"):
+		var x_dir = Input.get_axis("move_left", "move_right")
+		var y_dir = Input.get_axis("up", "down")
+		if x_dir == 0 && y_dir == 0:
+			x_dir = 1 if m_sprite.flip_h else -1
+		
+		var vector = Vector2(x_dir, y_dir).normalized()
+		var speed = 400
+		velocity = vector * speed * m_current_scale_multiplier
+	
+	print(velocity)
 	move_and_slide()
 
 
