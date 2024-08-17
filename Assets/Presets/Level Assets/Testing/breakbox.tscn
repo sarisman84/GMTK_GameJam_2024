@@ -24,6 +24,8 @@ shape = SubResource("RectangleShape2D_3p638")
 mesh = SubResource("BoxMesh_6dssb")
 
 [node name="health" type="StaticBody2D" parent="."]
+collision_layer = 2
+collision_mask = 0
 script = ExtResource("1_bduod")
 
 [node name="hurtbox" type="CollisionShape2D" parent="health"]
