@@ -1,0 +1,26 @@
+[gd_scene load_steps=2 format=3 uid="uid://ce0v7pa10efy2"]
+
+[ext_resource type="Texture2D" uid="uid://c7p2anminc78d" path="res://Assets/Art/characters.png" id="1_iowos"]
+
+[node name="ArtPlayground" type="Node2D"]
+position = Vector2(562, 488)
+scale = Vector2(0.206078, 0.206078)
+
+[node name="Imp" type="Sprite2D" parent="."]
+position = Vector2(0, 28)
+texture = ExtResource("1_iowos")
+region_enabled = true
+region_rect = Rect2(710.908, 969.935, 990.031, 1221.36)
+
+[node name="ImpBig" type="Sprite2D" parent="."]
+position = Vector2(-1545.25, -713.483)
+scale = Vector2(1.25962, 1.25962)
+texture = ExtResource("1_iowos")
+region_enabled = true
+region_rect = Rect2(2374.47, 37.0357, 1481.03, 2153.18)
+
+[node name="ImpSmall" type="Sprite2D" parent="."]
+position = Vector2(731, 453)
+texture = ExtResource("1_iowos")
+region_enabled = true
+region_rect = Rect2(1722.17, 1830.39, 389.451, 376.274)

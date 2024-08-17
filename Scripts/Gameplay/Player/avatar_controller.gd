@@ -1,4 +1,5 @@
 extends CharacterBody2D
+class_name AvatarController
 
 enum Size {Normal = 0, Small = -1, Large = 1}
 
@@ -13,6 +14,10 @@ enum Size {Normal = 0, Small = -1, Large = 1}
 @onready var m_health: HealthNode = $health
 @onready var m_attack: AttackNode = $attack
 @onready var m_interact: InteractNode = $interact
+@onready var m_pickup_manager: PickupManager = $pickup_manager
+
+#Signals
+signal on_size_change(size_id, new_scale)
 
 #Default Info
 var m_default_gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
@@ -20,7 +25,6 @@ var m_default_col_scale : Vector2
 var m_default_sprite_scale : Vector2
 
 #Temp Data
-var m_hand_inventory
 var m_final_gravity: float
 
 # Current Scale Data
@@ -38,6 +42,8 @@ var m_current_attack_flag : bool
 var m_current_attack_rate_in_seconds : float
 
 func _ready() -> void:
+	m_pickup_manager.init_manager(self)
+
 	m_init_default_scales()
 	m_init_health()
 
@@ -145,6 +151,8 @@ func m_apply_settings(type: int) -> void:
 	m_health.scale_hitbox(m_current_scale_multiplier)
 	m_interact.scale_hitbox(m_current_scale_multiplier)
 
+	on_size_change.emit(m_current_size, m_current_scale_multiplier)
+
 
 
 func handle_movement(delta: float) -> void:
@@ -201,14 +209,15 @@ func _process(_delta: float) -> void:
 	if m_old_size != m_current_size:
 		m_apply_settings(m_current_size)
 
-
+	# Link up attacking and interactive to their respective systems
 	if Input.is_action_pressed("attack") and m_current_attack_flag:
 		m_attack.attack_current_targets(m_current_attack_damage, m_current_attack_rate_in_seconds)
-
-
-	if Input.is_action_just_pressed("interact"):
+	if m_pickup_manager.has_picked_up_something() and Input.is_action_just_pressed("interact"):
+		m_pickup_manager.release_picked_up_element()
+	elif Input.is_action_just_pressed("interact"):
 		m_interact.try_to_interact()
 
+# REFERENCE CODE FROM GDSCRIPT
 
 # func _physics_process(delta):
 # 	# Add the m_default_gravity.
