@@ -1,11 +1,17 @@
-[gd_scene load_steps=3 format=3 uid="uid://dpe565itb8uxd"]
+[gd_scene load_steps=6 format=3 uid="uid://dpe565itb8uxd"]
+
+[ext_resource type="Script" path="res://Scripts/Gameplay/Interactables/pickupablenode.gd" id="1_fjcql"]
+[ext_resource type="Script" path="res://Scripts/Gameplay/Interactables/interactable.gd" id="2_mo2ff"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_oob5h"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_selbb"]
 size = Vector3(20, 20, 3)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_87083"]
+
 [node name="box" type="Node2D"]
+script = ExtResource("1_fjcql")
 
 [node name="collider" type="StaticBody2D" parent="."]
 
@@ -14,3 +20,11 @@ shape = SubResource("RectangleShape2D_oob5h")
 
 [node name="sprite" type="MeshInstance2D" parent="."]
 mesh = SubResource("BoxMesh_selbb")
+
+[node name="interactable" type="StaticBody2D" parent="."]
+collision_layer = 4
+collision_mask = 4
+script = ExtResource("2_mo2ff")
+
+[node name="shape" type="CollisionShape2D" parent="interactable"]
+shape = SubResource("RectangleShape2D_87083")

@@ -4,6 +4,7 @@
 [ext_resource type="Script" path="res://Scripts/Gameplay/Interactables/interactable.gd" id="2_xphhi"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4m52p"]
+size = Vector2(144, 20)
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_yu11b"]
 
@@ -19,5 +20,5 @@ script = ExtResource("2_xphhi")
 shape = SubResource("RectangleShape2D_4m52p")
 
 [node name="sprite" type="Sprite2D" parent="interactable/shape"]
-scale = Vector2(20, 20)
+scale = Vector2(144, 20)
 texture = SubResource("PlaceholderTexture2D_yu11b")

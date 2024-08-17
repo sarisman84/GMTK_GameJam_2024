@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://dpe565itb8uxd" path="res://Assets/Presets/Level Assets/Testing/la_box.tscn" id="2_mrrtk"]
 [ext_resource type="PackedScene" uid="uid://dq61gik3gp0w5" path="res://Assets/Presets/Level Assets/Testing/breakbox.tscn" id="3_nrfbs"]
 [ext_resource type="PackedScene" uid="uid://drgwce8forlmj" path="res://Assets/Presets/Gameplay/Enemies/e_goomba.tscn" id="4_cyvds"]
-[ext_resource type="PackedScene" uid="uid://b72atme84mxtw" path="res://Assets/Presets/Gameplay/checkpoint.tscn" id="5_o74n6"]
+[ext_resource type="PackedScene" path="res://Assets/Presets/Gameplay/checkpoint.tscn" id="5_o74n6"]
 [ext_resource type="PackedScene" uid="uid://cjwn8wu630x8a" path="res://Assets/Presets/Level Assets/Testing/la_test_interact.tscn" id="6_7pydr"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_oqbqu"]
@@ -27,7 +27,8 @@ position = Vector2(-2.8554, -15.1899)
 shape = SubResource("WorldBoundaryShape2D_oqbqu")
 
 [node name="sprite" type="MeshInstance2D" parent="geometry/floor"]
-position = Vector2(0, 25)
+position = Vector2(0, 1387)
+scale = Vector2(1, 55.48)
 mesh = SubResource("BoxMesh_mkdcg")
 
 [node name="box" parent="geometry" instance=ExtResource("2_mrrtk")]
