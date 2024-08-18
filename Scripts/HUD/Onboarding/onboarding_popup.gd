@@ -4,9 +4,13 @@ class_name OnboardingPopup
 @export var keybind_keywords: Array[BindKeyword]
 @export var screen_position: Vector2
 @onready var m_label: RichTextLabel = $anchor/text_entry
+@onready var m_anchor: Control = $anchor
 
 var m_target_anchor: Node2D
 var m_owner: Node2D
+
+func _ready() -> void:
+	disable_popup()
 
 func assign_new_owner(new_owner: Node2D) -> void:
 	m_owner = new_owner
@@ -19,9 +23,10 @@ func enable_popup_at(target_anchor: Node2D, some_text: String) -> void:
 func disable_popup() -> void:
 	m_label.text = ""
 	m_label.hide()
+	m_target_anchor = null
 
 func _process(_delta: float) -> void:
-	if m_label.is_visible_in_tree():
+	if m_label.is_visible_in_tree() and m_target_anchor:
 		var m_target_raw_pos = m_target_anchor.global_position
 		var m_target_pos = get_viewport().canvas_transform.basis_xform(m_target_raw_pos)
 
@@ -29,6 +34,8 @@ func _process(_delta: float) -> void:
 		var m_owner_pos = get_viewport().canvas_transform.get_origin() - (get_viewport().get_visible_rect().size / 2.0)
 
 		offset = m_owner_pos + m_target_pos
+	else:
+		disable_popup()
 
 func m_parse_text(text: String) -> String:
 	var m_result: String
