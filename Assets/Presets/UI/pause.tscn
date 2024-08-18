@@ -1,0 +1,70 @@
+[gd_scene load_steps=4 format=3 uid="uid://dlxpkncxtsfcx"]
+
+[ext_resource type="Texture2D" uid="uid://r4e2icauguqx" path="res://Assets/Art/Textures/UI/Menu/Background.png" id="1_3jew0"]
+[ext_resource type="PackedScene" uid="uid://borywtlrontyg" path="res://Assets/Presets/UI/button.tscn" id="2_hqm3t"]
+[ext_resource type="FontFile" uid="uid://5uhdlvm7xcf3" path="res://Assets/Fonts/NotoSans-Black.ttf" id="3_ub68j"]
+
+[node name="Pause" type="CanvasLayer"]
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -217.5
+offset_top = -111.0
+offset_right = 217.5
+offset_bottom = 111.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="title" type="TextureRect" parent="."]
+custom_minimum_size = Vector2(425, 212)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -212.5
+offset_top = -106.0
+offset_right = 212.5
+offset_bottom = 106.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 4
+texture = ExtResource("1_3jew0")
+expand_mode = 1
+
+[node name="buttons" type="VBoxContainer" parent="title"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -182.0
+offset_top = -68.0
+offset_right = 182.0
+offset_bottom = 68.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 20
+
+[node name="start" parent="title/buttons" instance=ExtResource("2_hqm3t")]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.835294, 0.152941, 0.152941, 1)
+theme_override_fonts/font = ExtResource("3_ub68j")
+theme_override_font_sizes/font_size = 42
+text = "RESUME GAME"
+
+[node name="options" parent="title/buttons" instance=ExtResource("2_hqm3t")]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.835294, 0.152941, 0.152941, 1)
+theme_override_fonts/font = ExtResource("3_ub68j")
+theme_override_font_sizes/font_size = 42
+text = "TITLE SCREEN"
+
+[connection signal="pressed" from="title/buttons/start" to="." method="_on_start_pressed"]
+[connection signal="pressed" from="title/buttons/options" to="." method="_on_options_pressed"]
