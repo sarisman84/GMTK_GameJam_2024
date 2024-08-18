@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://c76t6bqxheyuu"]
+[gd_scene load_steps=5 format=3 uid="uid://c4uhh07dk6ny4"]
 
 [ext_resource type="Script" path="res://Scripts/HUD/health_icon.gd" id="1_g4ri1"]
 [ext_resource type="Texture2D" uid="uid://dmh1r3w5ropku" path="res://Assets/Art/Textures/Player/small_sprite.png" id="2_151nh"]

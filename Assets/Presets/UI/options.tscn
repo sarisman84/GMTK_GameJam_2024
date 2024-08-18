@@ -1,9 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://i4qh1n763ojh"]
+[gd_scene load_steps=5 format=3 uid="uid://i4qh1n763ojh"]
 
 [ext_resource type="Script" path="res://Scripts/HUD/options.gd" id="1_e0pa7"]
 [ext_resource type="Texture2D" uid="uid://r4e2icauguqx" path="res://Assets/Art/Textures/UI/Menu/Background.png" id="1_ny1fe"]
 [ext_resource type="PackedScene" uid="uid://dgmtmh7klvk66" path="res://Assets/Presets/UI/volume_slider.tscn" id="1_q01d2"]
-[ext_resource type="AudioStream" uid="uid://btsx2nkidhemh" path="res://Assets/Music/test.mp3" id="2_msrb7"]
 [ext_resource type="FontFile" uid="uid://5uhdlvm7xcf3" path="res://Assets/Fonts/NotoSans-Black.ttf" id="3_1l6hd"]
 
 [node name="options" type="CanvasLayer"]
@@ -92,7 +91,8 @@ horizontal_alignment = 1
 layout_mode = 2
 bus_name = "SFX"
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("2_msrb7")
-autoplay = true
-bus = &"Music"
+[node name="back" type="Button" parent="background/volume_sliders"]
+layout_mode = 2
+text = "BACK"
+
+[connection signal="pressed" from="background/volume_sliders/back" to="." method="_on_back_pressed"]

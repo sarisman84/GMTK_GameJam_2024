@@ -17,12 +17,12 @@ func reset():
 		icon.change_sprite(2)
 	m_health = m_max_health
 
-func take_damage():
+func hud_take_damage():
 	if m_health > 0:
 		m_health -= 1
 		m_health_array[m_health/2].change_sprite(m_health%2)
 
-func heal():
+func hud_heal():
 	if m_health < m_max_health:
 		m_health_array[m_health/2].change_sprite((m_health%2)+1)
 		m_health += 1
