@@ -1,10 +1,27 @@
-[gd_scene load_steps=2 format=3 uid="uid://dgmtmh7klvk66"]
+[gd_scene load_steps=7 format=3 uid="uid://dgmtmh7klvk66"]
 
+[ext_resource type="Texture2D" uid="uid://cpquud6awiogy" path="res://Assets/Art/Textures/UI/Menu/Grabber.png" id="1_448qk"]
 [ext_resource type="Script" path="res://Scripts/HUD/volume_slider.gd" id="1_vi71a"]
+[ext_resource type="Texture2D" uid="uid://g2uohoaeiw44" path="res://Assets/Art/Textures/UI/Menu/Grabber Highlight.png" id="2_4knio"]
+[ext_resource type="Texture2D" uid="uid://cywbdsg4oirul" path="res://Assets/Art/Textures/UI/Menu/Grabber Disabled.png" id="3_w2vp3"]
+[ext_resource type="Texture2D" uid="uid://bfbv18v3itwlt" path="res://Assets/Art/Textures/UI/Menu/Slider.png" id="4_rk8sc"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_05enr"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+texture = ExtResource("4_rk8sc")
 
 [node name="volume" type="HSlider"]
-offset_right = 120.0
-offset_bottom = 24.0
+offset_right = 187.0
+offset_bottom = 58.0
+theme_override_icons/grabber = ExtResource("1_448qk")
+theme_override_icons/grabber_highlight = ExtResource("2_4knio")
+theme_override_icons/grabber_disabled = ExtResource("3_w2vp3")
+theme_override_styles/slider = SubResource("StyleBoxTexture_05enr")
+theme_override_styles/grabber_area = SubResource("StyleBoxTexture_05enr")
+theme_override_styles/grabber_area_highlight = SubResource("StyleBoxTexture_05enr")
 max_value = 1.0
 step = 0.001
 script = ExtResource("1_vi71a")
