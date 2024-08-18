@@ -1,8 +1,11 @@
-[gd_scene load_steps=5 format=3 uid="uid://chce5vkga51jw"]
+[gd_scene load_steps=8 format=3 uid="uid://chce5vkga51jw"]
 
 [ext_resource type="Script" path="res://Scripts/HUD/title.gd" id="1_aldd0"]
 [ext_resource type="Texture2D" uid="uid://r4e2icauguqx" path="res://Assets/Art/Textures/UI/Menu/Background.png" id="1_ri3me"]
 [ext_resource type="AudioStream" uid="uid://cr5f6vdj66mhj" path="res://Assets/Music/LittleBigImp.mp3" id="2_cdxtf"]
+[ext_resource type="FontFile" uid="uid://bryhuxvkw0gg4" path="res://Assets/Fonts/KalniaGlaze-Regular.ttf" id="3_83wlu"]
+[ext_resource type="PackedScene" uid="uid://borywtlrontyg" path="res://Assets/Presets/UI/button.tscn" id="3_fqmyr"]
+[ext_resource type="FontFile" uid="uid://5uhdlvm7xcf3" path="res://Assets/Fonts/NotoSans-Black.ttf" id="4_aiv4o"]
 [ext_resource type="PackedScene" uid="uid://i4qh1n763ojh" path="res://Assets/Presets/UI/options.tscn" id="4_h4eln"]
 
 [node name="Title" type="CanvasLayer"]
@@ -19,15 +22,23 @@ expand_mode = 1
 
 [node name="header" type="Label" parent="title"]
 layout_mode = 1
-anchors_preset = 5
+anchors_preset = 8
 anchor_left = 0.5
+anchor_top = 0.5
 anchor_right = 0.5
-offset_left = -155.0
-offset_right = 155.0
-offset_bottom = 63.0
+anchor_bottom = 0.5
+offset_left = -238.5
+offset_top = -183.0
+offset_right = 238.5
+offset_bottom = -85.0
 grow_horizontal = 2
+grow_vertical = 2
 size_flags_horizontal = 4
-theme_override_font_sizes/font_size = 45
+theme_override_colors/font_color = Color(0.835294, 0.152941, 0.152941, 1)
+theme_override_colors/font_outline_color = Color(0.2, 0, 0, 1)
+theme_override_constants/outline_size = 20
+theme_override_fonts/font = ExtResource("3_83wlu")
+theme_override_font_sizes/font_size = 72
 text = "GAME NAME"
 horizontal_alignment = 1
 
@@ -39,28 +50,29 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -182.0
-offset_top = -190.0
+offset_top = -55.0
 offset_right = 182.0
-offset_bottom = 210.0
+offset_bottom = 81.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 20
 
-[node name="start" type="Button" parent="title/buttons"]
+[node name="start" parent="title/buttons" instance=ExtResource("3_fqmyr")]
 layout_mode = 2
-text = "START GAME "
+theme_override_colors/font_color = Color(0.835294, 0.152941, 0.152941, 1)
+theme_override_fonts/font = ExtResource("4_aiv4o")
+theme_override_font_sizes/font_size = 42
+text = "START GAME"
 
-[node name="options" type="Button" parent="title/buttons"]
+[node name="options" parent="title/buttons" instance=ExtResource("3_fqmyr")]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.835294, 0.152941, 0.152941, 1)
+theme_override_fonts/font = ExtResource("4_aiv4o")
+theme_override_font_sizes/font_size = 42
 text = "OPTIONS"
-
-[node name="quit" type="Button" parent="title/buttons"]
-layout_mode = 2
-text = "QUIT"
 
 [node name="music" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("2_cdxtf")
-autoplay = true
 bus = &"Music"
 
 [node name="options" parent="." instance=ExtResource("4_h4eln")]
@@ -68,4 +80,3 @@ visible = false
 
 [connection signal="pressed" from="title/buttons/start" to="." method="_on_start_pressed"]
 [connection signal="pressed" from="title/buttons/options" to="." method="_on_options_pressed"]
-[connection signal="pressed" from="title/buttons/quit" to="." method="_on_quit_pressed"]
