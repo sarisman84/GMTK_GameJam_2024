@@ -1,9 +1,11 @@
-[gd_scene load_steps=14 format=3 uid="uid://22o2pk2n1acn"]
+[gd_scene load_steps=16 format=3 uid="uid://22o2pk2n1acn"]
 
 [ext_resource type="Script" path="res://Scripts/Gameplay/Player/avatar_controller.gd" id="1_mu8og"]
-[ext_resource type="Resource" uid="uid://cfq4k6xv4lmu" path="res://Assets/Presets/Gameplay/Settings/st_player_settings.tres" id="2_jaml8"]
+[ext_resource type="Resource" uid="uid://dbl73vcy081xt" path="res://Assets/Presets/Gameplay/Settings/st_normal_settings.tres" id="2_qrjke"]
 [ext_resource type="Texture2D" uid="uid://dmh1r3w5ropku" path="res://Assets/Art/Textures/Player/small_sprite.png" id="3_030oj"]
 [ext_resource type="Script" path="res://Scripts/Gameplay/Interactables/health_node.gd" id="3_ou4yy"]
+[ext_resource type="Resource" uid="uid://cermdsx1fmak5" path="res://Assets/Presets/Gameplay/Settings/st_small_settings.tres" id="3_pkfp2"]
+[ext_resource type="Resource" uid="uid://bgxh0y5aycs16" path="res://Assets/Presets/Gameplay/Settings/st_large_settings.tres" id="4_ccf2v"]
 [ext_resource type="Texture2D" uid="uid://2ypg4hc8y6k" path="res://Assets/Art/Textures/Player/normal_sprite.png" id="4_iv7co"]
 [ext_resource type="Script" path="res://Scripts/Gameplay/Player/attack_node.gd" id="4_t4erc"]
 [ext_resource type="Script" path="res://Scripts/Gameplay/Player/interact_node.gd" id="5_qrnek"]
@@ -24,7 +26,9 @@ size = Vector2(54, 52)
 
 [node name="player_avatar" type="CharacterBody2D"]
 script = ExtResource("1_mu8og")
-player_settings = ExtResource("2_jaml8")
+normal_scale = ExtResource("2_qrjke")
+small_scale = ExtResource("3_pkfp2")
+large_scale = ExtResource("4_ccf2v")
 sprites = Array[Texture2D]([ExtResource("3_030oj"), ExtResource("4_iv7co"), ExtResource("8_74o4t")])
 
 [node name="shape" type="CollisionShape2D" parent="."]
