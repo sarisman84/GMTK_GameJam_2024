@@ -6,3 +6,4 @@
 script = ExtResource("1_dx57k")
 keyword = "interact"
 bind_icon = ""
+icon_size = Vector2(16, 16)
