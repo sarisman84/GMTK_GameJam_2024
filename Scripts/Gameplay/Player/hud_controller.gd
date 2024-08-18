@@ -6,11 +6,6 @@ var m_health_array : Array[TextureRect]
 var m_max_health : int = 6
 var m_health : int = 6
 
-func _process(delta):
-	if Input.is_action_just_pressed("attack"):
-		take_damage()
-	if Input.is_action_just_released("jump"):
-		heal()
 
 func _ready():
 	for icon in $Health.get_children():
