@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 
 Global="*res://Scripts/Gameplay/global.gd"
 Onboarding="*res://Assets/Presets/UI/Popups/tooltip.tscn"
+HealthRegenBar="*res://Scripts/Gameplay/Player/health_regen_bar.gd"
 
 [editor_plugins]
 
