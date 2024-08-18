@@ -34,6 +34,8 @@ func apply_damage(incoming_damage : float) -> void:
 	m_current_health -= incoming_damage
 	if m_current_health <= 0:
 		on_death.emit()
+	if m_current_health > m_max_health:
+		m_current_health = m_max_health
 
 func scale_hitbox(new_scale : float) -> void:
 	m_hurtbox.scale = m_default_scale * new_scale
