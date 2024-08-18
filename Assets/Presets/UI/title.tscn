@@ -1,11 +1,14 @@
-[gd_scene load_steps=3 format=3 uid="uid://chce5vkga51jw"]
+[gd_scene load_steps=5 format=3 uid="uid://chce5vkga51jw"]
 
+[ext_resource type="Script" path="res://Scripts/HUD/title.gd" id="1_aldd0"]
 [ext_resource type="Texture2D" uid="uid://r4e2icauguqx" path="res://Assets/Art/Textures/UI/Menu/Background.png" id="1_ri3me"]
 [ext_resource type="AudioStream" uid="uid://cr5f6vdj66mhj" path="res://Assets/Music/LittleBigImp.mp3" id="2_cdxtf"]
+[ext_resource type="PackedScene" uid="uid://i4qh1n763ojh" path="res://Assets/Presets/UI/options.tscn" id="4_h4eln"]
 
 [node name="Title" type="CanvasLayer"]
+script = ExtResource("1_aldd0")
 
-[node name="background" type="TextureRect" parent="."]
+[node name="title" type="TextureRect" parent="."]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -14,7 +17,7 @@ grow_vertical = 2
 texture = ExtResource("1_ri3me")
 expand_mode = 1
 
-[node name="header" type="Label" parent="background"]
+[node name="header" type="Label" parent="title"]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -28,7 +31,7 @@ theme_override_font_sizes/font_size = 45
 text = "GAME NAME"
 horizontal_alignment = 1
 
-[node name="buttons" type="VBoxContainer" parent="background"]
+[node name="buttons" type="VBoxContainer" parent="title"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -43,7 +46,26 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 20
 
+[node name="start" type="Button" parent="title/buttons"]
+layout_mode = 2
+text = "START GAME "
+
+[node name="options" type="Button" parent="title/buttons"]
+layout_mode = 2
+text = "OPTIONS"
+
+[node name="quit" type="Button" parent="title/buttons"]
+layout_mode = 2
+text = "QUIT"
+
 [node name="music" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("2_cdxtf")
 autoplay = true
 bus = &"Music"
+
+[node name="options" parent="." instance=ExtResource("4_h4eln")]
+visible = false
+
+[connection signal="pressed" from="title/buttons/start" to="." method="_on_start_pressed"]
+[connection signal="pressed" from="title/buttons/options" to="." method="_on_options_pressed"]
+[connection signal="pressed" from="title/buttons/quit" to="." method="_on_quit_pressed"]

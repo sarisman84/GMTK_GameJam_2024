@@ -91,5 +91,8 @@ horizontal_alignment = 1
 layout_mode = 2
 bus_name = "SFX"
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-bus = &"Music"
+[node name="back" type="Button" parent="background/volume_sliders"]
+layout_mode = 2
+text = "BACK"
+
+[connection signal="pressed" from="background/volume_sliders/back" to="." method="_on_back_pressed"]
