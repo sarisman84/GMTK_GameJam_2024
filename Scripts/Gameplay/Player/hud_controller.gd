@@ -8,17 +8,6 @@ func _ready():
 	for icon in $Health.get_children():
 		icon.hide()
 		m_health_array.append(icon)
-	#Debug:
-	update_max_health(6)
-	await get_tree().create_timer(1.5).timeout
-	update_max_health(12)
-	update_current_health(9)
-	await get_tree().create_timer(1.5).timeout
-	update_max_health(2)
-	update_current_health(1)
-	await get_tree().create_timer(1.5).timeout
-	update_max_health(6)
-	update_current_health(3)
 
 func reset_visuals():
 	for node in m_health_array:
