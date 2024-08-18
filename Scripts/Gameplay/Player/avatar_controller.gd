@@ -40,12 +40,14 @@ var m_attributes: ScaleSettings
 
 
 func _ready() -> void:
-	Onboarding.assign_new_owner(self)
-	m_pickup_manager.init_manager(self)
+	Popups.assign_new_owner(self)
 
 	m_init_default_scales()
 	reset_player()
 	m_init_health()
+
+	m_pickup_manager.init_manager(self)
+
 
 func add_dash_charge():
 	m_cur_dash_count += 1

@@ -25,11 +25,10 @@ size = Vector2(397.25, 173)
 [node name="onboarding_section" type="Node2D"]
 
 [node name="companion" parent="." node_paths=PackedStringArray("target_to_follow") instance=ExtResource("1_1r53i")]
-smoothing = 1.6
 target_to_follow = NodePath("../player_avatar")
 
 [node name="player_avatar" parent="." instance=ExtResource("1_7my5f")]
-position = Vector2(1077, -18)
+position = Vector2(1069, -22)
 collision_layer = 9
 
 [node name="pickupable_element" parent="." instance=ExtResource("2_jgvli")]

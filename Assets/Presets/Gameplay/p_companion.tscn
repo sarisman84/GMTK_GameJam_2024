@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://4x0jtfwvvyxy"]
+
+[ext_resource type="Script" path="res://Scripts/Gameplay/Player/companion_follow.gd" id="1_cy1n3"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_ll2f3"]
+
+[node name="companion" type="Node2D"]
+script = ExtResource("1_cy1n3")
+smoothing = 0.5
+
+[node name="visual" type="Sprite2D" parent="."]
+position = Vector2(-21, -16)
+scale = Vector2(8, 16)
+texture = SubResource("PlaceholderTexture2D_ll2f3")

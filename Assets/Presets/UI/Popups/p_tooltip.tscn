@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://eiglg6s6aacr"]
+
+[ext_resource type="PackedScene" uid="uid://dqnnqmt53j8mh" path="res://Assets/Presets/UI/Popups/p_tooltip_holder.tscn" id="1_loiya"]
+
+[node name="tooltip" type="CanvasLayer"]
+
+[node name="anchor" parent="." instance=ExtResource("1_loiya")]

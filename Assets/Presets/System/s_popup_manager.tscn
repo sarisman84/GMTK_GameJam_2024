@@ -1,0 +1,65 @@
+[gd_scene load_steps=12 format=3 uid="uid://dcak5jfn17eio"]
+
+[ext_resource type="Script" path="res://Scripts/HUD/Onboarding/popupmanager.gd" id="1_y1vt2"]
+[ext_resource type="Script" path="res://Scripts/HUD/Onboarding/keyboard_keyword.gd" id="2_evn27"]
+
+[sub_resource type="Resource" id="Resource_djr8i"]
+script = ExtResource("2_evn27")
+keyword = "interact"
+bind_icon = "res://Assets/Art/Textures/UI/Input/Keyboard & Mouse/Default/keyboard_f.png"
+icon_size = Vector2(0, 0)
+
+[sub_resource type="Resource" id="Resource_mp425"]
+script = ExtResource("2_evn27")
+keyword = "move"
+bind_icon = "res://Assets/Art/Textures/UI/Input/Keyboard & Mouse/Default/keyboard_arrows_horizontal.png"
+icon_size = Vector2(0, 0)
+
+[sub_resource type="Resource" id="Resource_m5pos"]
+script = ExtResource("2_evn27")
+keyword = "jump"
+bind_icon = "res://Assets/Art/Textures/UI/Input/Keyboard & Mouse/Default/keyboard_space.png"
+icon_size = Vector2(0, 0)
+
+[sub_resource type="Resource" id="Resource_kbnr2"]
+script = ExtResource("2_evn27")
+keyword = "dash"
+bind_icon = "res://Assets/Art/Textures/UI/Input/Keyboard & Mouse/Default/keyboard_shift.png"
+icon_size = Vector2(0, 0)
+
+[sub_resource type="Resource" id="Resource_7bawk"]
+script = ExtResource("2_evn27")
+keyword = "shrink"
+bind_icon = "res://Assets/Art/Textures/UI/Input/Keyboard & Mouse/Default/keyboard_s.png"
+icon_size = Vector2(0, 0)
+
+[sub_resource type="Resource" id="Resource_dkdpt"]
+script = ExtResource("2_evn27")
+keyword = "enlarge"
+bind_icon = "res://Assets/Art/Textures/UI/Input/Keyboard & Mouse/Default/keyboard_w.png"
+icon_size = Vector2(16, 16)
+
+[sub_resource type="Resource" id="Resource_rekaq"]
+script = ExtResource("2_evn27")
+keyword = "mouse"
+bind_icon = "res://Assets/Art/Textures/UI/Input/Keyboard & Mouse/Default/mouse_move.png"
+icon_size = Vector2(0, 0)
+
+[sub_resource type="Resource" id="Resource_0b4mu"]
+script = ExtResource("2_evn27")
+keyword = "attack"
+bind_icon = "res://Assets/Art/Textures/UI/Input/Keyboard & Mouse/Default/keyboard_semicolon.png"
+icon_size = Vector2(0, 0)
+
+[sub_resource type="Resource" id="Resource_0nu47"]
+script = ExtResource("2_evn27")
+keyword = "mouse_1"
+bind_icon = "res://Assets/Art/Textures/UI/Input/Keyboard & Mouse/Default/mouse_left.png"
+icon_size = Vector2(0, 0)
+
+[node name="popup_manager" type="Node"]
+script = ExtResource("1_y1vt2")
+keybind_keywords = Array[ExtResource("2_evn27")]([SubResource("Resource_djr8i"), SubResource("Resource_mp425"), SubResource("Resource_m5pos"), SubResource("Resource_kbnr2"), SubResource("Resource_7bawk"), SubResource("Resource_dkdpt"), SubResource("Resource_rekaq"), SubResource("Resource_0b4mu"), SubResource("Resource_0nu47")])
+tooltip_preset = "res://Assets/Presets/UI/Popups/p_tooltip.tscn"
+
+[node name="tooltip_holder" type="CanvasLayer" parent="."]

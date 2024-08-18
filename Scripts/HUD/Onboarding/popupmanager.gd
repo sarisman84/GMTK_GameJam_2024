@@ -1,5 +1,6 @@
-extends Node
 class_name PopupManager
+extends Node
+
 
 @export var center_text : bool
 @export var keybind_keywords: Array[BindKeyword]
@@ -7,6 +8,7 @@ class_name PopupManager
 @export_file var tooltip_preset : String
 @export var max_tooltips_present : int = 10
 
+@onready var m_tooltip_holder = $tooltip_holder
 
 var m_tooltip_package : PackedScene
 
@@ -22,7 +24,8 @@ func _ready() -> void:
 	m_tooltip_package = load(tooltip_preset)
 
 	for i in range(max_tooltips_present):
-		m_spawned_tooltips.append(PopupData.constructor(m_tooltip_package))
+		m_spawned_tooltips.append(PopupData.constructor(m_tooltip_holder,m_tooltip_package))
+		m_spawned_tooltips[i].reset()
 
 
 func assign_new_owner(new_owner: Node2D) -> void:
@@ -32,15 +35,11 @@ func enable_popup_at(target_anchor: Node2D, some_text: String) -> int:
 	var i = m_available_id
 	m_available_id += 1
 
-
 	m_spawned_tooltips[i].m_target_anchor = target_anchor
 	m_spawned_tooltips[i].text = m_parse_text(some_text)
 	m_spawned_tooltips[i].show()
 
 	return i
-
-func m_instantiate_tooltip() -> PopupData:
-	return PopupData.constructor(m_tooltip_package)
 
 func disable_popup(id : int) -> void:
 	m_spawned_tooltips[id].hide()
@@ -48,11 +47,14 @@ func disable_popup(id : int) -> void:
 	m_available_id -= 1
 	m_available_id = max(m_available_id, 0)
 
+func set_popup_text(id : int, some_text : String) -> void:
+	m_spawned_tooltips[id].text = m_parse_text(some_text)
+
 func _process(_delta: float) -> void:
 	for i in range(m_spawned_tooltips.size()):
 		var m_tooltip := m_spawned_tooltips[i]
 		if m_tooltip.is_visible():
-			var m_target_raw_pos = m_target_anchor.global_position
+			var m_target_raw_pos = m_tooltip.m_target_anchor.global_position
 			var m_target_pos = get_viewport().canvas_transform.basis_xform(m_target_raw_pos)
 			var m_owner_pos = get_viewport().canvas_transform.get_origin() - (get_viewport().get_visible_rect().size / 2.0)
 			m_tooltip.position = m_owner_pos + m_target_pos

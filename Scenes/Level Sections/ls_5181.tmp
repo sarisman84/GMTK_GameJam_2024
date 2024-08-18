@@ -1,6 +1,5 @@
-[gd_scene load_steps=12 format=3 uid="uid://00jw4ax5ahmi"]
+[gd_scene load_steps=11 format=3 uid="uid://00jw4ax5ahmi"]
 
-[ext_resource type="PackedScene" uid="uid://4x0jtfwvvyxy" path="res://Assets/Presets/Gameplay/p_companion.tscn" id="1_1r53i"]
 [ext_resource type="PackedScene" uid="uid://22o2pk2n1acn" path="res://Assets/Presets/Gameplay/p_player_avatar.tscn" id="1_7my5f"]
 [ext_resource type="PackedScene" uid="uid://b54xxl7212wqv" path="res://Assets/Presets/Level Assets/Onboarding/Elements/pickupable_element.tscn" id="2_jgvli"]
 [ext_resource type="TileSet" uid="uid://k2svldbajy33" path="res://Assets/Presets/Level Assets/Onboarding/Tilesets/dungeon_tile_set.tres" id="3_nmrh0"]
@@ -24,12 +23,8 @@ size = Vector2(397.25, 173)
 
 [node name="onboarding_section" type="Node2D"]
 
-[node name="companion" parent="." node_paths=PackedStringArray("target_to_follow") instance=ExtResource("1_1r53i")]
-smoothing = 1.6
-target_to_follow = NodePath("../player_avatar")
-
 [node name="player_avatar" parent="." instance=ExtResource("1_7my5f")]
-position = Vector2(1077, -18)
+position = Vector2(1069, -22)
 collision_layer = 9
 
 [node name="pickupable_element" parent="." instance=ExtResource("2_jgvli")]
@@ -52,7 +47,7 @@ scale = Vector2(0.015, 0.015)
 collision_layer = 0
 collision_mask = 8
 script = ExtResource("5_hw1up")
-popup_anchor = NodePath("../../companion")
+popup_anchor = NodePath("../../player_avatar")
 popup_text = "Press [key:move] to move around and [key:jump] to jump"
 trigger_once = true
 
@@ -64,7 +59,7 @@ shape = SubResource("RectangleShape2D_6hxwc")
 collision_layer = 0
 collision_mask = 8
 script = ExtResource("5_hw1up")
-popup_anchor = NodePath("../../companion")
+popup_anchor = NodePath("../../player_avatar")
 popup_text = "Press [key:shrink] to shrink in size"
 trigger_once = true
 
@@ -76,7 +71,7 @@ shape = SubResource("RectangleShape2D_nk6rr")
 collision_layer = 0
 collision_mask = 8
 script = ExtResource("5_hw1up")
-popup_anchor = NodePath("../../companion")
+popup_anchor = NodePath("../../player_avatar")
 popup_text = "Hold [key:dash] and aim towards a direction with [key:mouse] the release [key:dash] to dash towards that direction "
 trigger_once = true
 
@@ -88,7 +83,7 @@ shape = SubResource("RectangleShape2D_3xj8t")
 collision_layer = 0
 collision_mask = 8
 script = ExtResource("5_hw1up")
-popup_anchor = NodePath("../../companion")
+popup_anchor = NodePath("../../player_avatar")
 popup_text = "Press [key:enlarge] to become big."
 trigger_once = true
 
@@ -100,9 +95,8 @@ shape = SubResource("RectangleShape2D_uq0xp")
 collision_layer = 0
 collision_mask = 8
 script = ExtResource("5_hw1up")
-popup_anchor = NodePath("../../companion")
-popup_text = "Pick up that block infront of you when you are large.
-[color=yellow]The  picked up block will scale with you![/color]"
+popup_anchor = NodePath("../../pickupable_element")
+popup_text = "Press [key:interact] while facing here to pickup blocks. /nPress [key:interact] again while using [key:mouse] to place back the block at the mouse's cursor. /n[color=yellow]The  pickup scales with you![/color]"
 trigger_once = true
 
 [node name="shape" type="CollisionShape2D" parent="tutorial_popups/pickup_tutorial"]
