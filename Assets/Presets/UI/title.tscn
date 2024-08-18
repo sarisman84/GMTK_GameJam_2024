@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://chce5vkga51jw"]
+[gd_scene load_steps=3 format=3 uid="uid://chce5vkga51jw"]
 
 [ext_resource type="Texture2D" uid="uid://r4e2icauguqx" path="res://Assets/Art/Textures/UI/Menu/Background.png" id="1_ri3me"]
+[ext_resource type="AudioStream" uid="uid://cr5f6vdj66mhj" path="res://Assets/Music/LittleBigImp.mp3" id="2_cdxtf"]
 
 [node name="Title" type="CanvasLayer"]
 
@@ -24,7 +25,7 @@ offset_bottom = 63.0
 grow_horizontal = 2
 size_flags_horizontal = 4
 theme_override_font_sizes/font_size = 45
-text = "TITLE"
+text = "GAME NAME"
 horizontal_alignment = 1
 
 [node name="buttons" type="VBoxContainer" parent="background"]
@@ -41,3 +42,8 @@ offset_bottom = 210.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 20
+
+[node name="music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_cdxtf")
+autoplay = true
+bus = &"Music"
