@@ -1,9 +1,11 @@
-[gd_scene load_steps=5 format=3 uid="uid://i4qh1n763ojh"]
+[gd_scene load_steps=7 format=3 uid="uid://i4qh1n763ojh"]
 
 [ext_resource type="Script" path="res://Scripts/HUD/options.gd" id="1_e0pa7"]
 [ext_resource type="Texture2D" uid="uid://r4e2icauguqx" path="res://Assets/Art/Textures/UI/Menu/Background.png" id="1_ny1fe"]
 [ext_resource type="PackedScene" uid="uid://dgmtmh7klvk66" path="res://Assets/Presets/UI/volume_slider.tscn" id="1_q01d2"]
 [ext_resource type="FontFile" uid="uid://5uhdlvm7xcf3" path="res://Assets/Fonts/NotoSans-Black.ttf" id="3_1l6hd"]
+[ext_resource type="FontFile" uid="uid://bryhuxvkw0gg4" path="res://Assets/Fonts/KalniaGlaze-Regular.ttf" id="3_8cfqo"]
+[ext_resource type="PackedScene" uid="uid://borywtlrontyg" path="res://Assets/Presets/UI/button.tscn" id="6_cmgmb"]
 
 [node name="options" type="CanvasLayer"]
 script = ExtResource("1_e0pa7")
@@ -22,13 +24,18 @@ layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -155.0
-offset_right = 155.0
-offset_bottom = 63.0
+offset_left = -238.5
+offset_top = 23.0
+offset_right = 238.5
+offset_bottom = 121.0
 grow_horizontal = 2
 size_flags_horizontal = 4
-theme_override_font_sizes/font_size = 45
-text = "Options"
+theme_override_colors/font_color = Color(0.835294, 0.152941, 0.152941, 1)
+theme_override_colors/font_outline_color = Color(0.2, 0, 0, 1)
+theme_override_constants/outline_size = 20
+theme_override_fonts/font = ExtResource("3_8cfqo")
+theme_override_font_sizes/font_size = 72
+text = "OPTIONS"
 horizontal_alignment = 1
 
 [node name="volume_sliders" type="VBoxContainer" parent="background"]
@@ -38,22 +45,23 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -182.0
-offset_top = -190.0
-offset_right = 182.0
-offset_bottom = 210.0
+offset_left = -167.0
+offset_top = -170.0
+offset_right = 167.0
+offset_bottom = 308.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 20
+theme_override_constants/separation = 10
 
 [node name="VBoxContainer" type="VBoxContainer" parent="background/volume_sliders"]
 layout_mode = 2
+theme_override_constants/separation = -5
 
 [node name="master" type="Label" parent="background/volume_sliders/VBoxContainer"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.835294, 0.152941, 0.152941, 1)
 theme_override_fonts/font = ExtResource("3_1l6hd")
-theme_override_font_sizes/font_size = 42
+theme_override_font_sizes/font_size = 36
 text = "MASTER VOLUME"
 horizontal_alignment = 1
 
@@ -63,12 +71,13 @@ bus_name = "Master"
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="background/volume_sliders"]
 layout_mode = 2
+theme_override_constants/separation = -5
 
 [node name="music" type="Label" parent="background/volume_sliders/VBoxContainer2"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.835294, 0.152941, 0.152941, 1)
 theme_override_fonts/font = ExtResource("3_1l6hd")
-theme_override_font_sizes/font_size = 42
+theme_override_font_sizes/font_size = 36
 text = "MUSIC VOLUME"
 horizontal_alignment = 1
 
@@ -78,12 +87,13 @@ bus_name = "Music"
 
 [node name="VBoxContainer3" type="VBoxContainer" parent="background/volume_sliders"]
 layout_mode = 2
+theme_override_constants/separation = -5
 
 [node name="sfx" type="Label" parent="background/volume_sliders/VBoxContainer3"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.835294, 0.152941, 0.152941, 1)
 theme_override_fonts/font = ExtResource("3_1l6hd")
-theme_override_font_sizes/font_size = 42
+theme_override_font_sizes/font_size = 36
 text = "SFX VOLUME"
 horizontal_alignment = 1
 
@@ -91,8 +101,16 @@ horizontal_alignment = 1
 layout_mode = 2
 bus_name = "SFX"
 
-[node name="back" type="Button" parent="background/volume_sliders"]
+[node name="invis_box" type="ColorRect" parent="background/volume_sliders"]
+custom_minimum_size = Vector2(50, 35)
 layout_mode = 2
+color = Color(1, 1, 1, 0)
+
+[node name="back" parent="background/volume_sliders" instance=ExtResource("6_cmgmb")]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.835294, 0.152941, 0.152941, 1)
+theme_override_fonts/font = ExtResource("3_1l6hd")
+theme_override_font_sizes/font_size = 42
 text = "BACK"
 
 [connection signal="pressed" from="background/volume_sliders/back" to="." method="_on_back_pressed"]
