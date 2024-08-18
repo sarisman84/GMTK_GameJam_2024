@@ -4,4 +4,3 @@ extends TextureRect
 
 func change_sprite(value: int):
 	texture = sprites[value]
-
