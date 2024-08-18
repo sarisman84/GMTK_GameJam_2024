@@ -1,0 +1,10 @@
+[gd_scene load_steps=5 format=3 uid="uid://c4uhh07dk6ny4"]
+
+[ext_resource type="Script" path="res://Scripts/HUD/health_icon.gd" id="1_g4ri1"]
+[ext_resource type="Texture2D" uid="uid://dmh1r3w5ropku" path="res://Assets/Art/Textures/Player/small_sprite.png" id="2_151nh"]
+[ext_resource type="Texture2D" uid="uid://2ypg4hc8y6k" path="res://Assets/Art/Textures/Player/normal_sprite.png" id="3_7bkvs"]
+[ext_resource type="Texture2D" uid="uid://bd8jnffsvp4fp" path="res://Assets/Art/Textures/Player/large_sprite.png" id="4_75aqm"]
+
+[node name="HealthIcon" type="TextureRect"]
+script = ExtResource("1_g4ri1")
+sprites = Array[Texture2D]([ExtResource("2_151nh"), ExtResource("3_7bkvs"), ExtResource("4_75aqm")])

@@ -1,13 +1,31 @@
 extends CanvasLayer
 
-@onready var m_health_bar : ProgressBar = $healthbar
 @onready var m_energy_bar : ProgressBar = $energybar
 
-func set_max_health(max_health) -> void:
-	m_health_bar.max_value = max_health
+var m_health_array : Array[TextureRect]
+var m_max_health : int = 6
+var m_health : int = 6
 
-func set_health(cur_health) -> void:
-	m_health_bar.value = cur_health
+
+func _ready():
+	for icon in $Health.get_children():
+		m_health_array.append(icon)
+	reset()
+
+func reset():
+	for icon in m_health_array:
+		icon.change_sprite(2)
+	m_health = m_max_health
+
+func hud_take_damage():
+	if m_health > 0:
+		m_health -= 1
+		m_health_array[m_health/2].change_sprite(m_health%2)
+
+func hud_heal():
+	if m_health < m_max_health:
+		m_health_array[m_health/2].change_sprite((m_health%2)+1)
+		m_health += 1
 
 func set_max_energy(max_energy) -> void:
 	m_energy_bar.max_value = max_energy
