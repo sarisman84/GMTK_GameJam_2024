@@ -8,11 +8,8 @@ func _ready():
 	pass # Replace with function body.
 
 func refill_player_health():
-	#var health_node = get_parent()
 	var player = get_tree().current_scene.find_child("player_avatar")
-	#var player = get_node_or_null("player_avatar")
 	player.get_node("health").apply_damage(m_health_points_regenerated * -1)
-	#health_node.apply_damage(m_health_points_regenerated * -1)
 	m_current_points = 0 ## reset bar
 	
 	
