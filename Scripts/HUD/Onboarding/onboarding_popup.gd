@@ -19,7 +19,8 @@ func enable_popup_at(target_anchor: Node2D, some_text: String) -> void:
 func disable_popup() -> void:
 	m_label.text = ""
 	m_label.hide()
-
+""" #This code keeps running in unrelated scenes and crashing.
+	#It makes testing stuff a pain.
 func _process(_delta: float) -> void:
 	if m_label.is_visible_in_tree():
 		var m_target_raw_pos = m_target_anchor.global_position
@@ -29,7 +30,7 @@ func _process(_delta: float) -> void:
 		var m_owner_pos = get_viewport().canvas_transform.get_origin() - (get_viewport().get_visible_rect().size / 2.0)
 
 		offset = m_owner_pos + m_target_pos
-
+"""
 func m_parse_text(text: String) -> String:
 	var m_result: String
 	var m_content_array = text.split(" ")
