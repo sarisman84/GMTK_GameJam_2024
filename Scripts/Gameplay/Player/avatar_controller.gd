@@ -16,6 +16,7 @@ enum Size {Normal = 0, Small = -1, Large = 1}
 @onready var m_attack: AttackNode = $attack
 @onready var m_interact: InteractNode = $interact
 @onready var m_pickup_manager: PickupManager = $pickup_manager
+@onready var m_sfx_manager: Node = $sfx_manager
 
 #Signals
 signal on_size_change(size_id, new_scale)
@@ -172,7 +173,6 @@ func m_apply_settings(type: int) -> void:
 
 	on_size_change.emit(m_current_size, m_current_scale_multiplier)
 
-
 func m_handle_movement(delta: float) -> void:
 	if not is_on_floor():
 		velocity.y += m_current_gravity * delta
@@ -183,9 +183,11 @@ func m_handle_movement(delta: float) -> void:
 
 	#Fetch horizontal input
 	var dir = Input.get_axis("move_left", "move_right")
+	
 	#Apply it
 	if dir:
 		m_sprite.flip_h = dir < 0
+		m_sfx_manager.m_play_walk_sound(m_current_size)
 		if abs(dir * (m_current_speed * m_current_scale_multiplier)) > abs(velocity.x):
 			velocity.x = dir * (m_current_speed * m_current_scale_multiplier)
 		else:
