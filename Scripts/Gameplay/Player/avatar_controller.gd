@@ -44,8 +44,8 @@ func _ready() -> void:
 	m_pickup_manager.init_manager(self)
 
 	m_init_default_scales()
-	m_init_health()
 	reset_player()
+	m_init_health()
 
 func add_dash_charge():
 	m_cur_dash_count += 1
@@ -56,9 +56,12 @@ func m_init_default_scales() -> void:
 
 func m_init_health() -> void:
 	m_health.set_health_node_owner(self)
+	m_health.set_max_health(m_attributes.max_health)
 	m_health.on_death.connect(m_on_player_death)
+	m_health.on_damage_taken.connect(m_hud_update)
 
-
+func m_hud_update() -> void:
+	pass
 func m_on_player_death() -> void:
 	var coords = get_node("/root/Global").latest_checkpoint[1]
 	position = coords
@@ -69,6 +72,7 @@ func reset_player() -> void:
 	m_current_size = default_size
 	m_apply_settings(m_current_size)
 	m_attack.switch_face(1)
+	m_health.set_max_health(m_attributes.max_health)
 	m_health.reset_health()
 	pass
 
@@ -100,8 +104,10 @@ func m_apply_settings(type: int) -> void:
 	m_health.scale_hitbox(m_current_scale.scale_multiplier)
 	m_interact.scale_hitbox(m_current_scale.scale_multiplier)
 
+	#Calculate each attribute to scale with the player (unless overriden)
 	m_attributes = m_get_scaled_attributes(m_current_scale)
 
+	#Apply scaling to visual and functional elements
 	m_collider.scale = m_attributes.collision_scale
 	m_sprite.scale = m_attributes.sprite_scale
 	m_camera.zoom = m_attributes.camera_zoom
@@ -169,7 +175,8 @@ func m_get_scaled_attributes(scale_setting: ScaleSettings) -> ScaleSettings:
 		m_result.camera_zoom = m_get_default_setting().camera_zoom * (1.0 / scale_setting.scale_multiplier)
 
 	if scale_setting.override_sprite:
-		m_result.sprite_scale = scale_setting.sprite_scale
+		var m_new_scale = m_default_sprite_scale * scale_setting.sprite_scale
+		m_result.sprite_scale = m_new_scale
 	else:
 		m_result.sprite_scale = m_default_sprite_scale * scale_setting.scale_multiplier
 
@@ -178,6 +185,10 @@ func m_get_scaled_attributes(scale_setting: ScaleSettings) -> ScaleSettings:
 	else:
 		m_result.collision_scale = m_default_col_scale * scale_setting.scale_multiplier
 
+	if scale_setting.override_health:
+		m_result.max_health = scale_setting.max_health
+	else:
+		m_result.max_health = m_get_default_setting().max_health * scale_setting.scale_multiplier
 	return m_result
 
 
@@ -211,17 +222,8 @@ func m_handle_movement(delta: float) -> void:
 func m_handle_hover(_delta: float) -> void:
 	velocity = Vector2.ZERO
 	pass
-	#if not is_on_floor():
-		#velocity.y += (m_current_gravity / 12.0) * _delta
 
 func m_handle_dash(_delta: float) -> void:
-	# var x_dir = Input.get_axis("move_left", "move_right")
-	# var y_dir = Input.get_axis("up", "down")
-	# if x_dir == 0 && y_dir == 0:
-	# 	x_dir = 1 if m_sprite.flip_h else -1
-	# var vector = Vector2(x_dir, y_dir).normalized()
-	# var speed = 400
-	# velocity = vector * speed * m_current_scale_multiplier
 	velocity = m_cur_dash_direction * m_attributes.dash_range_in_px
 	pass
 

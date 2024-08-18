@@ -38,3 +38,7 @@ func apply_damage(incoming_damage : float) -> void:
 func scale_hitbox(new_scale : float) -> void:
 	m_hurtbox.scale = m_default_scale * new_scale
 
+
+func get_max_health() -> int:
+	return m_max_health
+

@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=3 uid="uid://b54xxl7212wqv"]
+
+[ext_resource type="Script" path="res://Scripts/Gameplay/Interactables/pickupablenode.gd" id="1_e4blf"]
+[ext_resource type="Script" path="res://Scripts/Gameplay/Interactables/interactable.gd" id="2_5tfdc"]
+[ext_resource type="Shape2D" uid="uid://ble12l3uunb8p" path="res://Assets/Presets/Level Assets/Onboarding/Collisions/cs_large_pickup_obj_shape.tres" id="3_ufm1r"]
+
+[node name="pickupable_element" type="Node2D"]
+position = Vector2(844, -158)
+script = ExtResource("1_e4blf")
+required_size = 1
+
+[node name="interactable" type="StaticBody2D" parent="."]
+collision_layer = 4
+collision_mask = 0
+script = ExtResource("2_5tfdc")
+
+[node name="shape" type="CollisionShape2D" parent="interactable"]
+shape = ExtResource("3_ufm1r")
+
+[node name="collider" type="StaticBody2D" parent="."]
+
+[node name="shape" type="CollisionShape2D" parent="collider"]
+shape = ExtResource("3_ufm1r")
+debug_color = Color(0.398036, 0.609323, 0, 0.42)

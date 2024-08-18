@@ -1,5 +1,6 @@
-extends Area2D
 class_name InteractNode
+extends Area2D
+
 
 @onready var m_hitbox = $hitbox
 

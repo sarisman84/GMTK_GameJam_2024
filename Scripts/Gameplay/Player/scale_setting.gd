@@ -39,3 +39,7 @@ extends Resource
 @export_group("Collision")
 @export var override_collison: bool
 @export var collision_scale : Vector2 = Vector2(1,1)
+
+@export_group("Health")
+@export var override_health: bool
+@export var max_health: int

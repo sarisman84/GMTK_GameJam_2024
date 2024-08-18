@@ -15,9 +15,8 @@ func _ready() -> void:
 	m_interactable.on_interact.connect(m_pickup)
 	m_default_mode = m_collider.process_mode
 
-
 func m_pickup(m_owner: Variant) -> void:
-	if m_owner.m_current_size <= required_size:
+	if m_owner.m_current_size >= required_size:
 		m_owner.m_pickup_manager.pick_up_element(self)
 
 func enable_collisions() -> void:

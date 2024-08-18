@@ -75,3 +75,10 @@
 	
 
 	# on_size_change.emit(m_current_size, m_current_scale_multiplier)
+
+
+	func set_visual_health(max_health : int) -> void:
+		var visual_health = max_health / 2
+		for point in range(visual_health):
+			#spawn an asset
+			
