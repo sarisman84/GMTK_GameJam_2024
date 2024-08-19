@@ -187,7 +187,7 @@ func m_handle_movement(delta: float) -> void:
 	#Apply it
 	if dir:
 		m_sprite.flip_h = dir < 0
-		m_sfx_manager.m_play_walk_sound(m_current_size)
+		m_sfx_manager.m_play_footstep_sound(m_current_size)
 		if abs(dir * (m_current_speed * m_current_scale_multiplier)) > abs(velocity.x):
 			velocity.x = dir * (m_current_speed * m_current_scale_multiplier)
 		else:
