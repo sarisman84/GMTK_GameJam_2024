@@ -122,14 +122,14 @@ func m_calculate_new_health_on_size_change(type: int):
 	var m_current_health = m_health.m_current_health
 	m_current_max_health = m_health.m_max_health
 	var m_new_max_health
-	
+
 	if type == m_small:
 		m_new_max_health = small_scale.max_health
 	elif type == m_normal:
 		m_new_max_health = normal_scale.max_health
 	else:
 		m_new_max_health = large_scale.max_health
-	
+
 	var m_new_health = clamp(floor((float(m_current_health) / m_current_max_health) * m_new_max_health), 1, m_new_max_health)
 	return m_new_health
 
@@ -145,15 +145,15 @@ func m_change_sprite_on_size_change(type: int) -> void:
 		COLOR = mix(tex_color, vec4(1.0, 1.0, 1.0, tex_color.a), flicker_amount);
 	}
 	"""
-	
+
 	var shader = Shader.new()
 	shader.code = shader_code
-	
+
 	var shader_material = ShaderMaterial.new()
 	shader_material.shader = shader
-	
+
 	m_sprite.material = shader_material
-	
+
 	var flicker_duration = 0.5  # Flicker duration in seconds
 	var flicker_rate = 0.05  # Flicker rate in seconds
 	var elapsed_time = 0.0
@@ -164,14 +164,14 @@ func m_change_sprite_on_size_change(type: int) -> void:
 		shader_material.set("shader_param/flicker_amount", 0.0)
 		await get_tree().create_timer(flicker_rate).timeout
 		elapsed_time += flicker_rate * 2
-	
-	shader_material.set("shader_param/flicker_amount", 0.0) 
-	
-	
+
+	shader_material.set("shader_param/flicker_amount", 0.0)
+
+
 
 
 func m_apply_settings(type: int) -> void:
-	
+
 	# Default typing values
 	var m_normal := 0
 	var m_small := -1
@@ -205,13 +205,13 @@ func m_apply_settings(type: int) -> void:
 
 	#Calculate each attribute to scale with the player (unless overriden)
 	m_attributes = m_get_scaled_attributes(m_current_scale)
-	
+
 	#Apply scaling to visual and functional elements
 	m_collider.scale = m_attributes.collision_scale
 	m_sprite.scale = m_attributes.sprite_scale
 	m_camera.zoom = m_attributes.camera_zoom
 	m_health.set_max_health(m_attributes.max_health)
-	
+
 	var tween
 	if tween:
 		tween.kill()
@@ -232,7 +232,7 @@ func m_apply_settings(type: int) -> void:
 
 	#Emit scale change event
 	on_size_change.emit(type, m_current_scale.scale_multiplier)
-	
+
 	#Update HUD
 	m_hud.update_max_health(m_attributes.max_health)
 	m_hud.update_current_health(m_new_health)
@@ -334,7 +334,7 @@ func m_handle_movement(delta: float) -> void:
 		m_sprite.flip_h = dir < 0
 		m_animation.flip_h = dir < 0
 		m_book_animation.flip_h = dir < 0
-		
+
 		#Animation Handler:
 		if m_current_size >= 0: #If Normal or Big size
 			m_sprite.hide()
@@ -345,8 +345,8 @@ func m_handle_movement(delta: float) -> void:
 			m_small_animation.play("small_bounce")
 		else:
 			m_small_animation.stop()
-		
-		
+
+
 		if abs(dir * m_attributes.speed) > abs(velocity.x):
 			velocity.x = dir * m_attributes.speed
 		else:
@@ -360,7 +360,7 @@ func m_handle_movement(delta: float) -> void:
 		m_sprite.show()
 		m_animation.hide()
 		m_small_animation.stop()
-		
+
 		#LERP back to 0
 		velocity.x = lerp(velocity.x, 0.0, 0.4)
 
