@@ -8,7 +8,9 @@
 script = ExtResource("1_c8fa2")
 speed = 300.0
 jump_height_in_px = 50.0
-max_health = 3
+small_size_max_health = 2
+regular_size_max_health = 6
+large_size_max_health = 12
 default_zoom = 4.0
 can_attack = true
 attack_damage = 1.0
