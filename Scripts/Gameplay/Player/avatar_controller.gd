@@ -24,7 +24,7 @@ enum Size {Normal = 0, Small = -1, Large = 1}
 #@onready var m_companion = $companion
 @onready var m_animation : AnimatedSprite2D = $animation
 @onready var m_small_animation : AnimationPlayer = $small_animation
-@onready var m_book_animation : AnimatedSprite2D = $book_animation
+#@onready var m_book_animation : AnimatedSprite2D = $book_animation
 @onready var m_hud : CanvasLayer = $hud
 @onready var m_book_anchor : Node2D = $shape/book_anchor
 
@@ -83,7 +83,7 @@ func m_init_default_scales() -> void:
 	m_default_sprite_scale = m_sprite.scale
 	m_default_arrow_scale = m_arrow.scale
 	m_default_animation_scale = m_animation.scale
-	m_default_book_animation_scale = m_book_animation.scale
+	#m_default_book_animation_scale = m_book_animation.scale
 	var m_sphere := m_ceiling_detector.shape as CircleShape2D
 	m_default_ceil_scale = m_sphere.radius
 
@@ -303,7 +303,7 @@ func m_get_scaled_attributes(scale_setting: ScaleSettings) -> ScaleSettings:
 
 	m_arrow.scale = m_default_arrow_scale * scale_setting.scale_multiplier
 	m_animation.scale = m_default_animation_scale * scale_setting.scale_multiplier
-	m_book_animation.scale = m_default_book_animation_scale * scale_setting.scale_multiplier
+	#m_book_animation.scale = m_default_book_animation_scale * scale_setting.scale_multiplier
 
 	if scale_setting.override_collison:
 		m_result.collision_scale = scale_setting.collision_scale
@@ -333,7 +333,7 @@ func m_handle_movement(delta: float) -> void:
 	if dir:
 		m_sprite.flip_h = dir < 0
 		m_animation.flip_h = dir < 0
-		m_book_animation.flip_h = dir < 0
+		#m_book_animation.flip_h = dir < 0
 
 		#Animation Handler:
 		if m_current_size >= 0: #If Normal or Big size
@@ -342,9 +342,10 @@ func m_handle_movement(delta: float) -> void:
 			m_animation.play(str(m_current_size)+"_walk")
 		elif is_on_floor(): #Small size
 			m_sprite.show()
-			m_small_animation.play("small_bounce")
+			#m_small_animation.play("small_bounce")
 		else:
-			m_small_animation.stop()
+			pass
+			#m_small_animation.stop()
 
 
 		if abs(dir * m_attributes.speed) > abs(velocity.x):
@@ -359,7 +360,7 @@ func m_handle_movement(delta: float) -> void:
 		#Animation Handler P2
 		m_sprite.show()
 		m_animation.hide()
-		m_small_animation.stop()
+		#m_small_animation.stop()
 
 		#LERP back to 0
 		velocity.x = lerp(velocity.x, 0.0, 0.4)
@@ -378,15 +379,15 @@ func m_handle_hover(_delta: float) -> void:
 
 func m_handle_dash(_delta: float) -> void:
 	book_animation.emit()
-	m_book_animation.rotation = m_cur_dash_direction.angle()
-	m_book_animation.flip_h = false
-	m_book_animation.play()
-	m_book_animation.position -= m_cur_dash_direction * 3 * m_current_scale.scale_multiplier
+	#m_book_animation.rotation = m_cur_dash_direction.angle()
+	#m_book_animation.flip_h = false
+	#m_book_animation.play()
+	#m_book_animation.position -= m_cur_dash_direction * 3 * m_current_scale.scale_multiplier
 	await get_tree().create_timer(0.4366).timeout
 	velocity = m_cur_dash_direction * m_attributes.dash_range_in_px
 	await get_tree().create_timer(0.23).timeout
-	m_book_animation.rotation = 0
-	m_book_animation.position = Vector2.ZERO
+	#m_book_animation.rotation = 0
+	#m_book_animation.position = Vector2.ZERO
 
 func m_handle_dash_aim(_delta) -> void:
 	if is_on_floor():
@@ -403,7 +404,7 @@ func m_handle_dash_aim(_delta) -> void:
 		m_cur_dash_count -= 1
 		m_arrow.show()
 		m_animation.stop()
-		m_small_animation.stop()
+		#m_small_animation.stop()
 
 	if m_cur_dash_hover_duration_in_seconds > 0 and Input.is_action_just_released("dash"):
 		var m_mouse_pos = get_global_mouse_position()
@@ -448,11 +449,11 @@ func _process(_delta: float) -> void:
 
 	# Link up attacking and interactive to their respective systems
 	if Input.is_action_just_pressed("attack") and m_attributes.can_attack:
-		if m_book_animation.frame == 16:
-			book_animation.emit()
-			m_book_animation.play("attack")
-			await get_tree().create_timer(0.43666).timeout
-			m_attack.attack_current_targets(m_attributes.attack_damage, m_attributes.attack_rate_in_seconds)
+		#if m_book_animation.frame == 16:
+		book_animation.emit()
+			#m_book_animation.play("attack")
+		await get_tree().create_timer(0.43666).timeout
+		m_attack.attack_current_targets(m_attributes.attack_damage, m_attributes.attack_rate_in_seconds)
 	if m_pickup_manager.has_picked_up_something() and Input.is_action_just_pressed("interact"):
 		m_pickup_manager.release_picked_up_element()
 	elif Input.is_action_just_pressed("interact"):

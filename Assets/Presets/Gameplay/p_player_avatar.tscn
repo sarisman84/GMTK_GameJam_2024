@@ -32,6 +32,7 @@
 [ext_resource type="Texture2D" uid="uid://digdym0e3lsff" path="res://Assets/Art/Textures/Player/Imp_Regular_Run_Cycle_0015/Imp_Regular_Run_Cycle_0013.png" id="27_ttonx"]
 [ext_resource type="Texture2D" uid="uid://cm4p00pv8hirr" path="res://Assets/Art/Textures/Player/Imp_Regular_Run_Cycle_0015/Imp_Regular_Run_Cycle_0014.png" id="28_a3mik"]
 [ext_resource type="Texture2D" uid="uid://bruo82obklwvt" path="res://Assets/Art/Textures/Player/Imp_Regular_Run_Cycle_0015/Imp_Regular_Run_Cycle_0015.png" id="29_gnphl"]
+[ext_resource type="PackedScene" uid="uid://jm6jhaxg4ep8" path="res://Assets/Presets/UI/hud.tscn" id="49_lndtj"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_idbre"]
 size = Vector2(20, 35)
@@ -192,6 +193,8 @@ animation = &"0_walk"
 script = ExtResource("11_dgpgr")
 
 [node name="walking_stream_player" type="AudioStreamPlayer" parent="sfx_manager"]
+
+[node name="hud" parent="." instance=ExtResource("49_lndtj")]
 
 [connection signal="body_entered" from="interact" to="interact" method="_on_body_entered"]
 [connection signal="body_exited" from="interact" to="interact" method="_on_body_exited"]
