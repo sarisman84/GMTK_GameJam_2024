@@ -23,6 +23,8 @@ enum Size {Normal = 0, Small = -1, Large = 1}
 @onready var m_arrow = $arrow
 @onready var m_companion = $companion
 @onready var m_animation : AnimatedSprite2D = $animation
+@onready var m_small_animation : AnimationPlayer = $small_animation
+@onready var m_book_animation : AnimatedSprite2D = $book_animation
 
 #Signals
 signal on_size_change(size_id, new_scale)
@@ -33,6 +35,7 @@ var m_default_sprite_scale: Vector2
 var m_default_arrow_scale: Vector2
 var m_default_ceil_scale: float
 var m_default_animation_scale: Vector2
+var m_default_book_animation_scale: Vector2
 
 #Temp Data
 var m_current_gravity: float
@@ -59,7 +62,6 @@ func _ready() -> void:
 	m_init_health()
 
 	m_pickup_manager.init_manager(self)
-	m_animation.play()
 
 func m_test() -> void:
 	var m_current_position = m_animation.frame
@@ -75,6 +77,7 @@ func m_init_default_scales() -> void:
 	m_default_sprite_scale = m_sprite.scale
 	m_default_arrow_scale = m_arrow.scale
 	m_default_animation_scale = m_animation.scale
+	m_default_book_animation_scale = m_book_animation.scale
 	var m_sphere := m_ceiling_detector.shape as CircleShape2D
 	m_default_ceil_scale = m_sphere.radius
 
@@ -289,6 +292,7 @@ func m_get_scaled_attributes(scale_setting: ScaleSettings) -> ScaleSettings:
 
 	m_arrow.scale = m_default_arrow_scale * scale_setting.scale_multiplier
 	m_animation.scale = m_default_animation_scale * scale_setting.scale_multiplier
+	m_book_animation.scale = m_default_book_animation_scale * scale_setting.scale_multiplier
 
 	if scale_setting.override_collison:
 		m_result.collision_scale = scale_setting.collision_scale
@@ -318,9 +322,20 @@ func m_handle_movement(delta: float) -> void:
 	if dir:
 		m_sprite.flip_h = dir < 0
 		m_animation.flip_h = dir < 0
-		m_sprite.hide() #TODO: Animation Part
-		m_animation.show() #TODO: Animation Part
-		m_animation.play(str(m_current_size)+"_walk")
+		m_book_animation.flip_h = dir < 0
+		
+		#Animation Handler:
+		if m_current_size >= 0: #If Normal or Big size
+			m_sprite.hide()
+			m_animation.show()
+			m_animation.play(str(m_current_size)+"_walk")
+		elif is_on_floor(): #Small size
+			m_sprite.show()
+			m_small_animation.play("small_bounce")
+		else:
+			m_small_animation.stop()
+		
+		
 		if abs(dir * m_attributes.speed) > abs(velocity.x):
 			velocity.x = dir * m_attributes.speed
 		else:
@@ -330,18 +345,35 @@ func m_handle_movement(delta: float) -> void:
 		m_interact.switch_face(dir)
 		m_companion.switch_face(dir)
 	elif is_on_floor():
+		#Animation Handler P2
+		m_sprite.show()
+		m_animation.hide()
+		m_small_animation.stop()
+		
 		#LERP back to 0
-		m_sprite.show() #TODO: Animation Part
-		m_animation.hide() #TODO: Animation Part
-		velocity.x = lerp(velocity.x, 0.0, 0.25)
+		velocity.x = lerp(velocity.x, 0.0, 0.4)
 
 func m_handle_hover(_delta: float) -> void:
 	velocity = Vector2.ZERO
-	pass
+	var m_mouse_pos = get_global_mouse_position()
+	var m_arrow_direction = m_mouse_pos - position
+	var m_rotation = m_arrow_direction.angle()
+	if abs(m_rotation) > PI/2:
+		m_sprite.flip_h = true
+		m_animation.flip_h = true
+	else:
+		m_sprite.flip_h = false
+		m_animation.flip_h = false
 
 func m_handle_dash(_delta: float) -> void:
+	m_book_animation.rotation = m_cur_dash_direction.angle()
+	m_book_animation.play()
+	m_book_animation.position -= m_cur_dash_direction * 3 * m_current_scale.scale_multiplier
+	await get_tree().create_timer(0.4366).timeout
 	velocity = m_cur_dash_direction * m_attributes.dash_range_in_px
-	pass
+	await get_tree().create_timer(0.23).timeout
+	m_book_animation.rotation = 0
+	m_book_animation.position = Vector2.ZERO
 
 func m_handle_dash_aim(_delta) -> void:
 	if is_on_floor():
@@ -357,6 +389,8 @@ func m_handle_dash_aim(_delta) -> void:
 		m_cur_dash_hover_duration_in_seconds = m_attributes.aim_duration_in_seconds
 		m_cur_dash_count -= 1
 		m_arrow.show()
+		m_animation.stop()
+		m_small_animation.stop()
 
 	if m_cur_dash_hover_duration_in_seconds > 0 and Input.is_action_just_released("dash"):
 		var m_mouse_pos = get_global_mouse_position()
@@ -390,9 +424,6 @@ func _process(_delta: float) -> void:
 
 	var m_old_size = m_current_size
 	var m_ceil_test = m_ceiling_detector.is_colliding()
-	if m_ceil_test:
-		pass
-		#print(m_ceiling_detector.get_collider(0).name)
 	if Input.is_action_just_pressed("enlarge") and not m_ceil_test:
 		m_current_size += 1
 	elif Input.is_action_just_pressed("shrink"):
@@ -403,8 +434,11 @@ func _process(_delta: float) -> void:
 		m_apply_settings(m_current_size)
 
 	# Link up attacking and interactive to their respective systems
-	if Input.is_action_pressed("attack") and m_attributes.can_attack:
-		m_attack.attack_current_targets(m_attributes.attack_damage, m_attributes.attack_rate_in_seconds)
+	if Input.is_action_just_pressed("attack") and m_attributes.can_attack:
+		if m_book_animation.frame == 16:
+			m_book_animation.play("attack")
+			await get_tree().create_timer(0.43666).timeout
+			m_attack.attack_current_targets(m_attributes.attack_damage, m_attributes.attack_rate_in_seconds)
 	if m_pickup_manager.has_picked_up_something() and Input.is_action_just_pressed("interact"):
 		m_pickup_manager.release_picked_up_element()
 	elif Input.is_action_just_pressed("interact"):
