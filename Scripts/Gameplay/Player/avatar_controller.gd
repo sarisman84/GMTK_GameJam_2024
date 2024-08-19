@@ -124,6 +124,43 @@ func m_calculate_new_health_on_size_change(type: int):
 
 	return m_new_health
 
+func m_change_sprite_on_size_change(type: int) -> void:
+	m_sprite.texture = sprites[type + 1]
+	var shader_code = """
+	shader_type canvas_item;
+
+	uniform float flicker_amount : hint_range(0.0, 1.0) = 0.0;
+
+	void fragment() {
+		vec4 tex_color = texture(TEXTURE, UV);
+		COLOR = mix(tex_color, vec4(1.0, 1.0, 1.0, tex_color.a), flicker_amount);
+	}
+	"""
+	
+	var shader = Shader.new()
+	shader.code = shader_code
+	
+	var shader_material = ShaderMaterial.new()
+	shader_material.shader = shader
+	
+	m_sprite.material = shader_material
+	
+	var flicker_duration = 0.5  # Flicker duration in seconds
+	var flicker_rate = 0.05  # Flicker rate in seconds
+	var elapsed_time = 0.0
+
+	while elapsed_time < flicker_duration:
+		shader_material.set("shader_param/flicker_amount", 1.0)
+		await get_tree().create_timer(flicker_rate).timeout
+		shader_material.set("shader_param/flicker_amount", 0.0)
+		await get_tree().create_timer(flicker_rate).timeout
+		elapsed_time += flicker_rate * 2
+	
+	shader_material.set("shader_param/flicker_amount", 0.0) 
+	
+	
+
+
 func m_apply_settings(type: int) -> void:
 	# Default typing values
 	var m_normal := 0
@@ -134,7 +171,9 @@ func m_apply_settings(type: int) -> void:
 	m_health.set_current_health(m_new_health)
 
 	#Change sprite
-	m_sprite.texture = sprites[type + 1]
+	if m_attributes != null: ## prevent sprite change on init
+		m_change_sprite_on_size_change(type)
+
 
 	match type:
 		m_normal:
@@ -157,11 +196,19 @@ func m_apply_settings(type: int) -> void:
 
 	#Calculate each attribute to scale with the player (unless overriden)
 	m_attributes = m_get_scaled_attributes(m_current_scale)
-
+	
 	#Apply scaling to visual and functional elements
 	m_collider.scale = m_attributes.collision_scale
 	m_sprite.scale = m_attributes.sprite_scale
 	m_camera.zoom = m_attributes.camera_zoom
+	
+	var tween
+	if tween:
+		tween.kill()
+	tween = create_tween()
+	tween.tween_property(m_camera, "zoom", m_camera.zoom, 1)
+	tween.EASE_IN
+
 
 	var m_sphere = m_ceiling_detector.shape as CircleShape2D
 	m_sphere.radius = m_default_ceil_scale * m_current_scale.scale_multiplier
@@ -344,7 +391,8 @@ func _process(_delta: float) -> void:
 	var m_old_size = m_current_size
 	var m_ceil_test = m_ceiling_detector.is_colliding()
 	if m_ceil_test:
-		print(m_ceiling_detector.get_collider(0).name)
+		pass
+		#print(m_ceiling_detector.get_collider(0).name)
 	if Input.is_action_just_pressed("enlarge") and not m_ceil_test:
 		m_current_size += 1
 	elif Input.is_action_just_pressed("shrink"):
