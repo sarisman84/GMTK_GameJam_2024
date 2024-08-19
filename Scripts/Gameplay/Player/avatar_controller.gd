@@ -45,6 +45,7 @@ var m_cur_dash_direction: Vector2
 var m_cur_dash_hover_duration_in_seconds: float
 var m_cur_dash_count: int
 var m_current_size: int
+var m_current_max_health: int
 
 #Current Setting
 var m_current_scale: ScaleSettings
@@ -117,11 +118,8 @@ func m_calculate_new_health_on_size_change(type: int):
 	var m_large := 1
 
 	var m_current_health = m_health.m_current_health
-	var m_current_max_health = m_health.m_max_health
+	m_current_max_health = m_health.m_max_health
 	var m_new_max_health
-	
-	print("Cur",m_current_health)
-	print("Cur_Max",m_current_max_health)
 	
 	if type == m_small:
 		m_new_max_health = small_scale.max_health
@@ -130,11 +128,7 @@ func m_calculate_new_health_on_size_change(type: int):
 	else:
 		m_new_max_health = large_scale.max_health
 	
-	var ratio = float(m_current_health)/m_current_max_health
-	#print(ratio)
-	var m_new_health = ceil(m_new_max_health * ratio)
-	
-	#var m_new_health = clamp(floor((float(m_current_health) / m_current_max_health) * m_new_max_health), 1, m_new_max_health)
+	var m_new_health = clamp(floor((float(m_current_health) / m_current_max_health) * m_new_max_health), 1, m_new_max_health)
 	return m_new_health
 
 func m_change_sprite_on_size_change(type: int) -> void:
@@ -180,8 +174,6 @@ func m_apply_settings(type: int) -> void:
 	var m_normal := 0
 	var m_small := -1
 	var m_large := 1
-	print("Cur",m_health.m_current_health)
-	print("Max",m_health.m_max_health)
 	var m_new_health = await m_calculate_new_health_on_size_change(type)
 	m_health.set_current_health(m_new_health)
 
@@ -216,6 +208,7 @@ func m_apply_settings(type: int) -> void:
 	m_collider.scale = m_attributes.collision_scale
 	m_sprite.scale = m_attributes.sprite_scale
 	m_camera.zoom = m_attributes.camera_zoom
+	m_health.set_max_health(m_attributes.max_health)
 	
 	var tween
 	if tween:
@@ -241,8 +234,6 @@ func m_apply_settings(type: int) -> void:
 	#Update HUD
 	m_hud.update_max_health(m_attributes.max_health)
 	m_hud.update_current_health(m_new_health)
-	print(m_attributes.max_health)
-	print(m_new_health)
 
 func m_get_default_setting() -> ScaleSettings:
 	var m_normal := 0
