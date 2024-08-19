@@ -8,6 +8,8 @@ func _ready():
 	for icon in $Health.get_children():
 		icon.hide()
 		m_health_array.append(icon)
+	update_max_health(6)
+	update_current_health(6)
 
 func reset_visuals():
 	for node in m_health_array:

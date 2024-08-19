@@ -1,4 +1,4 @@
-[gd_scene load_steps=59 format=3 uid="uid://22o2pk2n1acn"]
+[gd_scene load_steps=60 format=3 uid="uid://22o2pk2n1acn"]
 
 [ext_resource type="Script" path="res://Scripts/Gameplay/Player/avatar_controller.gd" id="1_mu8og"]
 [ext_resource type="Resource" uid="uid://dbl73vcy081xt" path="res://Assets/Presets/Gameplay/Settings/st_normal_settings.tres" id="2_qrjke"]
@@ -48,6 +48,7 @@
 [ext_resource type="Texture2D" uid="uid://peo27nqsvgrg" path="res://Assets/Art/Textures/Player/Book_Attack/Book_Attack_0014.png" id="46_1k1oq"]
 [ext_resource type="Texture2D" uid="uid://b74crf1q5hwh0" path="res://Assets/Art/Textures/Player/Book_Attack/Book_Attack_0015.png" id="47_otvxm"]
 [ext_resource type="Texture2D" uid="uid://cl3xrqv2um1m8" path="res://Assets/Art/Textures/Player/Book_Attack/Book_Attack_0016.png" id="48_eobmp"]
+[ext_resource type="PackedScene" uid="uid://jm6jhaxg4ep8" path="res://Assets/Presets/UI/hud.tscn" id="49_lndtj"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_idbre"]
 size = Vector2(20, 35)
@@ -316,6 +317,8 @@ scale = Vector2(0.0238881, 0.0238881)
 sprite_frames = SubResource("SpriteFrames_r1fsc")
 animation = &"attack"
 frame = 16
+
+[node name="hud" parent="." instance=ExtResource("49_lndtj")]
 
 [connection signal="body_entered" from="interact" to="interact" method="_on_body_entered"]
 [connection signal="body_exited" from="interact" to="interact" method="_on_body_exited"]
