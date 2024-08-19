@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://22o2pk2n1acn"]
+[gd_scene load_steps=17 format=3 uid="uid://22o2pk2n1acn"]
 
 [ext_resource type="Script" path="res://Scripts/Gameplay/Player/avatar_controller.gd" id="1_mu8og"]
 [ext_resource type="Resource" uid="uid://dbl73vcy081xt" path="res://Assets/Presets/Gameplay/Settings/st_normal_settings.tres" id="2_qrjke"]
@@ -23,6 +23,8 @@ radius = 13.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_spgse"]
 size = Vector2(54, 52)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_1e1d1"]
 
 [node name="player_avatar" type="CharacterBody2D"]
 script = ExtResource("1_mu8og")
@@ -70,6 +72,10 @@ script = ExtResource("6_2d2kh")
 [node name="sprite" type="Sprite2D" parent="."]
 scale = Vector2(0.0744512, 0.0720436)
 texture = ExtResource("4_iv7co")
+
+[node name="ceiling_detector" type="ShapeCast2D" parent="."]
+shape = SubResource("CircleShape2D_1e1d1")
+target_position = Vector2(0, -17)
 
 [connection signal="body_entered" from="interact" to="interact" method="_on_body_entered"]
 [connection signal="body_exited" from="interact" to="interact" method="_on_body_exited"]

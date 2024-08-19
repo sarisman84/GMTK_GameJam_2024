@@ -18,6 +18,7 @@ enum Size {Normal = 0, Small = -1, Large = 1}
 @onready var m_attack: AttackNode = $attack
 @onready var m_interact: InteractNode = $interact
 @onready var m_pickup_manager: PickupManager = $pickup_manager
+@onready var m_ceiling_detector = $ceiling_detector
 
 #Signals
 signal on_size_change(size_id, new_scale)
@@ -25,6 +26,7 @@ signal on_size_change(size_id, new_scale)
 #Default Child Node Settings
 var m_default_col_scale: Vector2
 var m_default_sprite_scale: Vector2
+var m_default_ceil_scale: float
 
 #Temp Data
 var m_current_gravity: float
@@ -55,6 +57,8 @@ func add_dash_charge():
 func m_init_default_scales() -> void:
 	m_default_col_scale = m_collider.scale
 	m_default_sprite_scale = m_sprite.scale
+	var m_sphere := m_ceiling_detector.shape as CircleShape2D
+	m_default_ceil_scale = m_sphere.radius
 
 func m_init_health() -> void:
 	m_health.set_health_node_owner(self)
@@ -114,6 +118,15 @@ func m_apply_settings(type: int) -> void:
 	m_sprite.scale = m_attributes.sprite_scale
 	m_camera.zoom = m_attributes.camera_zoom
 
+	var m_sphere = m_ceiling_detector.shape as CircleShape2D
+	m_sphere.radius = m_default_ceil_scale * m_current_scale.scale_multiplier
+
+	var m_rect = m_collider.shape as RectangleShape2D
+
+	position.y -= (m_rect.size.y * m_collider.scale.y) / 2.0
+
+	var m_skin_width : float = 5.0
+	m_ceiling_detector.target_position.y = -(((m_rect.size.y * m_collider.scale.y) / 2.0) + m_skin_width)
 
 	#Emit scale change event
 	on_size_change.emit(type, m_current_scale.scale_multiplier)
@@ -265,8 +278,12 @@ func _process(_delta: float) -> void:
 	m_handle_dash_aim(_delta)
 
 	#Link up Scale Mechanic to input
+
 	var m_old_size = m_current_size
-	if Input.is_action_just_pressed("enlarge"):
+	var m_ceil_test = m_ceiling_detector.is_colliding()
+	if m_ceil_test:
+		print(m_ceiling_detector.get_collider(0).name)
+	if Input.is_action_just_pressed("enlarge") and not m_ceil_test:
 		m_current_size += 1
 	elif Input.is_action_just_pressed("shrink"):
 		m_current_size -= 1
