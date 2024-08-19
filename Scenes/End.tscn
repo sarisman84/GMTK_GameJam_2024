@@ -1,0 +1,84 @@
+[gd_scene load_steps=5 format=3 uid="uid://dw1lfyr2di0jm"]
+
+[ext_resource type="Script" path="res://Scenes/End.gd" id="1_ahtkg"]
+[ext_resource type="Texture2D" uid="uid://r4e2icauguqx" path="res://Assets/Art/Textures/UI/Menu/Background.png" id="2_pws67"]
+[ext_resource type="FontFile" uid="uid://bryhuxvkw0gg4" path="res://Assets/Fonts/KalniaGlaze-Regular.ttf" id="3_fju6w"]
+[ext_resource type="FontFile" uid="uid://5uhdlvm7xcf3" path="res://Assets/Fonts/NotoSans-Black.ttf" id="4_fg4kp"]
+
+[node name="End" type="CanvasLayer"]
+script = ExtResource("1_ahtkg")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+anchors_preset = -1
+anchor_top = 0.137
+anchor_right = 0.826
+anchor_bottom = 1.0
+offset_left = -384.0
+offset_top = -304.776
+offset_right = 584.448
+offset_bottom = 216.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_pws67")
+
+[node name="Label" type="Label" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -107.0
+offset_top = -131.0
+offset_right = 111.0
+offset_bottom = -109.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+theme_override_colors/font_shadow_color = Color(1, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("3_fju6w")
+theme_override_font_sizes/font_size = 79
+text = "YOU HAVE ESCAPED HELL"
+
+[node name="Restart" type="Button" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -246.0
+offset_top = -47.0
+offset_right = 256.0
+offset_bottom = 40.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+theme_override_fonts/font = ExtResource("4_fg4kp")
+theme_override_font_sizes/font_size = 50
+text = "Restart"
+
+[node name="Quit to Menu" type="Button" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -249.0
+offset_top = 102.0
+offset_right = 253.0
+offset_bottom = 189.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_disabled_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("4_fg4kp")
+theme_override_font_sizes/font_size = 50
+text = "Quit to Menu"
+
+[connection signal="pressed" from="Restart" to="." method="_on_restart_pressed"]
+[connection signal="pressed" from="Quit to Menu" to="." method="_on_quit_to_menu_pressed"]
