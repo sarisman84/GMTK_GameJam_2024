@@ -25,6 +25,7 @@ enum Size {Normal = 0, Small = -1, Large = 1}
 @onready var m_animation : AnimatedSprite2D = $animation
 @onready var m_small_animation : AnimationPlayer = $small_animation
 @onready var m_book_animation : AnimatedSprite2D = $book_animation
+@onready var m_hud : CanvasLayer = $hud
 
 #Signals
 signal on_size_change(size_id, new_scale)
@@ -62,6 +63,8 @@ func _ready() -> void:
 	m_init_health()
 
 	m_pickup_manager.init_manager(self)
+	m_hud.update_max_health(m_attributes.max_health)
+	m_hud.update_current_health(m_calculate_new_health_on_size_change(m_current_size))
 
 func m_test() -> void:
 	var m_current_position = m_animation.frame
@@ -88,7 +91,8 @@ func m_init_health() -> void:
 	m_health.on_damage_taken.connect(m_hud_update)
 
 func m_hud_update() -> void:
-	pass
+	m_hud.hud_take_damage()
+
 func m_on_player_death() -> void:
 	var coords = get_node("/root/Global").latest_checkpoint[1]
 	position = coords
@@ -115,16 +119,22 @@ func m_calculate_new_health_on_size_change(type: int):
 	var m_current_health = m_health.m_current_health
 	var m_current_max_health = m_health.m_max_health
 	var m_new_max_health
-
+	
+	print("Cur",m_current_health)
+	print("Cur_Max",m_current_max_health)
+	
 	if type == m_small:
 		m_new_max_health = small_scale.max_health
 	elif type == m_normal:
 		m_new_max_health = normal_scale.max_health
 	else:
 		m_new_max_health = large_scale.max_health
-
-	var m_new_health = clamp(floor((float(m_current_health) / m_current_max_health) * m_new_max_health), 1, m_new_max_health)
-
+	
+	var ratio = float(m_current_health)/m_current_max_health
+	#print(ratio)
+	var m_new_health = ceil(m_new_max_health * ratio)
+	
+	#var m_new_health = clamp(floor((float(m_current_health) / m_current_max_health) * m_new_max_health), 1, m_new_max_health)
 	return m_new_health
 
 func m_change_sprite_on_size_change(type: int) -> void:
@@ -165,6 +175,7 @@ func m_change_sprite_on_size_change(type: int) -> void:
 
 
 func m_apply_settings(type: int) -> void:
+	
 	# Default typing values
 	var m_normal := 0
 	var m_small := -1
@@ -225,6 +236,12 @@ func m_apply_settings(type: int) -> void:
 
 	#Emit scale change event
 	on_size_change.emit(type, m_current_scale.scale_multiplier)
+	
+	#Update HUD
+	m_hud.update_max_health(m_attributes.max_health)
+	m_hud.update_current_health(m_new_health)
+	print(m_attributes.max_health)
+	print(m_new_health)
 
 func m_get_default_setting() -> ScaleSettings:
 	var m_normal := 0
@@ -365,8 +382,11 @@ func m_handle_hover(_delta: float) -> void:
 		m_sprite.flip_h = false
 		m_animation.flip_h = false
 
+var nummm = 1
 func m_handle_dash(_delta: float) -> void:
+	nummm += 1
 	m_book_animation.rotation = m_cur_dash_direction.angle()
+	m_book_animation.flip_h = false
 	m_book_animation.play()
 	m_book_animation.position -= m_cur_dash_direction * 3 * m_current_scale.scale_multiplier
 	await get_tree().create_timer(0.4366).timeout
