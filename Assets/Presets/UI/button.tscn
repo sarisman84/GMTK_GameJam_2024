@@ -1,0 +1,43 @@
+[gd_scene load_steps=10 format=3 uid="uid://borywtlrontyg"]
+
+[ext_resource type="Texture2D" uid="uid://iaqioq1opnio" path="res://Assets/Art/Textures/UI/Menu/Button_Default.png" id="1_m07rb"]
+[ext_resource type="Texture2D" uid="uid://cphmtv6v8p5pn" path="res://Assets/Art/Textures/UI/Menu/Button_Selected.png" id="1_qa5rm"]
+[ext_resource type="Script" path="res://Scripts/HUD/button.gd" id="3_hmlp0"]
+[ext_resource type="AudioStream" uid="uid://dkm5he3duifrb" path="res://Assets/SFX/sf_buttonHover.mp3" id="4_xx2sk"]
+[ext_resource type="AudioStream" uid="uid://cmblnepopwb40" path="res://Assets/SFX/sf_buttonClick.mp3" id="5_nyew1"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_oo5ka"]
+texture = ExtResource("1_m07rb")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_v08ee"]
+texture = ExtResource("1_qa5rm")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_tgn7j"]
+texture = ExtResource("1_qa5rm")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_vncfi"]
+texture = ExtResource("1_qa5rm")
+
+[node name="Button" type="Button"]
+offset_left = 440.0
+offset_top = 268.0
+offset_right = 680.0
+offset_bottom = 318.0
+theme_override_styles/normal = SubResource("StyleBoxTexture_oo5ka")
+theme_override_styles/hover = SubResource("StyleBoxTexture_v08ee")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_tgn7j")
+theme_override_styles/focus = SubResource("StyleBoxTexture_vncfi")
+script = ExtResource("3_hmlp0")
+
+[node name="HoverSFX" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_xx2sk")
+bus = &"SFX"
+
+[node name="ClickSFX" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_nyew1")
+volume_db = -10.0
+pitch_scale = 0.26
+bus = &"SFX"
+
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="pressed" from="." to="." method="_on_pressed"]
