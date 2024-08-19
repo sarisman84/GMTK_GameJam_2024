@@ -1,6 +1,7 @@
 [gd_scene load_steps=19 format=3 uid="uid://00jw4ax5ahmi"]
 
 [ext_resource type="PackedScene" uid="uid://22o2pk2n1acn" path="res://Assets/Presets/Gameplay/p_player_avatar.tscn" id="1_7my5f"]
+[ext_resource type="Script" path="res://Scripts/Gameplay/ls_onboarding_section.gd" id="1_8isfo"]
 [ext_resource type="PackedScene" uid="uid://b54xxl7212wqv" path="res://Assets/Presets/Level Assets/Onboarding/Elements/pickupable_element.tscn" id="2_jgvli"]
 [ext_resource type="TileSet" uid="uid://k2svldbajy33" path="res://Assets/Presets/Level Assets/Onboarding/Tilesets/dungeon_tile_set.tres" id="3_nmrh0"]
 [ext_resource type="PackedScene" uid="uid://blxf78dkqm0cl" path="res://Assets/Presets/Level Assets/Onboarding/ShrunkSections/shrunk_dash_puzzle.tscn" id="4_ibmyu"]

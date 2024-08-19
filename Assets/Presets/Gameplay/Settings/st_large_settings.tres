@@ -5,7 +5,7 @@
 [resource]
 script = ExtResource("1_72c2i")
 scale_multiplier = 6.0
-override_attack = false
+override_attack = true
 can_attack = false
 attack_damage = 0.0
 attack_rate_in_seconds = 0.25

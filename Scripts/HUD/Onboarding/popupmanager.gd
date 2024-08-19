@@ -88,7 +88,7 @@ func m_parse_text(text: String) -> String:
 			var m_str = word.replace("/n", "")
 			m_result += '\n' + m_str
 		else:
-			print("cound't find anything in the word: ", word, ". Results: <keybind_search_result: ", m_keybind_search_result,">, <new_line_search_result: ", m_new_line_search_result, ">")
+			#print("cound't find anything in the word: ", word, ". Results: <keybind_search_result: ", m_keybind_search_result,">, <new_line_search_result: ", m_new_line_search_result, ">")
 			m_result += word + " "
 	if center_text:
 		m_result += "[/center]"

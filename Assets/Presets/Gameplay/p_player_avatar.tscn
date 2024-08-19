@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=3 uid="uid://22o2pk2n1acn"]
+[gd_scene load_steps=60 format=3 uid="uid://22o2pk2n1acn"]
 
 [ext_resource type="Script" path="res://Scripts/Gameplay/Player/avatar_controller.gd" id="1_mu8og"]
 [ext_resource type="Resource" uid="uid://dbl73vcy081xt" path="res://Assets/Presets/Gameplay/Settings/st_normal_settings.tres" id="2_qrjke"]
@@ -11,10 +11,10 @@
 [ext_resource type="Script" path="res://Scripts/Gameplay/Player/interact_node.gd" id="5_qrnek"]
 [ext_resource type="Script" path="res://Scripts/Gameplay/Player/pickupmanager.gd" id="6_2d2kh"]
 [ext_resource type="Script" path="res://Scripts/Gameplay/Player/health_regen_bar.gd" id="7_yxp3d"]
+[ext_resource type="Script" path="res://Assets/Presets/Gameplay/book_anchor.gd" id="8_1wf1a"]
 [ext_resource type="Texture2D" uid="uid://bd8jnffsvp4fp" path="res://Assets/Art/Textures/Player/large_sprite.png" id="8_74o4t"]
 [ext_resource type="Script" path="res://Scripts/Gameplay/Player/sfx_manager.gd" id="11_dgpgr"]
 [ext_resource type="Texture2D" uid="uid://dp05cpsg0fkci" path="res://Assets/Art/Textures/Player/Arrow.png" id="12_4q0xt"]
-[ext_resource type="PackedScene" uid="uid://4x0jtfwvvyxy" path="res://Assets/Presets/Gameplay/p_companion.tscn" id="13_vtqvc"]
 [ext_resource type="Texture2D" uid="uid://djangaqk8asob" path="res://Assets/Art/Textures/Player/Imp_Regular_Run_Cycle_0015/Imp_Regular_Run_Cycle_0000.png" id="14_v1wc3"]
 [ext_resource type="Texture2D" uid="uid://clfl6huu7of0q" path="res://Assets/Art/Textures/Player/Imp_Regular_Run_Cycle_0015/Imp_Regular_Run_Cycle_0001.png" id="15_5cdkt"]
 [ext_resource type="Texture2D" uid="uid://g6obqlol2oww" path="res://Assets/Art/Textures/Player/Imp_Regular_Run_Cycle_0015/Imp_Regular_Run_Cycle_0002.png" id="16_bpdtd"]
@@ -31,6 +31,24 @@
 [ext_resource type="Texture2D" uid="uid://digdym0e3lsff" path="res://Assets/Art/Textures/Player/Imp_Regular_Run_Cycle_0015/Imp_Regular_Run_Cycle_0013.png" id="27_ttonx"]
 [ext_resource type="Texture2D" uid="uid://cm4p00pv8hirr" path="res://Assets/Art/Textures/Player/Imp_Regular_Run_Cycle_0015/Imp_Regular_Run_Cycle_0014.png" id="28_a3mik"]
 [ext_resource type="Texture2D" uid="uid://bruo82obklwvt" path="res://Assets/Art/Textures/Player/Imp_Regular_Run_Cycle_0015/Imp_Regular_Run_Cycle_0015.png" id="29_gnphl"]
+[ext_resource type="Texture2D" uid="uid://c04ya54w45aqs" path="res://Assets/Art/Textures/Player/Book_Attack/Book_Attack_0000.png" id="32_exwoi"]
+[ext_resource type="Texture2D" uid="uid://cmkvikkspka7l" path="res://Assets/Art/Textures/Player/Book_Attack/Book_Attack_0001.png" id="33_6g8nf"]
+[ext_resource type="Texture2D" uid="uid://da6l76rmguvi3" path="res://Assets/Art/Textures/Player/Book_Attack/Book_Attack_0002.png" id="34_2nspm"]
+[ext_resource type="Texture2D" uid="uid://brsf36ynvc5ni" path="res://Assets/Art/Textures/Player/Book_Attack/Book_Attack_0003.png" id="35_5frfv"]
+[ext_resource type="Texture2D" uid="uid://bqwko6mb471r0" path="res://Assets/Art/Textures/Player/Book_Attack/Book_Attack_0004.png" id="36_chxar"]
+[ext_resource type="Texture2D" uid="uid://udlkihfx2nrd" path="res://Assets/Art/Textures/Player/Book_Attack/Book_Attack_0005.png" id="37_10cfw"]
+[ext_resource type="Texture2D" uid="uid://b1vf5u1m3j1ou" path="res://Assets/Art/Textures/Player/Book_Attack/Book_Attack_0006.png" id="38_vv6al"]
+[ext_resource type="Texture2D" uid="uid://644t4qt1r85" path="res://Assets/Art/Textures/Player/Book_Attack/Book_Attack_0007.png" id="39_b574w"]
+[ext_resource type="Texture2D" uid="uid://c45jqiiblxuu1" path="res://Assets/Art/Textures/Player/Book_Attack/Book_Attack_0008.png" id="40_wh1e4"]
+[ext_resource type="Texture2D" uid="uid://3qxqshydnvt5" path="res://Assets/Art/Textures/Player/Book_Attack/Book_Attack_0009.png" id="41_8bkuj"]
+[ext_resource type="Texture2D" uid="uid://bcf17kym3tvm7" path="res://Assets/Art/Textures/Player/Book_Attack/Book_Attack_0010.png" id="42_sdle8"]
+[ext_resource type="Texture2D" uid="uid://cnlri3ylgy8ka" path="res://Assets/Art/Textures/Player/Book_Attack/Book_Attack_0011.png" id="43_pcjkw"]
+[ext_resource type="Texture2D" uid="uid://dq2kp2fecfejo" path="res://Assets/Art/Textures/Player/Book_Attack/Book_Attack_0012.png" id="44_rsx73"]
+[ext_resource type="Texture2D" uid="uid://ckptsiw3eg84d" path="res://Assets/Art/Textures/Player/Book_Attack/Book_Attack_0013.png" id="45_7xpkd"]
+[ext_resource type="Texture2D" uid="uid://peo27nqsvgrg" path="res://Assets/Art/Textures/Player/Book_Attack/Book_Attack_0014.png" id="46_1k1oq"]
+[ext_resource type="Texture2D" uid="uid://b74crf1q5hwh0" path="res://Assets/Art/Textures/Player/Book_Attack/Book_Attack_0015.png" id="47_otvxm"]
+[ext_resource type="Texture2D" uid="uid://cl3xrqv2um1m8" path="res://Assets/Art/Textures/Player/Book_Attack/Book_Attack_0016.png" id="48_eobmp"]
+[ext_resource type="PackedScene" uid="uid://jm6jhaxg4ep8" path="res://Assets/Presets/UI/hud.tscn" id="49_lndtj"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_idbre"]
 size = Vector2(20, 35)
@@ -118,6 +136,103 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="Animation" id="Animation_mog8q"]
+resource_name = "small_bounce"
+length = 0.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("sprite:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4),
+"transitions": PackedFloat32Array(0.466517, 3.13834, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, -1.1), Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_wl6rw"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("sprite:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_jjj6h"]
+_data = {
+"RESET": SubResource("Animation_wl6rw"),
+"small_bounce": SubResource("Animation_mog8q")
+}
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_r1fsc"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("32_exwoi")
+}, {
+"duration": 1.0,
+"texture": ExtResource("33_6g8nf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("34_2nspm")
+}, {
+"duration": 1.0,
+"texture": ExtResource("35_5frfv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("36_chxar")
+}, {
+"duration": 1.0,
+"texture": ExtResource("37_10cfw")
+}, {
+"duration": 1.0,
+"texture": ExtResource("38_vv6al")
+}, {
+"duration": 1.0,
+"texture": ExtResource("39_b574w")
+}, {
+"duration": 1.0,
+"texture": ExtResource("40_wh1e4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("41_8bkuj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("42_sdle8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("43_pcjkw")
+}, {
+"duration": 1.0,
+"texture": ExtResource("44_rsx73")
+}, {
+"duration": 1.0,
+"texture": ExtResource("45_7xpkd")
+}, {
+"duration": 1.0,
+"texture": ExtResource("46_1k1oq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("47_otvxm")
+}, {
+"duration": 1.0,
+"texture": ExtResource("48_eobmp")
+}],
+"loop": false,
+"name": &"attack",
+"speed": 24.0
+}]
+
 [node name="player_avatar" type="CharacterBody2D"]
 script = ExtResource("1_mu8og")
 normal_scale = ExtResource("2_qrjke")
@@ -127,6 +242,10 @@ sprites = Array[Texture2D]([ExtResource("3_030oj"), ExtResource("4_iv7co"), ExtR
 
 [node name="shape" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_idbre")
+
+[node name="book_anchor" type="Node2D" parent="shape"]
+position = Vector2(-20, -14)
+script = ExtResource("8_1wf1a")
 
 [node name="camera" type="Camera2D" parent="."]
 zoom = Vector2(5, 5)
@@ -176,9 +295,8 @@ texture = ExtResource("4_iv7co")
 shape = SubResource("CircleShape2D_1e1d1")
 target_position = Vector2(0, -18)
 
-[node name="companion" parent="." instance=ExtResource("13_vtqvc")]
-
 [node name="animation" type="AnimatedSprite2D" parent="."]
+visible = false
 scale = Vector2(0.0324189, 0.0324324)
 sprite_frames = SubResource("SpriteFrames_vmk4l")
 animation = &"0_walk"
@@ -187,6 +305,21 @@ animation = &"0_walk"
 script = ExtResource("11_dgpgr")
 
 [node name="walking_stream_player" type="AudioStreamPlayer" parent="sfx_manager"]
+bus = &"SFX"
+
+[node name="small_animation" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_jjj6h")
+}
+
+[node name="book_animation" type="AnimatedSprite2D" parent="."]
+position = Vector2(3.8147e-06, 1.52588e-05)
+scale = Vector2(0.0238881, 0.0238881)
+sprite_frames = SubResource("SpriteFrames_r1fsc")
+animation = &"attack"
+frame = 16
+
+[node name="hud" parent="." instance=ExtResource("49_lndtj")]
 
 [connection signal="body_entered" from="interact" to="interact" method="_on_body_entered"]
 [connection signal="body_exited" from="interact" to="interact" method="_on_body_exited"]

@@ -1,57 +1,73 @@
-[gd_scene load_steps=3 format=3 uid="uid://4x0jtfwvvyxy"]
+[gd_scene load_steps=19 format=3 uid="uid://4x0jtfwvvyxy"]
 
 [ext_resource type="Script" path="res://Scripts/Gameplay/Player/companion_follow.gd" id="1_cy1n3"]
+[ext_resource type="Texture2D" uid="uid://bbr1nntfyu2uw" path="res://Assets/Art/Textures/Player/Book_Idle/Book_Idle_0000.png" id="2_1dhu8"]
+[ext_resource type="Texture2D" uid="uid://0510jiuuucbn" path="res://Assets/Art/Textures/Player/Book_Idle/Book_Idle_0001.png" id="3_orcx3"]
+[ext_resource type="Texture2D" uid="uid://cjwlunps1e18k" path="res://Assets/Art/Textures/Player/Book_Idle/Book_Idle_0002.png" id="4_d6rrx"]
+[ext_resource type="Texture2D" uid="uid://di13cnhgkywwb" path="res://Assets/Art/Textures/Player/Book_Idle/Book_Idle_0003.png" id="5_xtul3"]
+[ext_resource type="Texture2D" uid="uid://ciwt5bniutyy8" path="res://Assets/Art/Textures/Player/Book_Idle/Book_Idle_0004.png" id="6_l6pmt"]
+[ext_resource type="Texture2D" uid="uid://duldsc2gdnfal" path="res://Assets/Art/Textures/Player/Book_Idle/Book_Idle_0005.png" id="7_cncs3"]
+[ext_resource type="Texture2D" uid="uid://diqmvewnkmmvl" path="res://Assets/Art/Textures/Player/Book_Idle/Book_Idle_0006.png" id="8_vkwkb"]
+[ext_resource type="Texture2D" uid="uid://cc5tmfi6vmexg" path="res://Assets/Art/Textures/Player/Book_Idle/Book_Idle_0007.png" id="9_7o8jp"]
+[ext_resource type="Texture2D" uid="uid://cmpy1f8r7585e" path="res://Assets/Art/Textures/Player/Book_Idle/Book_Idle_0008.png" id="10_gah0b"]
+[ext_resource type="Texture2D" uid="uid://cy1swnnlek0xe" path="res://Assets/Art/Textures/Player/Book_Idle/Book_Idle_0009.png" id="11_ne55x"]
+[ext_resource type="Texture2D" uid="uid://bxj14op1ryo2a" path="res://Assets/Art/Textures/Player/Book_Idle/Book_Idle_0010.png" id="12_4wgea"]
+[ext_resource type="Texture2D" uid="uid://dgr1y5plgpu0r" path="res://Assets/Art/Textures/Player/Book_Idle/Book_Idle_0011.png" id="13_vrt2a"]
+[ext_resource type="Texture2D" uid="uid://8am00i1k0pnc" path="res://Assets/Art/Textures/Player/Book_Idle/Book_Idle_0012.png" id="14_o1pcb"]
+[ext_resource type="Texture2D" uid="uid://6xvj5r0f4rbu" path="res://Assets/Art/Textures/Player/Book_Idle/Book_Idle_0013.png" id="15_plhxj"]
+[ext_resource type="Texture2D" uid="uid://nivw0tvinajv" path="res://Assets/Art/Textures/Player/Book_Idle/Book_Idle_0014.png" id="16_kswqt"]
+[ext_resource type="Texture2D" uid="uid://c1b26fropql8b" path="res://Assets/Art/Textures/Player/Book_Idle/Book_Idle_0015.png" id="17_uspgk"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_8i41b"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": null
+"texture": ExtResource("2_1dhu8")
 }, {
 "duration": 1.0,
-"texture": null
+"texture": ExtResource("3_orcx3")
 }, {
 "duration": 1.0,
-"texture": null
+"texture": ExtResource("4_d6rrx")
 }, {
 "duration": 1.0,
-"texture": null
+"texture": ExtResource("5_xtul3")
 }, {
 "duration": 1.0,
-"texture": null
+"texture": ExtResource("6_l6pmt")
 }, {
 "duration": 1.0,
-"texture": null
+"texture": ExtResource("7_cncs3")
 }, {
 "duration": 1.0,
-"texture": null
+"texture": ExtResource("8_vkwkb")
 }, {
 "duration": 1.0,
-"texture": null
+"texture": ExtResource("9_7o8jp")
 }, {
 "duration": 1.0,
-"texture": null
+"texture": ExtResource("10_gah0b")
 }, {
 "duration": 1.0,
-"texture": null
+"texture": ExtResource("11_ne55x")
 }, {
 "duration": 1.0,
-"texture": null
+"texture": ExtResource("12_4wgea")
 }, {
 "duration": 1.0,
-"texture": null
+"texture": ExtResource("13_vrt2a")
 }, {
 "duration": 1.0,
-"texture": null
+"texture": ExtResource("14_o1pcb")
 }, {
 "duration": 1.0,
-"texture": null
+"texture": ExtResource("15_plhxj")
 }, {
 "duration": 1.0,
-"texture": null
+"texture": ExtResource("16_kswqt")
 }, {
 "duration": 1.0,
-"texture": null
+"texture": ExtResource("17_uspgk")
 }],
 "loop": true,
 "name": &"default",
@@ -63,9 +79,7 @@ position = Vector2(-24, 0)
 script = ExtResource("1_cy1n3")
 smoothing = 0.5
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(0, -18)
+[node name="sprite" type="AnimatedSprite2D" parent="."]
 scale = Vector2(0.0227273, 0.0227273)
 sprite_frames = SubResource("SpriteFrames_8i41b")
-frame = 9
 frame_progress = 0.69683

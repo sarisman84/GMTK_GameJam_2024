@@ -8,7 +8,6 @@ func _ready():
 var use_first_list = true
 
 func m_get_sound_list(size):
-	var sound_list
 
 	var small_walk_sounds_1 = [
 		preload("res://Assets/SFX/walking/sf_small_footstep1_1.mp3"),

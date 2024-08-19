@@ -28,4 +28,4 @@ sprite_scale = Vector2(0.15, 0.15)
 override_collison = false
 collision_scale = Vector2(-0.15, -0.075)
 override_health = true
-max_health = 3
+max_health = 4

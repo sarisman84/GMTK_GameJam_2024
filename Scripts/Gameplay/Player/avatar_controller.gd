@@ -21,11 +21,16 @@ enum Size {Normal = 0, Small = -1, Large = 1}
 @onready var m_sfx_manager: SFXManager = $sfx_manager
 @onready var m_ceiling_detector = $ceiling_detector
 @onready var m_arrow = $arrow
-@onready var m_companion = $companion
+#@onready var m_companion = $companion
 @onready var m_animation : AnimatedSprite2D = $animation
+@onready var m_small_animation : AnimationPlayer = $small_animation
+@onready var m_book_animation : AnimatedSprite2D = $book_animation
+@onready var m_hud : CanvasLayer = $hud
+@onready var m_book_anchor : Node2D = $shape/book_anchor
 
 #Signals
 signal on_size_change(size_id, new_scale)
+signal book_animation
 
 #Default Child Node Settings
 var m_default_col_scale: Vector2
@@ -33,6 +38,7 @@ var m_default_sprite_scale: Vector2
 var m_default_arrow_scale: Vector2
 var m_default_ceil_scale: float
 var m_default_animation_scale: Vector2
+var m_default_book_animation_scale: Vector2
 
 #Temp Data
 var m_current_gravity: float
@@ -41,6 +47,7 @@ var m_cur_dash_direction: Vector2
 var m_cur_dash_hover_duration_in_seconds: float
 var m_cur_dash_count: int
 var m_current_size: int
+var m_current_max_health: int
 
 #Current Setting
 var m_current_scale: ScaleSettings
@@ -49,7 +56,7 @@ var m_next_scale : ScaleSettings
 
 
 func _ready() -> void:
-	m_animation.sprite_frames_changed.connect(m_test)
+	m_animation.frame_changed.connect(m_test)
 
 	m_arrow.hide()
 	Popups.assign_new_owner(self)
@@ -59,13 +66,14 @@ func _ready() -> void:
 	m_init_health()
 
 	m_pickup_manager.init_manager(self)
-	m_animation.play()
+	m_hud.update_max_health(m_attributes.max_health)
+	m_hud.update_current_health(m_calculate_new_health_on_size_change(m_current_size))
 
 func m_test() -> void:
-	match m_animation.frame:
-		4,12:
-			if is_on_floor():
-				m_sfx_manager.play_footstep_sound(m_current_size)
+	var m_current_position = m_animation.frame
+	if m_current_position in [4,7,13] and m_animation.visible:
+		if is_on_floor():
+			m_sfx_manager.play_footstep_sound(m_current_size)
 
 func add_dash_charge():
 	m_cur_dash_count += 1
@@ -75,6 +83,7 @@ func m_init_default_scales() -> void:
 	m_default_sprite_scale = m_sprite.scale
 	m_default_arrow_scale = m_arrow.scale
 	m_default_animation_scale = m_animation.scale
+	m_default_book_animation_scale = m_book_animation.scale
 	var m_sphere := m_ceiling_detector.shape as CircleShape2D
 	m_default_ceil_scale = m_sphere.radius
 
@@ -85,7 +94,8 @@ func m_init_health() -> void:
 	m_health.on_damage_taken.connect(m_hud_update)
 
 func m_hud_update() -> void:
-	pass
+	m_hud.hud_take_damage()
+
 func m_on_player_death() -> void:
 	var coords = get_node("/root/Global").latest_checkpoint[1]
 	position = coords
@@ -110,31 +120,69 @@ func m_calculate_new_health_on_size_change(type: int):
 	var m_large := 1
 
 	var m_current_health = m_health.m_current_health
-	var m_current_max_health = m_health.m_max_health
+	m_current_max_health = m_health.m_max_health
 	var m_new_max_health
-
+	
 	if type == m_small:
 		m_new_max_health = small_scale.max_health
 	elif type == m_normal:
 		m_new_max_health = normal_scale.max_health
 	else:
 		m_new_max_health = large_scale.max_health
-
+	
 	var m_new_health = clamp(floor((float(m_current_health) / m_current_max_health) * m_new_max_health), 1, m_new_max_health)
-
 	return m_new_health
 
+func m_change_sprite_on_size_change(type: int) -> void:
+	m_sprite.texture = sprites[type + 1]
+	var shader_code = """
+	shader_type canvas_item;
+
+	uniform float flicker_amount : hint_range(0.0, 1.0) = 0.0;
+
+	void fragment() {
+		vec4 tex_color = texture(TEXTURE, UV);
+		COLOR = mix(tex_color, vec4(1.0, 1.0, 1.0, tex_color.a), flicker_amount);
+	}
+	"""
+	
+	var shader = Shader.new()
+	shader.code = shader_code
+	
+	var shader_material = ShaderMaterial.new()
+	shader_material.shader = shader
+	
+	m_sprite.material = shader_material
+	
+	var flicker_duration = 0.5  # Flicker duration in seconds
+	var flicker_rate = 0.05  # Flicker rate in seconds
+	var elapsed_time = 0.0
+
+	while elapsed_time < flicker_duration:
+		shader_material.set("shader_param/flicker_amount", 1.0)
+		await get_tree().create_timer(flicker_rate).timeout
+		shader_material.set("shader_param/flicker_amount", 0.0)
+		await get_tree().create_timer(flicker_rate).timeout
+		elapsed_time += flicker_rate * 2
+	
+	shader_material.set("shader_param/flicker_amount", 0.0) 
+	
+	
+
+
 func m_apply_settings(type: int) -> void:
+	
 	# Default typing values
 	var m_normal := 0
 	var m_small := -1
 	var m_large := 1
-
 	var m_new_health = await m_calculate_new_health_on_size_change(type)
 	m_health.set_current_health(m_new_health)
 
 	#Change sprite
-	m_sprite.texture = sprites[type + 1]
+	if m_attributes != null: ## prevent sprite change on init
+		m_change_sprite_on_size_change(type)
+
 
 	match type:
 		m_normal:
@@ -157,11 +205,20 @@ func m_apply_settings(type: int) -> void:
 
 	#Calculate each attribute to scale with the player (unless overriden)
 	m_attributes = m_get_scaled_attributes(m_current_scale)
-
+	
 	#Apply scaling to visual and functional elements
 	m_collider.scale = m_attributes.collision_scale
 	m_sprite.scale = m_attributes.sprite_scale
 	m_camera.zoom = m_attributes.camera_zoom
+	m_health.set_max_health(m_attributes.max_health)
+	
+	var tween
+	if tween:
+		tween.kill()
+	tween = create_tween()
+	tween.tween_property(m_camera, "zoom", m_camera.zoom, 1)
+	tween.EASE_IN
+
 
 	var m_sphere = m_ceiling_detector.shape as CircleShape2D
 	m_sphere.radius = m_default_ceil_scale * m_current_scale.scale_multiplier
@@ -175,6 +232,10 @@ func m_apply_settings(type: int) -> void:
 
 	#Emit scale change event
 	on_size_change.emit(type, m_current_scale.scale_multiplier)
+	
+	#Update HUD
+	m_hud.update_max_health(m_attributes.max_health)
+	m_hud.update_current_health(m_new_health)
 
 func m_get_default_setting() -> ScaleSettings:
 	var m_normal := 0
@@ -242,6 +303,7 @@ func m_get_scaled_attributes(scale_setting: ScaleSettings) -> ScaleSettings:
 
 	m_arrow.scale = m_default_arrow_scale * scale_setting.scale_multiplier
 	m_animation.scale = m_default_animation_scale * scale_setting.scale_multiplier
+	m_book_animation.scale = m_default_book_animation_scale * scale_setting.scale_multiplier
 
 	if scale_setting.override_collison:
 		m_result.collision_scale = scale_setting.collision_scale
@@ -271,9 +333,20 @@ func m_handle_movement(delta: float) -> void:
 	if dir:
 		m_sprite.flip_h = dir < 0
 		m_animation.flip_h = dir < 0
-		m_sprite.hide() #TODO: Animation Part
-		m_animation.show() #TODO: Animation Part
-		m_animation.play(str(m_current_size)+"_walk")
+		m_book_animation.flip_h = dir < 0
+		
+		#Animation Handler:
+		if m_current_size >= 0: #If Normal or Big size
+			m_sprite.hide()
+			m_animation.show()
+			m_animation.play(str(m_current_size)+"_walk")
+		elif is_on_floor(): #Small size
+			m_sprite.show()
+			m_small_animation.play("small_bounce")
+		else:
+			m_small_animation.stop()
+		
+		
 		if abs(dir * m_attributes.speed) > abs(velocity.x):
 			velocity.x = dir * m_attributes.speed
 		else:
@@ -281,20 +354,39 @@ func m_handle_movement(delta: float) -> void:
 		# Switch Attack and Interact Face Direction
 		m_attack.switch_face(dir)
 		m_interact.switch_face(dir)
-		m_companion.switch_face(dir)
+		m_book_anchor.switch_face(dir)
 	elif is_on_floor():
+		#Animation Handler P2
+		m_sprite.show()
+		m_animation.hide()
+		m_small_animation.stop()
+		
 		#LERP back to 0
-		m_sprite.show() #TODO: Animation Part
-		m_animation.hide() #TODO: Animation Part
-		velocity.x = lerp(velocity.x, 0.0, 0.25)
+		velocity.x = lerp(velocity.x, 0.0, 0.4)
 
 func m_handle_hover(_delta: float) -> void:
 	velocity = Vector2.ZERO
-	pass
+	var m_mouse_pos = get_global_mouse_position()
+	var m_arrow_direction = m_mouse_pos - position
+	var m_rotation = m_arrow_direction.angle()
+	if abs(m_rotation) > PI/2:
+		m_sprite.flip_h = true
+		m_animation.flip_h = true
+	else:
+		m_sprite.flip_h = false
+		m_animation.flip_h = false
 
 func m_handle_dash(_delta: float) -> void:
+	book_animation.emit()
+	m_book_animation.rotation = m_cur_dash_direction.angle()
+	m_book_animation.flip_h = false
+	m_book_animation.play()
+	m_book_animation.position -= m_cur_dash_direction * 3 * m_current_scale.scale_multiplier
+	await get_tree().create_timer(0.4366).timeout
 	velocity = m_cur_dash_direction * m_attributes.dash_range_in_px
-	pass
+	await get_tree().create_timer(0.23).timeout
+	m_book_animation.rotation = 0
+	m_book_animation.position = Vector2.ZERO
 
 func m_handle_dash_aim(_delta) -> void:
 	if is_on_floor():
@@ -310,6 +402,8 @@ func m_handle_dash_aim(_delta) -> void:
 		m_cur_dash_hover_duration_in_seconds = m_attributes.aim_duration_in_seconds
 		m_cur_dash_count -= 1
 		m_arrow.show()
+		m_animation.stop()
+		m_small_animation.stop()
 
 	if m_cur_dash_hover_duration_in_seconds > 0 and Input.is_action_just_released("dash"):
 		var m_mouse_pos = get_global_mouse_position()
@@ -343,8 +437,6 @@ func _process(_delta: float) -> void:
 
 	var m_old_size = m_current_size
 	var m_ceil_test = m_ceiling_detector.is_colliding()
-	if m_ceil_test:
-		print(m_ceiling_detector.get_collider(0).name)
 	if Input.is_action_just_pressed("enlarge") and not m_ceil_test:
 		m_current_size += 1
 	elif Input.is_action_just_pressed("shrink"):
@@ -355,8 +447,12 @@ func _process(_delta: float) -> void:
 		m_apply_settings(m_current_size)
 
 	# Link up attacking and interactive to their respective systems
-	if Input.is_action_pressed("attack") and m_attributes.can_attack:
-		m_attack.attack_current_targets(m_attributes.attack_damage, m_attributes.attack_rate_in_seconds)
+	if Input.is_action_just_pressed("attack") and m_attributes.can_attack:
+		if m_book_animation.frame == 16:
+			book_animation.emit()
+			m_book_animation.play("attack")
+			await get_tree().create_timer(0.43666).timeout
+			m_attack.attack_current_targets(m_attributes.attack_damage, m_attributes.attack_rate_in_seconds)
 	if m_pickup_manager.has_picked_up_something() and Input.is_action_just_pressed("interact"):
 		m_pickup_manager.release_picked_up_element()
 	elif Input.is_action_just_pressed("interact"):
