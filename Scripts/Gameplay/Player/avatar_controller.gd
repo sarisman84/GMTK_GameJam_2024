@@ -49,7 +49,7 @@ var m_next_scale : ScaleSettings
 
 
 func _ready() -> void:
-	m_animation.sprite_frames_changed.connect(m_test)
+	m_animation.frame_changed.connect(m_test)
 
 	m_arrow.hide()
 	Popups.assign_new_owner(self)
@@ -62,10 +62,10 @@ func _ready() -> void:
 	m_animation.play()
 
 func m_test() -> void:
-	match m_animation.frame:
-		4,12:
-			if is_on_floor():
-				m_sfx_manager.play_footstep_sound(m_current_size)
+	var m_current_position = m_animation.frame
+	if m_current_position in [4,7,13] and m_animation.visible:
+		if is_on_floor():
+			m_sfx_manager.play_footstep_sound(m_current_size)
 
 func add_dash_charge():
 	m_cur_dash_count += 1
