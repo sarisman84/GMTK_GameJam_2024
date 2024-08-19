@@ -22,11 +22,12 @@ enum Size {Normal = 0, Small = -1, Large = 1}
 @onready var m_ceiling_detector = $ceiling_detector
 @onready var m_arrow = $arrow
 #@onready var m_companion = $companion
-@onready var m_animation : AnimatedSprite2D = $animation
-@onready var m_small_animation : AnimationPlayer = $small_animation
+@onready var m_animation: AnimatedSprite2D = $animation
+@onready var m_small_animation: AnimationPlayer = $small_animation
 #@onready var m_book_animation : AnimatedSprite2D = $book_animation
-@onready var m_hud : CanvasLayer = $hud
-@onready var m_book_anchor : Node2D = $shape/book_anchor
+@onready var m_hud: CanvasLayer = $hud
+@onready var m_book_anchor: Node2D = $shape/book_anchor
+@onready var m_companion_book: Companion = %companion
 
 #Signals
 signal on_size_change(size_id, new_scale)
@@ -49,15 +50,15 @@ var m_cur_dash_count: int
 var m_current_size: int
 var m_current_max_health: int
 
+var m_dir: float
+
 #Current Setting
 var m_current_scale: ScaleSettings
 var m_attributes: ScaleSettings
-var m_next_scale : ScaleSettings
+var m_next_scale: ScaleSettings
 
 
 func _ready() -> void:
-	m_animation.frame_changed.connect(m_test)
-
 	m_arrow.hide()
 	Popups.assign_new_owner(self)
 
@@ -65,13 +66,16 @@ func _ready() -> void:
 	reset_player()
 	m_init_health()
 
+
 	m_pickup_manager.init_manager(self)
 	m_hud.update_max_health(m_attributes.max_health)
 	m_hud.update_current_health(m_calculate_new_health_on_size_change(m_current_size))
 
+	m_companion_book.on_book_attack_apex.connect(m_on_book_swing)
+
 func m_test() -> void:
 	var m_current_position = m_animation.frame
-	if m_current_position in [4,7,13] and m_animation.visible:
+	if m_current_position in [4, 7, 13] and m_animation.visible:
 		if is_on_floor():
 			m_sfx_manager.play_footstep_sound(m_current_size)
 
@@ -117,7 +121,7 @@ func m_calculate_new_health_on_size_change(type: int):
 	# Default typing values
 	var m_normal := 0
 	var m_small := -1
-	var m_large := 1
+	#var m_large := 1
 
 	var m_current_health = m_health.m_current_health
 	m_current_max_health = m_health.m_max_health
@@ -154,8 +158,8 @@ func m_change_sprite_on_size_change(type: int) -> void:
 
 	m_sprite.material = shader_material
 
-	var flicker_duration = 0.5  # Flicker duration in seconds
-	var flicker_rate = 0.05  # Flicker rate in seconds
+	var flicker_duration = 0.5 # Flicker duration in seconds
+	var flicker_rate = 0.05 # Flicker rate in seconds
 	var elapsed_time = 0.0
 
 	while elapsed_time < flicker_duration:
@@ -166,9 +170,6 @@ func m_change_sprite_on_size_change(type: int) -> void:
 		elapsed_time += flicker_rate * 2
 
 	shader_material.set("shader_param/flicker_amount", 0.0)
-
-
-
 
 func m_apply_settings(type: int) -> void:
 
@@ -227,7 +228,7 @@ func m_apply_settings(type: int) -> void:
 
 	position.y -= (m_rect.size.y * m_collider.scale.y) / 2.0
 
-	var m_skin_width : float = m_sphere.radius / 2.0
+	var m_skin_width: float = m_sphere.radius / 2.0
 	m_ceiling_detector.target_position.y = -(((m_rect.size.y * m_next_scale.scale_multiplier)) + m_skin_width)
 
 	#Emit scale change event
@@ -236,6 +237,8 @@ func m_apply_settings(type: int) -> void:
 	#Update HUD
 	m_hud.update_max_health(m_attributes.max_health)
 	m_hud.update_current_health(m_new_health)
+
+	m_companion_book.change_scale(m_current_scale.scale_multiplier)
 
 func m_get_default_setting() -> ScaleSettings:
 	var m_normal := 0
@@ -250,7 +253,6 @@ func m_get_default_setting() -> ScaleSettings:
 		m_large:
 			return large_scale
 	return normal_scale
-
 
 func m_get_scaled_attributes(scale_setting: ScaleSettings) -> ScaleSettings:
 	var m_result: ScaleSettings = ScaleSettings.new()
@@ -316,7 +318,6 @@ func m_get_scaled_attributes(scale_setting: ScaleSettings) -> ScaleSettings:
 		m_result.max_health = m_get_default_setting().max_health * scale_setting.scale_multiplier
 	return m_result
 
-
 func m_handle_movement(delta: float) -> void:
 
 	if not is_on_floor():
@@ -327,40 +328,40 @@ func m_handle_movement(delta: float) -> void:
 		velocity.y = m_get_jump_velocity(m_attributes.jump_height)
 
 	#Fetch horizontal input
-	var dir = Input.get_axis("move_left", "move_right")
+	m_dir = Input.get_axis("move_left", "move_right")
 
 	#Apply it
-	if dir:
-		m_sprite.flip_h = dir < 0
-		m_animation.flip_h = dir < 0
+	if m_dir:
+		m_sprite.flip_h = m_dir < 0
+		m_animation.flip_h = m_dir < 0
 		#m_book_animation.flip_h = dir < 0
-
+		m_companion_book.flip_side(m_dir as int)
 		#Animation Handler:
-		if m_current_size >= 0: #If Normal or Big size
+		if m_current_size >= 0: # If Normal or Big size
 			m_sprite.hide()
 			m_animation.show()
-			m_animation.play(str(m_current_size)+"_walk")
-		elif is_on_floor(): #Small size
+			m_animation.play(str(m_current_size) + "_walk")
+		elif is_on_floor(): # Small size
 			m_sprite.show()
-			#m_small_animation.play("small_bounce")
+			m_small_animation.play("walk")
 		else:
 			pass
-			#m_small_animation.stop()
+			m_small_animation.stop()
 
 
-		if abs(dir * m_attributes.speed) > abs(velocity.x):
-			velocity.x = dir * m_attributes.speed
+		if abs(m_dir * m_attributes.speed) > abs(velocity.x):
+			velocity.x = m_dir * m_attributes.speed
 		else:
 			velocity.x = lerp(velocity.x, 0.0, 0.1)
 		# Switch Attack and Interact Face Direction
-		m_attack.switch_face(dir)
-		m_interact.switch_face(dir)
-		m_book_anchor.switch_face(dir)
+		m_attack.switch_face(m_dir as int)
+		m_interact.switch_face(m_dir as int)
+		m_book_anchor.switch_face(m_dir)
 	elif is_on_floor():
 		#Animation Handler P2
 		m_sprite.show()
 		m_animation.hide()
-		#m_small_animation.stop()
+		m_small_animation.stop()
 
 		#LERP back to 0
 		velocity.x = lerp(velocity.x, 0.0, 0.4)
@@ -370,7 +371,7 @@ func m_handle_hover(_delta: float) -> void:
 	var m_mouse_pos = get_global_mouse_position()
 	var m_arrow_direction = m_mouse_pos - position
 	var m_rotation = m_arrow_direction.angle()
-	if abs(m_rotation) > PI/2:
+	if abs(m_rotation) > PI / 2:
 		m_sprite.flip_h = true
 		m_animation.flip_h = true
 	else:
@@ -378,45 +379,52 @@ func m_handle_hover(_delta: float) -> void:
 		m_animation.flip_h = false
 
 func m_handle_dash(_delta: float) -> void:
-	book_animation.emit()
-	#m_book_animation.rotation = m_cur_dash_direction.angle()
-	#m_book_animation.flip_h = false
-	#m_book_animation.play()
-	#m_book_animation.position -= m_cur_dash_direction * 3 * m_current_scale.scale_multiplier
-	await get_tree().create_timer(0.4366).timeout
 	velocity = m_cur_dash_direction * m_attributes.dash_range_in_px
-	await get_tree().create_timer(0.23).timeout
-	#m_book_animation.rotation = 0
-	#m_book_animation.position = Vector2.ZERO
+
 
 func m_handle_dash_aim(_delta) -> void:
 	if is_on_floor():
 		m_cur_dash_count = m_attributes.dash_count
-
 	m_cur_dash_duration_in_seconds -= _delta
-	m_cur_dash_duration_in_seconds = max(m_cur_dash_duration_in_seconds, 0)
 
-	m_cur_dash_hover_duration_in_seconds -= _delta
-	m_cur_dash_hover_duration_in_seconds = max(m_cur_dash_hover_duration_in_seconds, 0)
-
-	if Input.is_action_just_pressed("dash") and m_cur_dash_hover_duration_in_seconds <= 0 and m_cur_dash_count > 0 and m_current_size < Size.Large:
+	if m_can_aim_for_dash():
 		m_cur_dash_hover_duration_in_seconds = m_attributes.aim_duration_in_seconds
 		m_cur_dash_count -= 1
 		m_arrow.show()
 		m_animation.stop()
-		#m_small_animation.stop()
+		m_small_animation.stop()
 
-	if m_cur_dash_hover_duration_in_seconds > 0 and Input.is_action_just_released("dash"):
+	if m_can_dash(_delta):
+		var m_book_attack_val := 25.0
 		var m_mouse_pos = get_global_mouse_position()
 		m_cur_dash_direction = (m_mouse_pos - position).normalized()
-		m_cur_dash_duration_in_seconds = m_attributes.dash_duration_in_seconds
-		m_cur_dash_hover_duration_in_seconds = 0
+		m_companion_book.attack_towards(global_position - (m_cur_dash_direction * m_book_attack_val * m_current_scale.scale_multiplier), m_cur_dash_direction, 1)
 		m_arrow.hide()
 
 func m_rotate_dash_arrow():
 	var m_mouse_pos = get_global_mouse_position()
 	var m_arrow_direction = m_mouse_pos - position
 	m_arrow.rotation = m_arrow_direction.angle()
+
+func m_can_aim_for_dash() -> bool:
+	return Input.is_action_just_pressed("dash") and m_cur_dash_hover_duration_in_seconds <= 0 and m_cur_dash_count > 0 and m_current_size < Size.Large
+
+func m_can_dash(delta: float) -> bool:
+	if not m_companion_book.is_attacking():
+		m_cur_dash_hover_duration_in_seconds -= delta
+	return m_cur_dash_hover_duration_in_seconds > 0 and Input.is_action_just_released("dash")
+
+
+func m_on_book_swing(msg: Variant) -> void:
+	match msg:
+		1:
+			m_cur_dash_duration_in_seconds = m_attributes.dash_duration_in_seconds
+			m_cur_dash_hover_duration_in_seconds = 0
+			pass
+		0:
+			m_attack.attack_current_targets(m_attributes.attack_damage, m_attributes.attack_rate_in_seconds)
+			pass
+	pass
 
 func _physics_process(delta: float) -> void:
 	if m_cur_dash_hover_duration_in_seconds > 0:
@@ -429,9 +437,7 @@ func _physics_process(delta: float) -> void:
 		m_arrow.hide()
 	move_and_slide()
 
-
 func _process(_delta: float) -> void:
-
 	m_handle_dash_aim(_delta)
 	m_rotate_dash_arrow()
 	#Link up Scale Mechanic to input
@@ -449,33 +455,8 @@ func _process(_delta: float) -> void:
 
 	# Link up attacking and interactive to their respective systems
 	if Input.is_action_just_pressed("attack") and m_attributes.can_attack:
-		#if m_book_animation.frame == 16:
-		book_animation.emit()
-			#m_book_animation.play("attack")
-		await get_tree().create_timer(0.43666).timeout
-		m_attack.attack_current_targets(m_attributes.attack_damage, m_attributes.attack_rate_in_seconds)
+		m_companion_book.attack(self, 0, Vector2.RIGHT * m_dir * 25.0 * m_current_scale.scale_multiplier)
 	if m_pickup_manager.has_picked_up_something() and Input.is_action_just_pressed("interact"):
 		m_pickup_manager.release_picked_up_element()
 	elif Input.is_action_just_pressed("interact"):
 		m_interact.try_to_interact()
-
-# REFERENCE CODE FROM GDSCRIPT
-
-# func _physics_process(delta):
-# 	# Add the m_default_gravity.
-# 	if not is_on_floor():
-# 		velocity.y += m_default_gravity * delta
-
-# 	# Handle jump.
-# 	if Input.is_action_just_pressed("ui_accept") and is_on_floor():
-# 		velocity.y = JUMP_VELOCITY
-
-# 	# Get the input direction and handle the movement/deceleration.
-# 	# As good practice, you should replace UI actions with custom gameplay actions.
-# 	var direction = Input.get_axis("ui_left", "ui_right")
-# 	if direction:
-# 		velocity.x = direction * SPEED
-# 	else:
-# 		velocity.x = move_toward(velocity.x, 0, SPEED)
-
-# 	move_and_slide()

@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=3 uid="uid://22o2pk2n1acn"]
+[gd_scene load_steps=42 format=3 uid="uid://22o2pk2n1acn"]
 
 [ext_resource type="Script" path="res://Scripts/Gameplay/Player/avatar_controller.gd" id="1_mu8og"]
 [ext_resource type="Resource" uid="uid://dbl73vcy081xt" path="res://Assets/Presets/Gameplay/Settings/st_normal_settings.tres" id="2_qrjke"]
@@ -15,7 +15,6 @@
 [ext_resource type="Script" path="res://Scripts/Gameplay/Player/book_anchor.gd" id="8_ujn02"]
 [ext_resource type="Script" path="res://Scripts/Gameplay/Player/sfx_manager.gd" id="11_dgpgr"]
 [ext_resource type="Texture2D" uid="uid://dp05cpsg0fkci" path="res://Assets/Art/Textures/Player/Arrow.png" id="12_4q0xt"]
-[ext_resource type="PackedScene" uid="uid://4x0jtfwvvyxy" path="res://Assets/Presets/Gameplay/p_companion.tscn" id="13_vtqvc"]
 [ext_resource type="Texture2D" uid="uid://djangaqk8asob" path="res://Assets/Art/Textures/Player/Imp_Regular_Run_Cycle_0015/Imp_Regular_Run_Cycle_0000.png" id="14_v1wc3"]
 [ext_resource type="Texture2D" uid="uid://clfl6huu7of0q" path="res://Assets/Art/Textures/Player/Imp_Regular_Run_Cycle_0015/Imp_Regular_Run_Cycle_0001.png" id="15_5cdkt"]
 [ext_resource type="Texture2D" uid="uid://g6obqlol2oww" path="res://Assets/Art/Textures/Player/Imp_Regular_Run_Cycle_0015/Imp_Regular_Run_Cycle_0002.png" id="16_bpdtd"]
@@ -120,6 +119,45 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="Animation" id="Animation_dcykc"]
+resource_name = "walk"
+length = 0.2
+loop_mode = 1
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("sprite:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, -3), Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_7g53s"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("sprite:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ctgtj"]
+_data = {
+"RESET": SubResource("Animation_7g53s"),
+"walk": SubResource("Animation_dcykc")
+}
+
 [node name="player_avatar" type="CharacterBody2D"]
 script = ExtResource("1_mu8og")
 normal_scale = ExtResource("2_qrjke")
@@ -131,7 +169,7 @@ sprites = Array[Texture2D]([ExtResource("3_030oj"), ExtResource("4_iv7co"), ExtR
 shape = SubResource("RectangleShape2D_idbre")
 
 [node name="book_anchor" type="Node2D" parent="shape"]
-position = Vector2(-30, -24)
+position = Vector2(-29, -17)
 script = ExtResource("8_ujn02")
 
 [node name="camera" type="Camera2D" parent="."]
@@ -182,12 +220,10 @@ texture = ExtResource("4_iv7co")
 shape = SubResource("CircleShape2D_1e1d1")
 target_position = Vector2(0, -18)
 
-[node name="companion" parent="." instance=ExtResource("13_vtqvc")]
-
 [node name="animation" type="AnimatedSprite2D" parent="."]
-scale = Vector2(0.0324189, 0.0324324)
+scale = Vector2(0.037, 0.036)
 sprite_frames = SubResource("SpriteFrames_vmk4l")
-animation = &"0_walk"
+animation = &"1_walk"
 
 [node name="sfx_manager" type="Node" parent="."]
 script = ExtResource("11_dgpgr")
@@ -195,6 +231,11 @@ script = ExtResource("11_dgpgr")
 [node name="walking_stream_player" type="AudioStreamPlayer" parent="sfx_manager"]
 
 [node name="hud" parent="." instance=ExtResource("49_lndtj")]
+
+[node name="small_animation" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_ctgtj")
+}
 
 [connection signal="body_entered" from="interact" to="interact" method="_on_body_entered"]
 [connection signal="body_exited" from="interact" to="interact" method="_on_body_exited"]

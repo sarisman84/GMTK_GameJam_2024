@@ -24,7 +24,7 @@ func _physics_process(_delta: float) -> void:
 	for i in range(m_physics_objects.size()):
 		var m_p = m_physics_objects[i]
 		if m_p is CharacterBody2D:
-			m_p.velocity = transform.y * jump_pad_speed
+			m_p.velocity -= transform.y * jump_pad_speed
 		elif m_p is RigidBody2D:
-			m_p.linear_velocity = transform.y * jump_pad_speed
+			m_p.linear_velocity -= transform.y * jump_pad_speed
 	pass

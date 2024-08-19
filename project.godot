@@ -23,7 +23,7 @@ HealthRegenBar="*res://Scripts/Gameplay/Player/health_regen_bar.gd"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/Todo_Manager/plugin.cfg")
+enabled=PackedStringArray("res://addons/SpritesheetGenerator/plugin.cfg", "res://addons/Todo_Manager/plugin.cfg")
 
 [input]
 
