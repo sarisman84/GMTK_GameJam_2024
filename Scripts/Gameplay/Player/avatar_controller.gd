@@ -18,11 +18,11 @@ enum Size {Normal = 0, Small = -1, Large = 1}
 @onready var m_attack: AttackNode = $attack
 @onready var m_interact: InteractNode = $interact
 @onready var m_pickup_manager: PickupManager = $pickup_manager
-@onready var m_sfx_manager: Node = $sfx_manager
+@onready var m_sfx_manager: SFXManager = $sfx_manager
 @onready var m_ceiling_detector = $ceiling_detector
 @onready var m_arrow = $arrow
 @onready var m_companion = $companion
-@onready var m_animation = $animation
+@onready var m_animation : AnimatedSprite2D = $animation
 
 #Signals
 signal on_size_change(size_id, new_scale)
@@ -49,6 +49,8 @@ var m_next_scale : ScaleSettings
 
 
 func _ready() -> void:
+	m_animation.sprite_frames_changed.connect(m_test)
+
 	m_arrow.hide()
 	Popups.assign_new_owner(self)
 
@@ -59,6 +61,11 @@ func _ready() -> void:
 	m_pickup_manager.init_manager(self)
 	m_animation.play()
 
+func m_test() -> void:
+	match m_animation.frame:
+		4,12:
+			if is_on_floor():
+				m_sfx_manager.play_footstep_sound(m_current_size)
 
 func add_dash_charge():
 	m_cur_dash_count += 1
@@ -101,11 +108,11 @@ func m_calculate_new_health_on_size_change(type: int):
 	var m_normal := 0
 	var m_small := -1
 	var m_large := 1
-	
+
 	var m_current_health = m_health.m_current_health
 	var m_current_max_health = m_health.m_max_health
 	var m_new_max_health
-	
+
 	if type == m_small:
 		m_new_max_health = small_scale.max_health
 	elif type == m_normal:
@@ -114,7 +121,7 @@ func m_calculate_new_health_on_size_change(type: int):
 		m_new_max_health = large_scale.max_health
 
 	var m_new_health = clamp(floor((float(m_current_health) / m_current_max_health) * m_new_max_health), 1, m_new_max_health)
-	
+
 	return m_new_health
 
 func m_apply_settings(type: int) -> void:
@@ -122,7 +129,7 @@ func m_apply_settings(type: int) -> void:
 	var m_normal := 0
 	var m_small := -1
 	var m_large := 1
-	
+
 	var m_new_health = await m_calculate_new_health_on_size_change(type)
 	m_health.set_current_health(m_new_health)
 
@@ -259,7 +266,7 @@ func m_handle_movement(delta: float) -> void:
 
 	#Fetch horizontal input
 	var dir = Input.get_axis("move_left", "move_right")
-	
+
 	#Apply it
 	if dir:
 		m_sprite.flip_h = dir < 0
@@ -275,7 +282,7 @@ func m_handle_movement(delta: float) -> void:
 		m_attack.switch_face(dir)
 		m_interact.switch_face(dir)
 		m_companion.switch_face(dir)
-	else:
+	elif is_on_floor():
 		#LERP back to 0
 		m_sprite.show() #TODO: Animation Part
 		m_animation.hide() #TODO: Animation Part
