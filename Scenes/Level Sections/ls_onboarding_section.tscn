@@ -26,9 +26,9 @@ size = Vector2(397.25, 173)
 
 [node name="companion" parent="." node_paths=PackedStringArray("target_to_follow") instance=ExtResource("1_1r53i")]
 smoothing = 1.6
-target_to_follow = NodePath("../player_avatar")
+target_to_follow = NodePath("../CharacterBody2D")
 
-[node name="player_avatar" parent="." instance=ExtResource("1_7my5f")]
+[node name="CharacterBody2D" parent="." instance=ExtResource("1_7my5f")]
 position = Vector2(1077, -18)
 collision_layer = 9
 
