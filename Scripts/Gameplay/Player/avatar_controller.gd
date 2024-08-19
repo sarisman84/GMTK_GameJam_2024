@@ -29,7 +29,9 @@ signal on_size_change(size_id, new_scale)
 #Default Child Node Settings
 var m_default_col_scale: Vector2
 var m_default_sprite_scale: Vector2
+var m_default_arrow_scale: Vector2
 var m_default_ceil_scale: float
+var m_default_animation_scale: Vector2
 
 #Temp Data
 var m_current_gravity: float
@@ -62,6 +64,8 @@ func add_dash_charge():
 func m_init_default_scales() -> void:
 	m_default_col_scale = m_collider.scale
 	m_default_sprite_scale = m_sprite.scale
+	m_default_arrow_scale = m_arrow.scale
+	m_default_animation_scale = m_animation.scale
 	var m_sphere := m_ceiling_detector.shape as CircleShape2D
 	m_default_ceil_scale = m_sphere.radius
 
@@ -199,7 +203,10 @@ func m_get_scaled_attributes(scale_setting: ScaleSettings) -> ScaleSettings:
 		m_result.sprite_scale = m_new_scale
 	else:
 		m_result.sprite_scale = m_default_sprite_scale * scale_setting.scale_multiplier
-
+	
+	m_arrow.scale = m_default_arrow_scale * scale_setting.scale_multiplier
+	m_animation.scale = m_default_animation_scale * scale_setting.scale_multiplier
+	
 	if scale_setting.override_collison:
 		m_result.collision_scale = scale_setting.collision_scale
 	else:
