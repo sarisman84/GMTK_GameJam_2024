@@ -20,6 +20,8 @@ enum Size {Normal = 0, Small = -1, Large = 1}
 @onready var m_pickup_manager: PickupManager = $pickup_manager
 @onready var m_ceiling_detector = $ceiling_detector
 @onready var m_arrow = $arrow
+@onready var m_companion = $companion
+@onready var m_animation = $animation
 
 #Signals
 signal on_size_change(size_id, new_scale)
@@ -51,6 +53,7 @@ func _ready() -> void:
 	m_init_health()
 
 	m_pickup_manager.init_manager(self)
+	m_animation.play()
 
 
 func add_dash_charge():
@@ -223,6 +226,10 @@ func m_handle_movement(delta: float) -> void:
 	#Apply it
 	if dir:
 		m_sprite.flip_h = dir < 0
+		m_animation.flip_h = dir < 0
+		m_sprite.hide() #TODO: Animation Part
+		m_animation.show() #TODO: Animation Part
+		m_animation.play(str(m_current_size)+"_walk")
 		if abs(dir * m_attributes.speed) > abs(velocity.x):
 			velocity.x = dir * m_attributes.speed
 		else:
@@ -230,11 +237,12 @@ func m_handle_movement(delta: float) -> void:
 		# Switch Attack and Interact Face Direction
 		m_attack.switch_face(dir)
 		m_interact.switch_face(dir)
+		m_companion.switch_face(dir)
 	else:
 		#LERP back to 0
-		velocity.x = lerp(velocity.x, 0.0, 0.1)
-		#velocity.x = move_toward(velocity.x, 0, (m_current_speed * m_current_scale_multiplier))
-	# move_and_slide()
+		m_sprite.show() #TODO: Animation Part
+		m_animation.hide() #TODO: Animation Part
+		velocity.x = lerp(velocity.x, 0.0, 0.25)
 
 func m_handle_hover(_delta: float) -> void:
 	velocity = Vector2.ZERO
