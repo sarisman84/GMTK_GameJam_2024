@@ -21,14 +21,16 @@ enum Size {Normal = 0, Small = -1, Large = 1}
 @onready var m_sfx_manager: SFXManager = $sfx_manager
 @onready var m_ceiling_detector = $ceiling_detector
 @onready var m_arrow = $arrow
-@onready var m_companion = $companion
+#@onready var m_companion = $companion
 @onready var m_animation : AnimatedSprite2D = $animation
 @onready var m_small_animation : AnimationPlayer = $small_animation
 @onready var m_book_animation : AnimatedSprite2D = $book_animation
 @onready var m_hud : CanvasLayer = $hud
+@onready var m_book_anchor : Node2D = $shape/book_anchor
 
 #Signals
 signal on_size_change(size_id, new_scale)
+signal book_animation
 
 #Default Child Node Settings
 var m_default_col_scale: Vector2
@@ -361,7 +363,7 @@ func m_handle_movement(delta: float) -> void:
 		# Switch Attack and Interact Face Direction
 		m_attack.switch_face(dir)
 		m_interact.switch_face(dir)
-		m_companion.switch_face(dir)
+		m_book_anchor.switch_face(dir)
 	elif is_on_floor():
 		#Animation Handler P2
 		m_sprite.show()
@@ -383,9 +385,8 @@ func m_handle_hover(_delta: float) -> void:
 		m_sprite.flip_h = false
 		m_animation.flip_h = false
 
-var nummm = 1
 func m_handle_dash(_delta: float) -> void:
-	nummm += 1
+	book_animation.emit()
 	m_book_animation.rotation = m_cur_dash_direction.angle()
 	m_book_animation.flip_h = false
 	m_book_animation.play()
@@ -457,6 +458,7 @@ func _process(_delta: float) -> void:
 	# Link up attacking and interactive to their respective systems
 	if Input.is_action_just_pressed("attack") and m_attributes.can_attack:
 		if m_book_animation.frame == 16:
+			book_animation.emit()
 			m_book_animation.play("attack")
 			await get_tree().create_timer(0.43666).timeout
 			m_attack.attack_current_targets(m_attributes.attack_damage, m_attributes.attack_rate_in_seconds)
