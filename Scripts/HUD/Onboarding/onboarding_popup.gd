@@ -1,57 +1,92 @@
-extends CanvasLayer
-class_name OnboardingPopup
+extends Node
+class_name PopupManager
 
+@export var center_text : bool
 @export var keybind_keywords: Array[BindKeyword]
 @export var screen_position: Vector2
-@onready var m_label: RichTextLabel = $anchor/text_entry
-@onready var m_anchor: Control = $anchor
+@export_file var tooltip_preset : String
+@export var max_tooltips_present : int = 10
+
+
+var m_tooltip_package : PackedScene
+
+
+
+var m_spawned_tooltips : Array[PopupData]
+var m_available_id : int = 0
 
 var m_target_anchor: Node2D
 var m_owner: Node2D
 
 func _ready() -> void:
-	disable_popup()
+	m_tooltip_package = load(tooltip_preset)
+
+	for i in range(max_tooltips_present):
+		m_spawned_tooltips.append(PopupData.constructor(m_tooltip_package))
+
 
 func assign_new_owner(new_owner: Node2D) -> void:
 	m_owner = new_owner
 
-func enable_popup_at(target_anchor: Node2D, some_text: String) -> void:
-	m_target_anchor = target_anchor
-	m_label.text = m_parse_text(some_text)
-	m_label.show()
+func enable_popup_at(target_anchor: Node2D, some_text: String) -> int:
+	var i = m_available_id
+	m_available_id += 1
 
-func disable_popup() -> void:
-	m_label.text = ""
-	m_label.hide()
-	m_target_anchor = null
+
+	m_spawned_tooltips[i].m_target_anchor = target_anchor
+	m_spawned_tooltips[i].text = m_parse_text(some_text)
+	m_spawned_tooltips[i].show()
+
+	return i
+
+func m_instantiate_tooltip() -> PopupData:
+	return PopupData.constructor(m_tooltip_package)
+
+func disable_popup(id : int) -> void:
+	m_spawned_tooltips[id].hide()
+	m_spawned_tooltips[id].m_target_anchor = null
+	m_available_id -= 1
+	m_available_id = max(m_available_id, 0)
 
 func _process(_delta: float) -> void:
-	if m_label.is_visible_in_tree() and m_target_anchor:
-		var m_target_raw_pos = m_target_anchor.global_position
-		var m_target_pos = get_viewport().canvas_transform.basis_xform(m_target_raw_pos)
-
-		#var m_owner_raw_pos = m_owner.global_position
-		var m_owner_pos = get_viewport().canvas_transform.get_origin() - (get_viewport().get_visible_rect().size / 2.0)
-
-		offset = m_owner_pos + m_target_pos
-	else:
-		disable_popup()
+	for i in range(m_spawned_tooltips.size()):
+		var m_tooltip := m_spawned_tooltips[i]
+		if m_tooltip.is_visible():
+			var m_target_raw_pos = m_target_anchor.global_position
+			var m_target_pos = get_viewport().canvas_transform.basis_xform(m_target_raw_pos)
+			var m_owner_pos = get_viewport().canvas_transform.get_origin() - (get_viewport().get_visible_rect().size / 2.0)
+			m_tooltip.position = m_owner_pos + m_target_pos
 
 func m_parse_text(text: String) -> String:
 	var m_result: String
+	if center_text:
+		m_result = "[center]"
 	var m_content_array = text.split(" ")
-	var keybind_regex = RegEx.new()
-	keybind_regex.compile("\\[key:[A-Za-z]+\\]")
+	var m_keybind_regex = RegEx.new()
+	var m_new_line_regex = RegEx.new()
+	m_keybind_regex.compile("\\[key:[A-Za-z]+\\]")
+	m_new_line_regex.compile("\\/n")
 	for word in m_content_array:
-		var m_search_result = keybind_regex.search(word)
-		if m_search_result:
-			var m_key = m_search_result.get_string().replace("[key:", "").replace("]", "")
+		var m_keybind_search_result = m_keybind_regex.search(word)
+		var m_new_line_search_result = m_new_line_regex.search(word)
+		if m_keybind_search_result:
+			var m_key = m_keybind_search_result.get_string().replace("[key:", "").replace("]", "")
 			var data = m_get_keyword(m_key)
-			var start = "[img=%fx%f]" % [data.icon_size.x, data.icon_size.y]
+			var start : String = ""
+			if data.icon_size.x == 0 or data.icon_size.y == 0:
+				start = "[img]"
+			else:
+				start = "[img=%fx%f]" % [data.icon_size.x, data.icon_size.y]
 			var end = "[/img] "
 			m_result += start + data.bind_icon + end
+		elif m_new_line_search_result:
+			var m_str = word.replace("/n", "")
+			m_result += '\n' + m_str
 		else:
+			print("cound't find anything in the word: ", word, ". Results: <keybind_search_result: ", m_keybind_search_result,">, <new_line_search_result: ", m_new_line_search_result, ">")
 			m_result += word + " "
+	if center_text:
+		m_result += "[/center]"
 	return m_result
 
 func m_get_keyword(key: String) -> BindKeyword:

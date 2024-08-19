@@ -1,0 +1,71 @@
+[gd_scene load_steps=3 format=3 uid="uid://4x0jtfwvvyxy"]
+
+[ext_resource type="Script" path="res://Scripts/Gameplay/Player/companion_follow.gd" id="1_cy1n3"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_8i41b"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": null
+}],
+"loop": true,
+"name": &"default",
+"speed": 24.0
+}]
+
+[node name="companion" type="Node2D"]
+position = Vector2(-24, 0)
+script = ExtResource("1_cy1n3")
+smoothing = 0.5
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -18)
+scale = Vector2(0.0227273, 0.0227273)
+sprite_frames = SubResource("SpriteFrames_8i41b")
+frame = 9
+frame_progress = 0.69683

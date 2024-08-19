@@ -3,9 +3,11 @@ class_name AvatarController
 
 enum Size {Normal = 0, Small = -1, Large = 1}
 
-@export_category("settings")
-@export var player_settings: PlayerSettings
-@export_category("other")
+@export_group("Settings")
+@export var normal_scale: ScaleSettings
+@export var small_scale: ScaleSettings
+@export var large_scale: ScaleSettings
+@export_group("Other")
 @export var default_size: Size = Size.Normal
 @export var sprites: Array[Texture2D]
 
@@ -16,44 +18,54 @@ enum Size {Normal = 0, Small = -1, Large = 1}
 @onready var m_attack: AttackNode = $attack
 @onready var m_interact: InteractNode = $interact
 @onready var m_pickup_manager: PickupManager = $pickup_manager
-@onready var m_sfx_manager: Node = $sfx_manager
+@onready var m_sfx_manager: SFXManager = $sfx_manager
+@onready var m_ceiling_detector = $ceiling_detector
+@onready var m_arrow = $arrow
+@onready var m_companion = $companion
+@onready var m_animation : AnimatedSprite2D = $animation
 
 #Signals
 signal on_size_change(size_id, new_scale)
 
-#Default Info
-var m_default_gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
+#Default Child Node Settings
 var m_default_col_scale: Vector2
 var m_default_sprite_scale: Vector2
+var m_default_arrow_scale: Vector2
+var m_default_ceil_scale: float
+var m_default_animation_scale: Vector2
 
 #Temp Data
-var m_final_gravity: float
+var m_current_gravity: float
 var m_cur_dash_duration_in_seconds: float
 var m_cur_dash_direction: Vector2
 var m_cur_dash_hover_duration_in_seconds: float
 var m_cur_dash_count: int
-
-# Current Scale Data
 var m_current_size: int
-var m_current_scale_multiplier: float
 
-# Current Movement Data
-var m_current_gravity: float
-var m_current_speed: float
-var m_current_jump_height: float
+#Current Setting
+var m_current_scale: ScaleSettings
+var m_attributes: ScaleSettings
+var m_next_scale : ScaleSettings
 
-#Current Attack Data
-var m_current_attack_damage: float
-var m_current_attack_flag: bool
-var m_current_attack_rate_in_seconds: float
 
 func _ready() -> void:
-	Onboarding.assign_new_owner(self)
-	m_pickup_manager.init_manager(self)
+	m_animation.sprite_frames_changed.connect(m_test)
+
+	m_arrow.hide()
+	Popups.assign_new_owner(self)
 
 	m_init_default_scales()
-	m_init_health()
 	reset_player()
+	m_init_health()
+
+	m_pickup_manager.init_manager(self)
+	m_animation.play()
+
+func m_test() -> void:
+	match m_animation.frame:
+		4,12:
+			if is_on_floor():
+				m_sfx_manager.play_footstep_sound(m_current_size)
 
 func add_dash_charge():
 	m_cur_dash_count += 1
@@ -61,14 +73,19 @@ func add_dash_charge():
 func m_init_default_scales() -> void:
 	m_default_col_scale = m_collider.scale
 	m_default_sprite_scale = m_sprite.scale
+	m_default_arrow_scale = m_arrow.scale
+	m_default_animation_scale = m_animation.scale
+	var m_sphere := m_ceiling_detector.shape as CircleShape2D
+	m_default_ceil_scale = m_sphere.radius
 
 func m_init_health() -> void:
 	m_health.set_health_node_owner(self)
-	m_health.set_max_health(player_settings.regular_size_max_health)
-	m_health.reset_health()
+	m_health.set_max_health(m_attributes.max_health)
 	m_health.on_death.connect(m_on_player_death)
+	m_health.on_damage_taken.connect(m_hud_update)
 
-
+func m_hud_update() -> void:
+	pass
 func m_on_player_death() -> void:
 	var coords = get_node("/root/Global").latest_checkpoint[1]
 	position = coords
@@ -79,31 +96,32 @@ func reset_player() -> void:
 	m_current_size = default_size
 	m_apply_settings(m_current_size)
 	m_attack.switch_face(1)
+	m_health.set_max_health(m_attributes.max_health)
 	m_health.reset_health()
 	pass
 
 func m_get_jump_velocity(target_height: float) -> float:
-	return -sqrt(2 * target_height / m_current_gravity) * m_current_gravity
+	return -sqrt(2 * target_height / m_attributes.gravity) * m_attributes.gravity
 
 func m_calculate_new_health_on_size_change(type: int):
 	# Default typing values
 	var m_normal := 0
 	var m_small := -1
 	var m_large := 1
-	
+
 	var m_current_health = m_health.m_current_health
 	var m_current_max_health = m_health.m_max_health
 	var m_new_max_health
-	
+
 	if type == m_small:
-		m_new_max_health = player_settings.small_size_max_health
+		m_new_max_health = small_scale.max_health
 	elif type == m_normal:
-		m_new_max_health = player_settings.regular_size_max_health
+		m_new_max_health = normal_scale.max_health
 	else:
-		m_new_max_health = player_settings.large_size_max_health
+		m_new_max_health = large_scale.max_health
 
 	var m_new_health = clamp(floor((float(m_current_health) / m_current_max_health) * m_new_max_health), 1, m_new_max_health)
-	
+
 	return m_new_health
 
 func m_apply_settings(type: int) -> void:
@@ -111,147 +129,176 @@ func m_apply_settings(type: int) -> void:
 	var m_normal := 0
 	var m_small := -1
 	var m_large := 1
-	
+
 	var m_new_health = await m_calculate_new_health_on_size_change(type)
 	m_health.set_current_health(m_new_health)
 
 	#Change sprite
 	m_sprite.texture = sprites[type + 1]
 
-	# No changes if normal sized
-	if type == m_normal:
-		m_final_gravity = m_default_gravity
-		m_current_scale_multiplier = 1.0
-		m_current_speed = player_settings.speed
-		m_current_jump_height = player_settings.jump_height_in_px
-		m_current_attack_damage = player_settings.attack_damage
-		m_current_attack_flag = player_settings.can_attack
-		m_current_attack_rate_in_seconds = player_settings.attack_rate_in_seconds
-		#Apply new default max health
-		m_health.set_max_health(player_settings.regular_size_max_health)
-
-
-	#TODO - Clean this mess up
-	# Apply small scale settings if applicaple
-	elif type == m_small:
-		m_current_scale_multiplier = player_settings.small_scale_settings.scale_multiplier
-
-		#Apply new default max health
-		m_health.set_max_health(player_settings.small_size_max_health)
-		
-		# Try Applying Speed Info
-		if player_settings.small_scale_settings.override_speed:
-			m_current_speed = player_settings.small_scale_settings.speed
-
-		# Try Applying Jump Height Info
-		if player_settings.small_scale_settings.override_jump_height:
-			m_current_jump_height = player_settings.small_scale_settings.jump_height
-
-		# Try Applying Gravity Info
-		if player_settings.small_scale_settings.override_gravity:
-			m_final_gravity = player_settings.small_scale_settings.gravity
-
-		# Try Applying Attack Stats
-		if player_settings.small_scale_settings.override_attack:
-			m_current_attack_damage = player_settings.small_scale_settings.attack_damage
-			m_current_attack_flag = player_settings.small_scale_settings.can_attack
-			m_current_attack_rate_in_seconds = player_settings.small_scale_settings.attack_rate_in_seconds
-
-	# Apply large scale settings if applicaple
-	elif type == m_large:
-		m_current_scale_multiplier = player_settings.large_scale_settings.scale_multiplier
-		
-		#Apply new default max health
-		m_health.set_max_health(player_settings.large_size_max_health)
-
-		# Try Applying Speed Info
-		if player_settings.large_scale_settings.override_speed:
-			m_current_speed = player_settings.large_scale_settings.speed
-
-		# Try Applying Jump Height Info
-		if player_settings.large_scale_settings.override_jump_height:
-			m_current_jump_height = player_settings.large_scale_settings.jump_height
-
-		# Try Applying Gravity Info
-		if player_settings.large_scale_settings.override_gravity:
-			m_final_gravity = player_settings.large_scale_settings.gravity
-
-		# Try Applying Attack Stats
-		if player_settings.large_scale_settings.override_attack:
-			m_current_attack_damage = player_settings.large_scale_settings.attack_damage
-			m_current_attack_flag = player_settings.large_scale_settings.can_attack
-			m_current_attack_rate_in_seconds = player_settings.large_scale_settings.attack_rate_in_seconds
-
-
-	#TODO - Add tweaning to camera zoom, sprite and collider scaling!
-
-	# Apply new default camera zoom level
-	m_camera.zoom = Vector2.ONE * player_settings.default_zoom * (1.0 / m_current_scale_multiplier)
-
-	#Apply new default collision size
-	m_collider.scale = m_default_col_scale * m_current_scale_multiplier
-
-	#Apply new default sprite size
-	m_sprite.scale = m_default_sprite_scale * m_current_scale_multiplier
-
-	#Apply new default gravity
-	m_current_gravity = m_final_gravity * m_current_scale_multiplier
+	match type:
+		m_normal:
+			m_current_scale = normal_scale
+			m_next_scale = large_scale
+			pass
+		m_small:
+			m_current_scale = small_scale
+			m_next_scale = normal_scale
+			pass
+		m_large:
+			m_current_scale = large_scale
+			m_next_scale = large_scale
+			pass
 
 	#Apply new default scale to attack, health and interact hitboxes
-	m_attack.scale_hitbox(m_current_scale_multiplier)
-	m_health.scale_hitbox(m_current_scale_multiplier)
-	m_interact.scale_hitbox(m_current_scale_multiplier)
+	m_attack.scale_hitbox(m_current_scale.scale_multiplier)
+	m_health.scale_hitbox(m_current_scale.scale_multiplier)
+	m_interact.scale_hitbox(m_current_scale.scale_multiplier)
 
-	on_size_change.emit(m_current_size, m_current_scale_multiplier)
+	#Calculate each attribute to scale with the player (unless overriden)
+	m_attributes = m_get_scaled_attributes(m_current_scale)
+
+	#Apply scaling to visual and functional elements
+	m_collider.scale = m_attributes.collision_scale
+	m_sprite.scale = m_attributes.sprite_scale
+	m_camera.zoom = m_attributes.camera_zoom
+
+	var m_sphere = m_ceiling_detector.shape as CircleShape2D
+	m_sphere.radius = m_default_ceil_scale * m_current_scale.scale_multiplier
+
+	var m_rect = m_collider.shape as RectangleShape2D
+
+	position.y -= (m_rect.size.y * m_collider.scale.y) / 2.0
+
+	var m_skin_width : float = m_sphere.radius / 2.0
+	m_ceiling_detector.target_position.y = -(((m_rect.size.y * m_next_scale.scale_multiplier)) + m_skin_width)
+
+	#Emit scale change event
+	on_size_change.emit(type, m_current_scale.scale_multiplier)
+
+func m_get_default_setting() -> ScaleSettings:
+	var m_normal := 0
+	var m_small := -1
+	var m_large := 1
+
+	match default_size:
+		m_normal:
+			return normal_scale
+		m_small:
+			return small_scale
+		m_large:
+			return large_scale
+	return normal_scale
+
+
+func m_get_scaled_attributes(scale_setting: ScaleSettings) -> ScaleSettings:
+	var m_result: ScaleSettings = ScaleSettings.new()
+
+	if scale_setting.override_speed:
+		m_result.speed = scale_setting.speed
+	else:
+		m_result.speed = m_get_default_setting().speed * scale_setting.scale_multiplier
+
+	if scale_setting.override_attack:
+		m_result.attack_damage = scale_setting.attack_damage
+		m_result.attack_rate_in_seconds = scale_setting.attack_rate_in_seconds
+		m_result.can_attack = scale_setting.can_attack
+	else:
+		m_result.attack_damage = m_get_default_setting().attack_damage
+		m_result.attack_rate_in_seconds = m_get_default_setting().attack_rate_in_seconds
+		m_result.can_attack = m_get_default_setting().can_attack
+
+	if scale_setting.override_jump_height:
+		m_result.jump_height = scale_setting.jump_height
+	else:
+		m_result.jump_height = m_get_default_setting().jump_height * scale_setting.scale_multiplier
+
+	if scale_setting.override_gravity:
+		m_result.gravity = scale_setting.gravity
+	else:
+		m_result.gravity = ProjectSettings.get_setting("physics/2d/default_gravity") * scale_setting.scale_multiplier
+
+	if scale_setting.override_dash:
+		m_result.dash_duration_in_seconds = scale_setting.dash_duration_in_seconds
+		m_result.dash_range_in_px = scale_setting.dash_range_in_px
+		m_result.aim_duration_in_seconds = scale_setting.aim_duration_in_seconds
+		m_result.dash_count = scale_setting.dash_count
+	else:
+		m_result.dash_duration_in_seconds = m_get_default_setting().dash_duration_in_seconds
+		m_result.dash_range_in_px = m_get_default_setting().dash_range_in_px * scale_setting.scale_multiplier
+		m_result.aim_duration_in_seconds = m_get_default_setting().aim_duration_in_seconds
+		m_result.dash_count = m_get_default_setting().dash_count
+
+	if scale_setting.override_camera_zoom:
+		m_result.camera_zoom = scale_setting.camera_zoom
+	else:
+		m_result.camera_zoom = m_get_default_setting().camera_zoom * (1.0 / scale_setting.scale_multiplier)
+
+	if scale_setting.override_sprite:
+		var m_new_scale = m_default_sprite_scale * scale_setting.sprite_scale
+		m_result.sprite_scale = m_new_scale
+	else:
+		m_result.sprite_scale = m_default_sprite_scale * scale_setting.scale_multiplier
+
+	m_arrow.scale = m_default_arrow_scale * scale_setting.scale_multiplier
+	m_animation.scale = m_default_animation_scale * scale_setting.scale_multiplier
+
+	if scale_setting.override_collison:
+		m_result.collision_scale = scale_setting.collision_scale
+	else:
+		m_result.collision_scale = m_default_col_scale * scale_setting.scale_multiplier
+
+	if scale_setting.override_health:
+		m_result.max_health = scale_setting.max_health
+	else:
+		m_result.max_health = m_get_default_setting().max_health * scale_setting.scale_multiplier
+	return m_result
+
 
 func m_handle_movement(delta: float) -> void:
+
 	if not is_on_floor():
-		velocity.y += m_current_gravity * delta
+		velocity.y += m_attributes.gravity * delta
 
 	#Apply jump height using velocity conversion
 	if Input.is_action_pressed("jump") and is_on_floor():
-		velocity.y = m_get_jump_velocity(m_current_jump_height * m_current_scale_multiplier)
+		velocity.y = m_get_jump_velocity(m_attributes.jump_height)
 
 	#Fetch horizontal input
 	var dir = Input.get_axis("move_left", "move_right")
-	
+
 	#Apply it
 	if dir:
 		m_sprite.flip_h = dir < 0
-		m_sfx_manager.m_play_footstep_sound(m_current_size)
-		if abs(dir * (m_current_speed * m_current_scale_multiplier)) > abs(velocity.x):
-			velocity.x = dir * (m_current_speed * m_current_scale_multiplier)
+		m_animation.flip_h = dir < 0
+		m_sprite.hide() #TODO: Animation Part
+		m_animation.show() #TODO: Animation Part
+		m_animation.play(str(m_current_size)+"_walk")
+		if abs(dir * m_attributes.speed) > abs(velocity.x):
+			velocity.x = dir * m_attributes.speed
 		else:
 			velocity.x = lerp(velocity.x, 0.0, 0.1)
 		# Switch Attack and Interact Face Direction
 		m_attack.switch_face(dir)
 		m_interact.switch_face(dir)
-	else:
+		m_companion.switch_face(dir)
+	elif is_on_floor():
 		#LERP back to 0
-		velocity.x = lerp(velocity.x, 0.0, 0.1)
-		#velocity.x = move_toward(velocity.x, 0, (m_current_speed * m_current_scale_multiplier))
-	# move_and_slide()
+		m_sprite.show() #TODO: Animation Part
+		m_animation.hide() #TODO: Animation Part
+		velocity.x = lerp(velocity.x, 0.0, 0.25)
 
 func m_handle_hover(_delta: float) -> void:
 	velocity = Vector2.ZERO
 	pass
-	#if not is_on_floor():
-		#velocity.y += (m_current_gravity / 12.0) * _delta
 
 func m_handle_dash(_delta: float) -> void:
-	# var x_dir = Input.get_axis("move_left", "move_right")
-	# var y_dir = Input.get_axis("up", "down")
-	# if x_dir == 0 && y_dir == 0:
-	# 	x_dir = 1 if m_sprite.flip_h else -1
-	# var vector = Vector2(x_dir, y_dir).normalized()
-	# var speed = 400
-	# velocity = vector * speed * m_current_scale_multiplier
-	velocity = m_cur_dash_direction * player_settings.dash_speed * m_current_scale_multiplier
+	velocity = m_cur_dash_direction * m_attributes.dash_range_in_px
 	pass
 
 func m_handle_dash_aim(_delta) -> void:
 	if is_on_floor():
-		m_cur_dash_count = player_settings.dash_count
+		m_cur_dash_count = m_attributes.dash_count
 
 	m_cur_dash_duration_in_seconds -= _delta
 	m_cur_dash_duration_in_seconds = max(m_cur_dash_duration_in_seconds, 0)
@@ -260,33 +307,45 @@ func m_handle_dash_aim(_delta) -> void:
 	m_cur_dash_hover_duration_in_seconds = max(m_cur_dash_hover_duration_in_seconds, 0)
 
 	if Input.is_action_just_pressed("dash") and m_cur_dash_hover_duration_in_seconds <= 0 and m_cur_dash_count > 0 and m_current_size < Size.Large:
-		m_cur_dash_hover_duration_in_seconds = player_settings.dash_hover_duration_in_seconds
+		m_cur_dash_hover_duration_in_seconds = m_attributes.aim_duration_in_seconds
 		m_cur_dash_count -= 1
+		m_arrow.show()
 
 	if m_cur_dash_hover_duration_in_seconds > 0 and Input.is_action_just_released("dash"):
 		var m_mouse_pos = get_global_mouse_position()
 		m_cur_dash_direction = (m_mouse_pos - position).normalized()
-		m_cur_dash_duration_in_seconds = player_settings.dash_duration_in_seconds
+		m_cur_dash_duration_in_seconds = m_attributes.dash_duration_in_seconds
 		m_cur_dash_hover_duration_in_seconds = 0
+		m_arrow.hide()
 
+func m_rotate_dash_arrow():
+	var m_mouse_pos = get_global_mouse_position()
+	var m_arrow_direction = m_mouse_pos - position
+	m_arrow.rotation = m_arrow_direction.angle()
 
 func _physics_process(delta: float) -> void:
 	if m_cur_dash_hover_duration_in_seconds > 0:
 		m_handle_hover(delta)
 	elif m_cur_dash_duration_in_seconds > 0:
+
 		m_handle_dash(delta)
 	else:
 		m_handle_movement(delta)
+		m_arrow.hide()
 	move_and_slide()
 
 
 func _process(_delta: float) -> void:
 
 	m_handle_dash_aim(_delta)
-
+	m_rotate_dash_arrow()
 	#Link up Scale Mechanic to input
+
 	var m_old_size = m_current_size
-	if Input.is_action_just_pressed("enlarge"):
+	var m_ceil_test = m_ceiling_detector.is_colliding()
+	if m_ceil_test:
+		print(m_ceiling_detector.get_collider(0).name)
+	if Input.is_action_just_pressed("enlarge") and not m_ceil_test:
 		m_current_size += 1
 	elif Input.is_action_just_pressed("shrink"):
 		m_current_size -= 1
@@ -296,8 +355,8 @@ func _process(_delta: float) -> void:
 		m_apply_settings(m_current_size)
 
 	# Link up attacking and interactive to their respective systems
-	if Input.is_action_pressed("attack") and m_current_attack_flag:
-		m_attack.attack_current_targets(m_current_attack_damage, m_current_attack_rate_in_seconds)
+	if Input.is_action_pressed("attack") and m_attributes.can_attack:
+		m_attack.attack_current_targets(m_attributes.attack_damage, m_attributes.attack_rate_in_seconds)
 	if m_pickup_manager.has_picked_up_something() and Input.is_action_just_pressed("interact"):
 		m_pickup_manager.release_picked_up_element()
 	elif Input.is_action_just_pressed("interact"):

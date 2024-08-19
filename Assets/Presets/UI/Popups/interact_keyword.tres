@@ -1,9 +1,0 @@
-[gd_resource type="Resource" script_class="BindKeyword" load_steps=2 format=3 uid="uid://dxki4ttaw2x70"]
-
-[ext_resource type="Script" path="res://Scripts/HUD/Onboarding/keyboard_keyword.gd" id="1_dx57k"]
-
-[resource]
-script = ExtResource("1_dx57k")
-keyword = "interact"
-bind_icon = ""
-icon_size = Vector2(16, 16)

@@ -1,0 +1,31 @@
+[gd_resource type="Resource" script_class="ScaleSettings" load_steps=2 format=3 uid="uid://dbl73vcy081xt"]
+
+[ext_resource type="Script" path="res://Scripts/Gameplay/Player/scale_setting.gd" id="1_c3uk4"]
+
+[resource]
+script = ExtResource("1_c3uk4")
+scale_multiplier = 1.0
+override_attack = false
+can_attack = true
+attack_damage = 1.0
+attack_rate_in_seconds = 0.25
+override_jump_height = false
+jump_height = 50.0
+override_speed = false
+speed = 300.0
+override_gravity = false
+gravity = 980.0
+override_dash = false
+can_dash = true
+dash_count = 1
+dash_range_in_px = 300.0
+dash_duration_in_seconds = 0.25
+aim_duration_in_seconds = 2.0
+override_camera_zoom = false
+camera_zoom = Vector2(5, 5)
+override_sprite = false
+sprite_scale = Vector2(1, 1)
+override_collison = false
+collision_scale = Vector2(1, 1)
+override_health = false
+max_health = 6
