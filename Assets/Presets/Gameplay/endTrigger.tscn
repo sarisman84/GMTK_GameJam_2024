@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://tnk5ck8unlmk"]
+
+[ext_resource type="Script" path="res://Assets/Presets/Gameplay/endTrigger.gd" id="1_b1b4x"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_yprvx"]
+
+[node name="EndTrigger" type="Area2D"]
+collision_layer = 0
+script = ExtResource("1_b1b4x")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_yprvx")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
