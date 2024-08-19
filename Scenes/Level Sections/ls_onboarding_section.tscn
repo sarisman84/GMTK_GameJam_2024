@@ -1,7 +1,8 @@
-[gd_scene load_steps=12 format=3 uid="uid://00jw4ax5ahmi"]
+[gd_scene load_steps=13 format=3 uid="uid://00jw4ax5ahmi"]
 
 [ext_resource type="PackedScene" uid="uid://4x0jtfwvvyxy" path="res://Assets/Presets/Gameplay/p_companion.tscn" id="1_1r53i"]
 [ext_resource type="PackedScene" uid="uid://22o2pk2n1acn" path="res://Assets/Presets/Gameplay/p_player_avatar.tscn" id="1_7my5f"]
+[ext_resource type="Script" path="res://Scripts/Gameplay/ls_onboarding_section.gd" id="1_8isfo"]
 [ext_resource type="PackedScene" uid="uid://b54xxl7212wqv" path="res://Assets/Presets/Level Assets/Onboarding/Elements/pickupable_element.tscn" id="2_jgvli"]
 [ext_resource type="TileSet" uid="uid://k2svldbajy33" path="res://Assets/Presets/Level Assets/Onboarding/Tilesets/dungeon_tile_set.tres" id="3_nmrh0"]
 [ext_resource type="PackedScene" uid="uid://blxf78dkqm0cl" path="res://Assets/Presets/Level Assets/Onboarding/ShrunkSections/shrunk_dash_puzzle.tscn" id="4_ibmyu"]
@@ -23,13 +24,13 @@ size = Vector2(262, 130.75)
 size = Vector2(397.25, 173)
 
 [node name="onboarding_section" type="Node2D"]
+script = ExtResource("1_8isfo")
 
 [node name="companion" parent="." node_paths=PackedStringArray("target_to_follow") instance=ExtResource("1_1r53i")]
-visible = false
 smoothing = 1.6
-target_to_follow = NodePath("../CharacterBody2D")
+target_to_follow = NodePath("../player_avatar/shape/book_anchor")
 
-[node name="CharacterBody2D" parent="." instance=ExtResource("1_7my5f")]
+[node name="player_avatar" parent="." instance=ExtResource("1_7my5f")]
 position = Vector2(1077, -18)
 collision_layer = 9
 
@@ -49,11 +50,10 @@ scale = Vector2(0.015, 0.015)
 
 [node name="tutorial_popups" type="Node" parent="."]
 
-[node name="movement_tutorial" type="Area2D" parent="tutorial_popups" node_paths=PackedStringArray("popup_anchor")]
+[node name="movement_tutorial" type="Area2D" parent="tutorial_popups"]
 collision_layer = 0
 collision_mask = 8
 script = ExtResource("5_hw1up")
-popup_anchor = NodePath("../../CharacterBody2D/companion")
 popup_text = "Press [key:move] to move around and [key:jump] to jump"
 trigger_once = true
 
@@ -110,5 +110,5 @@ trigger_once = true
 position = Vector2(1050.63, -134.5)
 shape = SubResource("RectangleShape2D_fvevv")
 
-[editable path="CharacterBody2D"]
+[editable path="player_avatar"]
 [editable path="pickupable_element"]
