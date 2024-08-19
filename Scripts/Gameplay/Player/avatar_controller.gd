@@ -180,7 +180,8 @@ func m_apply_settings(type: int) -> void:
 	var m_normal := 0
 	var m_small := -1
 	var m_large := 1
-
+	print("Cur",m_health.m_current_health)
+	print("Max",m_health.m_max_health)
 	var m_new_health = await m_calculate_new_health_on_size_change(type)
 	m_health.set_current_health(m_new_health)
 
