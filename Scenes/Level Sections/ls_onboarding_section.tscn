@@ -25,6 +25,7 @@ size = Vector2(397.25, 173)
 [node name="onboarding_section" type="Node2D"]
 
 [node name="companion" parent="." node_paths=PackedStringArray("target_to_follow") instance=ExtResource("1_1r53i")]
+visible = false
 smoothing = 1.6
 target_to_follow = NodePath("../CharacterBody2D")
 
@@ -52,7 +53,7 @@ scale = Vector2(0.015, 0.015)
 collision_layer = 0
 collision_mask = 8
 script = ExtResource("5_hw1up")
-popup_anchor = NodePath("../../companion")
+popup_anchor = NodePath("../../CharacterBody2D/companion")
 popup_text = "Press [key:move] to move around and [key:jump] to jump"
 trigger_once = true
 
@@ -109,4 +110,5 @@ trigger_once = true
 position = Vector2(1050.63, -134.5)
 shape = SubResource("RectangleShape2D_fvevv")
 
+[editable path="CharacterBody2D"]
 [editable path="pickupable_element"]

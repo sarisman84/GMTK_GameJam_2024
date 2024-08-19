@@ -11,7 +11,7 @@ extends Node2D
 func _ready():
 	m_animation.play()
 
-#Dai: Yes I know this is scuffed. 
+#Dai: Yes I know this is scuffed.
 #TODO: Position.x part will probably have to be replaced so scaling works.
 func switch_face(direction: int) -> void:
 	if direction > 0:

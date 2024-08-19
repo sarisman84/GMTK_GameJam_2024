@@ -1,73 +1,57 @@
-[gd_scene load_steps=19 format=3 uid="uid://4x0jtfwvvyxy"]
+[gd_scene load_steps=3 format=3 uid="uid://4x0jtfwvvyxy"]
 
 [ext_resource type="Script" path="res://Scripts/Gameplay/Player/companion_follow.gd" id="1_cy1n3"]
-[ext_resource type="Texture2D" uid="uid://bbr1nntfyu2uw" path="res://Assets/Art/Textures/Player/Book_Idle/Book_Idle_0000.png" id="2_48kyu"]
-[ext_resource type="Texture2D" uid="uid://0510jiuuucbn" path="res://Assets/Art/Textures/Player/Book_Idle/Book_Idle_0001.png" id="3_jpqff"]
-[ext_resource type="Texture2D" uid="uid://cjwlunps1e18k" path="res://Assets/Art/Textures/Player/Book_Idle/Book_Idle_0002.png" id="4_6arxd"]
-[ext_resource type="Texture2D" uid="uid://di13cnhgkywwb" path="res://Assets/Art/Textures/Player/Book_Idle/Book_Idle_0003.png" id="5_aiqrx"]
-[ext_resource type="Texture2D" uid="uid://ciwt5bniutyy8" path="res://Assets/Art/Textures/Player/Book_Idle/Book_Idle_0004.png" id="6_s61fk"]
-[ext_resource type="Texture2D" uid="uid://duldsc2gdnfal" path="res://Assets/Art/Textures/Player/Book_Idle/Book_Idle_0005.png" id="7_rvu3v"]
-[ext_resource type="Texture2D" uid="uid://diqmvewnkmmvl" path="res://Assets/Art/Textures/Player/Book_Idle/Book_Idle_0006.png" id="8_buy74"]
-[ext_resource type="Texture2D" uid="uid://cc5tmfi6vmexg" path="res://Assets/Art/Textures/Player/Book_Idle/Book_Idle_0007.png" id="9_5ak1q"]
-[ext_resource type="Texture2D" uid="uid://cmpy1f8r7585e" path="res://Assets/Art/Textures/Player/Book_Idle/Book_Idle_0008.png" id="10_hic8b"]
-[ext_resource type="Texture2D" uid="uid://cy1swnnlek0xe" path="res://Assets/Art/Textures/Player/Book_Idle/Book_Idle_0009.png" id="11_v25vi"]
-[ext_resource type="Texture2D" uid="uid://bxj14op1ryo2a" path="res://Assets/Art/Textures/Player/Book_Idle/Book_Idle_0010.png" id="12_r5wo3"]
-[ext_resource type="Texture2D" uid="uid://dgr1y5plgpu0r" path="res://Assets/Art/Textures/Player/Book_Idle/Book_Idle_0011.png" id="13_h6sp6"]
-[ext_resource type="Texture2D" uid="uid://8am00i1k0pnc" path="res://Assets/Art/Textures/Player/Book_Idle/Book_Idle_0012.png" id="14_3ul4q"]
-[ext_resource type="Texture2D" uid="uid://6xvj5r0f4rbu" path="res://Assets/Art/Textures/Player/Book_Idle/Book_Idle_0013.png" id="15_jevau"]
-[ext_resource type="Texture2D" uid="uid://nivw0tvinajv" path="res://Assets/Art/Textures/Player/Book_Idle/Book_Idle_0014.png" id="16_0gjx7"]
-[ext_resource type="Texture2D" uid="uid://c1b26fropql8b" path="res://Assets/Art/Textures/Player/Book_Idle/Book_Idle_0015.png" id="17_covqe"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_8i41b"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("2_48kyu")
+"texture": null
 }, {
 "duration": 1.0,
-"texture": ExtResource("3_jpqff")
+"texture": null
 }, {
 "duration": 1.0,
-"texture": ExtResource("4_6arxd")
+"texture": null
 }, {
 "duration": 1.0,
-"texture": ExtResource("5_aiqrx")
+"texture": null
 }, {
 "duration": 1.0,
-"texture": ExtResource("6_s61fk")
+"texture": null
 }, {
 "duration": 1.0,
-"texture": ExtResource("7_rvu3v")
+"texture": null
 }, {
 "duration": 1.0,
-"texture": ExtResource("8_buy74")
+"texture": null
 }, {
 "duration": 1.0,
-"texture": ExtResource("9_5ak1q")
+"texture": null
 }, {
 "duration": 1.0,
-"texture": ExtResource("10_hic8b")
+"texture": null
 }, {
 "duration": 1.0,
-"texture": ExtResource("11_v25vi")
+"texture": null
 }, {
 "duration": 1.0,
-"texture": ExtResource("12_r5wo3")
+"texture": null
 }, {
 "duration": 1.0,
-"texture": ExtResource("13_h6sp6")
+"texture": null
 }, {
 "duration": 1.0,
-"texture": ExtResource("14_3ul4q")
+"texture": null
 }, {
 "duration": 1.0,
-"texture": ExtResource("15_jevau")
+"texture": null
 }, {
 "duration": 1.0,
-"texture": ExtResource("16_0gjx7")
+"texture": null
 }, {
 "duration": 1.0,
-"texture": ExtResource("17_covqe")
+"texture": null
 }],
 "loop": true,
 "name": &"default",

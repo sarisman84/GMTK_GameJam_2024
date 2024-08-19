@@ -42,6 +42,7 @@ var m_current_size: int
 #Current Setting
 var m_current_scale: ScaleSettings
 var m_attributes: ScaleSettings
+var m_next_scale : ScaleSettings
 
 
 func _ready() -> void:
@@ -102,12 +103,15 @@ func m_apply_settings(type: int) -> void:
 	match type:
 		m_normal:
 			m_current_scale = normal_scale
+			m_next_scale = large_scale
 			pass
 		m_small:
 			m_current_scale = small_scale
+			m_next_scale = normal_scale
 			pass
 		m_large:
 			m_current_scale = large_scale
+			m_next_scale = large_scale
 			pass
 
 	#Apply new default scale to attack, health and interact hitboxes
@@ -130,8 +134,8 @@ func m_apply_settings(type: int) -> void:
 
 	position.y -= (m_rect.size.y * m_collider.scale.y) / 2.0
 
-	var m_skin_width : float = 5.0
-	m_ceiling_detector.target_position.y = -(((m_rect.size.y * m_collider.scale.y) / 2.0) + m_skin_width)
+	var m_skin_width : float = m_sphere.radius / 2.0
+	m_ceiling_detector.target_position.y = -(((m_rect.size.y * m_next_scale.scale_multiplier)) + m_skin_width)
 
 	#Emit scale change event
 	on_size_change.emit(type, m_current_scale.scale_multiplier)
@@ -283,7 +287,7 @@ func _physics_process(delta: float) -> void:
 	if m_cur_dash_hover_duration_in_seconds > 0:
 		m_handle_hover(delta)
 	elif m_cur_dash_duration_in_seconds > 0:
-		
+
 		m_handle_dash(delta)
 	else:
 		m_handle_movement(delta)
