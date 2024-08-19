@@ -64,6 +64,8 @@ func m_init_default_scales() -> void:
 
 func m_init_health() -> void:
 	m_health.set_health_node_owner(self)
+	m_health.set_max_health(player_settings.regular_size_max_health)
+	m_health.reset_health()
 	m_health.on_death.connect(m_on_player_death)
 
 
@@ -83,11 +85,35 @@ func reset_player() -> void:
 func m_get_jump_velocity(target_height: float) -> float:
 	return -sqrt(2 * target_height / m_current_gravity) * m_current_gravity
 
+func m_calculate_new_health_on_size_change(type: int):
+	# Default typing values
+	var m_normal := 0
+	var m_small := -1
+	var m_large := 1
+	
+	var m_current_health = m_health.m_current_health
+	var m_current_max_health = m_health.m_max_health
+	var m_new_max_health
+	
+	if type == m_small:
+		m_new_max_health = player_settings.small_size_max_health
+	elif type == m_normal:
+		m_new_max_health = player_settings.regular_size_max_health
+	else:
+		m_new_max_health = player_settings.large_size_max_health
+
+	var m_new_health = clamp(floor((float(m_current_health) / m_current_max_health) * m_new_max_health), 1, m_new_max_health)
+	
+	return m_new_health
+
 func m_apply_settings(type: int) -> void:
 	# Default typing values
 	var m_normal := 0
 	var m_small := -1
 	var m_large := 1
+	
+	var m_new_health = await m_calculate_new_health_on_size_change(type)
+	m_health.set_current_health(m_new_health)
 
 	#Change sprite
 	m_sprite.texture = sprites[type + 1]
@@ -101,6 +127,8 @@ func m_apply_settings(type: int) -> void:
 		m_current_attack_damage = player_settings.attack_damage
 		m_current_attack_flag = player_settings.can_attack
 		m_current_attack_rate_in_seconds = player_settings.attack_rate_in_seconds
+		#Apply new default max health
+		m_health.set_max_health(player_settings.regular_size_max_health)
 
 
 	#TODO - Clean this mess up
@@ -108,6 +136,9 @@ func m_apply_settings(type: int) -> void:
 	elif type == m_small:
 		m_current_scale_multiplier = player_settings.small_scale_settings.scale_multiplier
 
+		#Apply new default max health
+		m_health.set_max_health(player_settings.small_size_max_health)
+		
 		# Try Applying Speed Info
 		if player_settings.small_scale_settings.override_speed:
 			m_current_speed = player_settings.small_scale_settings.speed
@@ -129,6 +160,9 @@ func m_apply_settings(type: int) -> void:
 	# Apply large scale settings if applicaple
 	elif type == m_large:
 		m_current_scale_multiplier = player_settings.large_scale_settings.scale_multiplier
+		
+		#Apply new default max health
+		m_health.set_max_health(player_settings.large_size_max_health)
 
 		# Try Applying Speed Info
 		if player_settings.large_scale_settings.override_speed:
@@ -162,9 +196,6 @@ func m_apply_settings(type: int) -> void:
 
 	#Apply new default gravity
 	m_current_gravity = m_final_gravity * m_current_scale_multiplier
-
-	#Apply new default max health
-	m_health.set_max_health(player_settings.max_health * m_current_scale_multiplier)
 
 	#Apply new default scale to attack, health and interact hitboxes
 	m_attack.scale_hitbox(m_current_scale_multiplier)

@@ -26,6 +26,8 @@ func set_max_health(target_max_health : int) -> void:
 	if m_current_health <= 0:
 		m_current_health = m_max_health
 
+func set_current_health(new_health: int) -> void:
+	m_current_health = new_health
 
 func apply_damage(incoming_damage : float) -> void:
 	if m_current_health <= 0:

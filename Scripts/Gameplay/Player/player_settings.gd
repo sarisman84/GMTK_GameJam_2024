@@ -4,7 +4,9 @@ extends Resource
 @export_group("Default")
 @export var speed : float = 300
 @export var jump_height_in_px : float = 10.0
-@export var max_health : int = 3
+@export var small_size_max_health : int = 2
+@export var regular_size_max_health : int = 6
+@export var large_size_max_health : int = 12
 @export var default_zoom : float = 8
 @export_group("Attack")
 @export var can_attack : bool = true
