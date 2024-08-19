@@ -207,10 +207,10 @@ func m_get_scaled_attributes(scale_setting: ScaleSettings) -> ScaleSettings:
 		m_result.sprite_scale = m_new_scale
 	else:
 		m_result.sprite_scale = m_default_sprite_scale * scale_setting.scale_multiplier
-	
+
 	m_arrow.scale = m_default_arrow_scale * scale_setting.scale_multiplier
 	m_animation.scale = m_default_animation_scale * scale_setting.scale_multiplier
-	
+
 	if scale_setting.override_collison:
 		m_result.collision_scale = scale_setting.collision_scale
 	else:
