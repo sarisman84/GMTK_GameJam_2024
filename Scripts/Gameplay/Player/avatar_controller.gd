@@ -19,6 +19,7 @@ enum Size {Normal = 0, Small = -1, Large = 1}
 @onready var m_interact: InteractNode = $interact
 @onready var m_pickup_manager: PickupManager = $pickup_manager
 @onready var m_ceiling_detector = $ceiling_detector
+@onready var m_arrow = $arrow
 
 #Signals
 signal on_size_change(size_id, new_scale)
@@ -42,6 +43,7 @@ var m_attributes: ScaleSettings
 
 
 func _ready() -> void:
+	m_arrow.hide()
 	Popups.assign_new_owner(self)
 
 	m_init_default_scales()
@@ -255,28 +257,36 @@ func m_handle_dash_aim(_delta) -> void:
 	if Input.is_action_just_pressed("dash") and m_cur_dash_hover_duration_in_seconds <= 0 and m_cur_dash_count > 0 and m_current_size < Size.Large:
 		m_cur_dash_hover_duration_in_seconds = m_attributes.aim_duration_in_seconds
 		m_cur_dash_count -= 1
+		m_arrow.show()
 
 	if m_cur_dash_hover_duration_in_seconds > 0 and Input.is_action_just_released("dash"):
 		var m_mouse_pos = get_global_mouse_position()
 		m_cur_dash_direction = (m_mouse_pos - position).normalized()
 		m_cur_dash_duration_in_seconds = m_attributes.dash_duration_in_seconds
 		m_cur_dash_hover_duration_in_seconds = 0
+		m_arrow.hide()
 
+func m_rotate_dash_arrow():
+	var m_mouse_pos = get_global_mouse_position()
+	var m_arrow_direction = m_mouse_pos - position
+	m_arrow.rotation = m_arrow_direction.angle()
 
 func _physics_process(delta: float) -> void:
 	if m_cur_dash_hover_duration_in_seconds > 0:
 		m_handle_hover(delta)
 	elif m_cur_dash_duration_in_seconds > 0:
+		
 		m_handle_dash(delta)
 	else:
 		m_handle_movement(delta)
+		m_arrow.hide()
 	move_and_slide()
 
 
 func _process(_delta: float) -> void:
 
 	m_handle_dash_aim(_delta)
-
+	m_rotate_dash_arrow()
 	#Link up Scale Mechanic to input
 
 	var m_old_size = m_current_size
