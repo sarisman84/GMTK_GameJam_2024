@@ -12,7 +12,6 @@ func _on_options_pressed():
 	$options.show()
 
 func _on_options_back_pressed():
-	print("run")
 	$title.show()
 	$options.hide()
 

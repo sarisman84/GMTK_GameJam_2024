@@ -18,6 +18,7 @@ enum Size {Normal = 0, Small = -1, Large = 1}
 @onready var m_attack: AttackNode = $attack
 @onready var m_interact: InteractNode = $interact
 @onready var m_pickup_manager: PickupManager = $pickup_manager
+@onready var m_sfx_manager: Node = $sfx_manager
 @onready var m_ceiling_detector = $ceiling_detector
 @onready var m_arrow = $arrow
 @onready var m_companion = $companion
@@ -95,11 +96,35 @@ func reset_player() -> void:
 func m_get_jump_velocity(target_height: float) -> float:
 	return -sqrt(2 * target_height / m_attributes.gravity) * m_attributes.gravity
 
+func m_calculate_new_health_on_size_change(type: int):
+	# Default typing values
+	var m_normal := 0
+	var m_small := -1
+	var m_large := 1
+	
+	var m_current_health = m_health.m_current_health
+	var m_current_max_health = m_health.m_max_health
+	var m_new_max_health
+	
+	if type == m_small:
+		m_new_max_health = small_scale.max_health
+	elif type == m_normal:
+		m_new_max_health = normal_scale.max_health
+	else:
+		m_new_max_health = large_scale.max_health
+
+	var m_new_health = clamp(floor((float(m_current_health) / m_current_max_health) * m_new_max_health), 1, m_new_max_health)
+	
+	return m_new_health
+
 func m_apply_settings(type: int) -> void:
 	# Default typing values
 	var m_normal := 0
 	var m_small := -1
 	var m_large := 1
+	
+	var m_new_health = await m_calculate_new_health_on_size_change(type)
+	m_health.set_current_health(m_new_health)
 
 	#Change sprite
 	m_sprite.texture = sprites[type + 1]
@@ -234,6 +259,7 @@ func m_handle_movement(delta: float) -> void:
 
 	#Fetch horizontal input
 	var dir = Input.get_axis("move_left", "move_right")
+	
 	#Apply it
 	if dir:
 		m_sprite.flip_h = dir < 0
