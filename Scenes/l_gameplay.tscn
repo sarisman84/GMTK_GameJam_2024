@@ -1,3 +1,13 @@
-[gd_scene format=3 uid="uid://f0x5w6hmn45w"]
+[gd_scene load_steps=3 format=3 uid="uid://f0x5w6hmn45w"]
+
+[ext_resource type="PackedScene" uid="uid://00jw4ax5ahmi" path="res://Scenes/Level Sections/ls_onboarding_section.tscn" id="1_1qphg"]
+[ext_resource type="PackedScene" uid="uid://bh4nqgn1uygok" path="res://Scenes/Level Sections/ls_central_hub_section.tscn" id="2_7tluo"]
 
 [node name="gameplay_scene" type="Node"]
+
+[node name="onboarding_section" parent="." instance=ExtResource("1_1qphg")]
+
+[node name="central_hub_section" parent="." instance=ExtResource("2_7tluo")]
+position = Vector2(1680, -512)
+
+[editable path="central_hub_section"]

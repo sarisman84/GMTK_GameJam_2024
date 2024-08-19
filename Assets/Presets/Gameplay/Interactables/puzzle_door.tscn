@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://bp4cn1mly2p5f"]
+
+[ext_resource type="PackedScene" uid="uid://dft6ncnce52pc" path="res://Assets/Presets/Gameplay/Interactables/door.tscn" id="1_s0nnw"]
+
+[node name="puzzle_door" instance=ExtResource("1_s0nnw")]
+
+[node name="visual" parent="." index="0"]
+position = Vector2(-2.98023e-08, 0)
+scale = Vector2(6, 62)

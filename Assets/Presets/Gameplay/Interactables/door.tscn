@@ -1,0 +1,41 @@
+[gd_scene load_steps=6 format=3 uid="uid://dft6ncnce52pc"]
+
+[ext_resource type="Script" path="res://Scripts/Gameplay/Interactables/door.gd" id="1_3ihtn"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_logr6"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_aj4hb"]
+size = Vector2(0.65625, 61.9186)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_t7xqh"]
+size = Vector2(0.65625, 61.9186)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_thw54"]
+size = Vector2(6.64297, 0.534616)
+
+[node name="door" type="StaticBody2D" node_paths=PackedStringArray("open_position_node2d")]
+script = ExtResource("1_3ihtn")
+open_position_node2d = NodePath("open_position")
+
+[node name="visual" type="Sprite2D" parent="."]
+scale = Vector2(6, 62)
+texture = SubResource("PlaceholderTexture2D_logr6")
+
+[node name="open_position" type="Node2D" parent="."]
+position = Vector2(0, -84)
+
+[node name="door_edge" type="CollisionShape2D" parent="."]
+position = Vector2(-3, -0.0384789)
+shape = SubResource("RectangleShape2D_aj4hb")
+
+[node name="door_edge2" type="CollisionShape2D" parent="."]
+position = Vector2(3, 0)
+shape = SubResource("RectangleShape2D_t7xqh")
+
+[node name="door_edge3" type="CollisionShape2D" parent="."]
+position = Vector2(0, -30.9595)
+shape = SubResource("RectangleShape2D_thw54")
+
+[node name="door_edge4" type="CollisionShape2D" parent="."]
+position = Vector2(-0.00396776, 30.8844)
+shape = SubResource("RectangleShape2D_thw54")
