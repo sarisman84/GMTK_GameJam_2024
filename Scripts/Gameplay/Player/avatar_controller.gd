@@ -73,7 +73,7 @@ func _ready() -> void:
 	m_hud.update_current_health(m_calculate_new_health_on_size_change(m_current_size))
 
 	m_companion_book.on_book_attack_apex.connect(m_on_book_swing)
-	
+
 
 func m_test() -> void:
 	var m_current_position = m_animation.frame
@@ -98,10 +98,14 @@ func m_init_health() -> void:
 	m_health.set_health_node_owner(self)
 	m_health.set_max_health(m_attributes.max_health)
 	m_health.on_death.connect(m_on_player_death)
-	m_health.on_damage_taken.connect(m_hud_update)
+	m_health.on_damage_taken.connect(m_hud_update_damage)
+	m_health.on_heal.connect(m_hud_update_heal)
 
-func m_hud_update() -> void:
+func m_hud_update_damage() -> void:
 	m_hud.hud_take_damage()
+
+func m_hud_update_heal() -> void:
+	m_hud.hud_heal()
 
 func m_on_player_death() -> void:
 	var coords = get_node("/root/Global").latest_checkpoint[1]
@@ -221,8 +225,8 @@ func m_apply_settings(type: int) -> void:
 		tween.kill()
 	tween = create_tween()
 	tween.tween_property(m_camera, "zoom", m_camera.zoom, 1)
-	#tween.EASE_IN 
-	# ^^ Godot says this line has no effect 
+	#tween.EASE_IN
+	# ^^ Godot says this line has no effect
 
 
 	var m_sphere = m_ceiling_detector.shape as CircleShape2D
@@ -460,7 +464,7 @@ func _process(_delta: float) -> void:
 
 	# Link up attacking and interactive to their respective systems
 	if Input.is_action_just_pressed("attack") and m_attributes.can_attack:
-		m_companion_book.attack(self, 0, Vector2.RIGHT * m_dir * 25.0 * m_current_scale.scale_multiplier)
+		m_companion_book.attack(m_attack.get_child(0) as Node2D, 0)
 	if m_pickup_manager.has_picked_up_something() and Input.is_action_just_pressed("interact"):
 		m_pickup_manager.release_picked_up_element()
 	elif Input.is_action_just_pressed("interact"):

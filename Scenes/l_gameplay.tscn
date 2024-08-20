@@ -15,12 +15,6 @@ metadata/_edit_group_ = true
 [node name="central_hub_section" parent="." instance=ExtResource("2_7tluo")]
 position = Vector2(1680, -512)
 
-[node name="goomba" parent="central_hub_section/enemies" index="0"]
-position = Vector2(432, 39)
-
-[node name="goomba2" parent="central_hub_section/enemies" index="6"]
-position = Vector2(166, 79)
-
 [node name="checkpoints" type="Node2D" parent="."]
 
 [node name="checkpoint" parent="checkpoints" instance=ExtResource("3_fc7vl")]

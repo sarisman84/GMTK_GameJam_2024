@@ -42,6 +42,7 @@ func attack_current_targets(attack_damage: float, attack_rate_in_seconds: float)
 			#Should the entry be invalid, remove it and continue
 			if not target:
 				m_current_targets.remove_at(i)
+				i -= 1
 				continue
 			target.apply_damage(attack_damage)
 			m_cur_rate = attack_rate_in_seconds
