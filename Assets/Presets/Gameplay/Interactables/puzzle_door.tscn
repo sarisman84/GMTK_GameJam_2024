@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=3 uid="uid://bp4cn1mly2p5f"]
 
 [ext_resource type="PackedScene" uid="uid://dft6ncnce52pc" path="res://Assets/Presets/Gameplay/Interactables/door.tscn" id="1_s0nnw"]
-[ext_resource type="Texture2D" uid="uid://cpquud6awiogy" path="res://Assets/Art/Textures/UI/Menu/Grabber.png" id="2_j3w2n"]
+[ext_resource type="Texture2D" uid="uid://bbpnf8f8jc85k" path="res://Assets/Art/Textures/3rd Party/4_Main_location/FREE MARKET CARTOON 2D GAME TILESET/PNG/Building/Pillar_02.png" id="2_lrpn0"]
 
 [sub_resource type="Animation" id="Animation_18pmd"]
 length = 0.001
@@ -68,8 +68,8 @@ position = Vector2(-2.98023e-08, 0)
 [node name="sprite" type="Sprite2D" parent="." index="6"]
 z_index = 4
 position = Vector2(0, 1.90735e-06)
-scale = Vector2(0.228571, 1.42222)
-texture = ExtResource("2_j3w2n")
+scale = Vector2(0.159498, 0.194439)
+texture = ExtResource("2_lrpn0")
 
 [node name="animation" type="AnimationPlayer" parent="." index="7"]
 libraries = {

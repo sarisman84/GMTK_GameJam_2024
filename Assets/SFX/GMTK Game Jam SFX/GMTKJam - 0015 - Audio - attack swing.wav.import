@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://dgmftqswksde8"
+path="res://.godot/imported/GMTKJam - 0015 - Audio - attack swing.wav-0032b24219af307ec1f1b7addeb6e58b.sample"
+
+[deps]
+
+source_file="res://Assets/SFX/GMTK Game Jam SFX/GMTKJam - 0015 - Audio - attack swing.wav"
+dest_files=["res://.godot/imported/GMTKJam - 0015 - Audio - attack swing.wav-0032b24219af307ec1f1b7addeb6e58b.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

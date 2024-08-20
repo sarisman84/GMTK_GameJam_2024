@@ -25,11 +25,14 @@ enum Size {Normal = 0, Small = -1, Large = 1}
 #@onready var m_companion = $companion
 @onready var m_animation: AnimatedSprite2D = $animation
 @onready var m_small_animation: AnimationPlayer = $small_animation
+@onready var m_hit_animation: AnimatedSprite2D = $hit_animation
 #@onready var m_book_animation : AnimatedSprite2D = $book_animation
 @onready var m_hud: CanvasLayer = $hud
 @onready var m_book_anchor: Node2D = $shape/book_anchor
 @onready var m_companion_book: Companion = %companion
 @onready var m_camera_anchor : Node2D = $camera_anchor
+@onready var m_attack_sound : AudioStreamPlayer = $attack_sound
+@onready var m_dash_sound : AudioStreamPlayer = $dash_sound
 
 #Signals
 signal on_size_change(size_id, new_scale)
@@ -70,8 +73,7 @@ func _ready() -> void:
 	m_init_default_scales()
 	reset_player()
 	m_init_health()
-
-
+	m_hit_animation.hide()
 	m_pickup_manager.init_manager(self)
 	m_hud.update_max_health(m_attributes.max_health)
 	m_hud.update_current_health(m_calculate_new_health_on_size_change(m_current_size))
@@ -113,6 +115,17 @@ func m_hud_update_energy() -> void:
 func m_hud_update_damage() -> void:
 	m_hud.hud_take_damage()
 
+	if m_current_size == 0:
+		m_sprite.hide()
+		m_animation.hide()
+		m_hit_animation.show()
+		m_hit_animation.play()
+		await get_tree().create_timer(0.5).timeout
+		m_hit_animation.hide()
+		m_sprite.show()
+		m_animation.show()
+		m_hit_animation.stop()
+
 func m_hud_update_heal(heal_amount) -> void:
 	for i in heal_amount:
 		m_hud.hud_heal()
@@ -121,6 +134,7 @@ func m_on_player_death(_self_node : HealthNode) -> void:
 	var coords = get_node("/root/Global").latest_checkpoint[1]
 	position = coords
 	reset_player()
+
 	pass
 
 func reset_player() -> void:
@@ -129,6 +143,8 @@ func reset_player() -> void:
 	m_attack.switch_face(1)
 	m_health.set_max_health(m_attributes.max_health)
 	m_health.reset_health()
+	#Update HUD
+	m_hud.update_current_health(m_health.m_current_health)
 	pass
 
 func m_get_jump_velocity(target_height: float) -> float:
@@ -354,14 +370,19 @@ func m_handle_movement(delta: float) -> void:
 	if m_dir:
 		m_sprite.flip_h = m_dir < 0
 		m_animation.flip_h = m_dir < 0
+		m_hit_animation.flip_h = m_dir < 0
 		#m_book_animation.flip_h = dir < 0
 		m_companion_book.flip_side(m_dir as int)
 
 		#Animation Handler:
 		if m_current_size == 0: #Normal Size
 			m_sprite.hide()
-			m_animation.show()
-			m_animation.play(str(m_current_size) + "_walk")
+			print(m_hit_animation.is_playing())
+			if !m_hit_animation.is_playing():
+				m_animation.show()
+				m_animation.play(str(m_current_size) + "_walk")
+			else:
+				m_animation.hide()
 		elif m_current_size == 1: #Big Size
 			m_sprite.show()
 			m_animation.hide()
@@ -371,6 +392,8 @@ func m_handle_movement(delta: float) -> void:
 			m_animation.hide()
 			if is_on_floor():
 				m_small_animation.play("walk")
+			else:
+				m_small_animation.stop()
 
 		if abs(m_dir * m_attributes.speed) > abs(velocity.x):
 			velocity.x = m_dir * m_attributes.speed
@@ -383,7 +406,10 @@ func m_handle_movement(delta: float) -> void:
 
 	elif is_on_floor():
 		#Animation Handler P2:
-		m_sprite.show()
+		if !m_hit_animation.is_playing():
+			m_sprite.show()
+		else:
+			m_sprite.hide()
 		m_animation.hide()
 		m_small_animation.stop()
 
@@ -444,11 +470,13 @@ func m_can_dash(delta: float) -> bool:
 func m_on_book_swing(msg: Variant) -> void:
 	match msg:
 		1:
+			m_dash_sound.play()
 			m_camera_anchor.position = Vector2.ZERO
 			m_cur_dash_duration_in_seconds = m_attributes.dash_duration_in_seconds
 			m_cur_dash_hover_duration_in_seconds = 0
 			pass
 		0:
+			m_attack_sound.play()
 			m_attack.attack_current_targets(m_attributes.attack_damage, m_attributes.attack_rate_in_seconds)
 			pass
 	pass
@@ -489,3 +517,5 @@ func _process(_delta: float) -> void:
 		m_pickup_manager.release_picked_up_element()
 	elif Input.is_action_just_pressed("interact"):
 		m_interact.try_to_interact()
+
+

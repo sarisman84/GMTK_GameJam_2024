@@ -48,10 +48,8 @@ func disable_collisions() -> void:
 
 
 func _on_world_checker_body_entered(body):
-	print("false")
 	m_can_placedown_flag = false
 
 
 func _on_world_checker_body_exited(body):
-	print("true")
 	m_can_placedown_flag = true

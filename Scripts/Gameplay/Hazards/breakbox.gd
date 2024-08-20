@@ -7,5 +7,3 @@ extends Node2D
 func _on_area_2d_body_entered(body):
 	if body.name == "player_avatar" and causes_damage == true:
 		body.get_node("health").apply_damage(damage_level)
-		#TODO: player should recoil from damage (might be true for non-static damage as well)
-

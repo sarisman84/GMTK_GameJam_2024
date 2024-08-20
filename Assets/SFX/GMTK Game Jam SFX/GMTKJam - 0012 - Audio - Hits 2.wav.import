@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://c7t43gtwplo67"
+path="res://.godot/imported/GMTKJam - 0012 - Audio - Hits 2.wav-074468a6efe5b9dcf3e5d478a1f3141e.sample"
+
+[deps]
+
+source_file="res://Assets/SFX/GMTK Game Jam SFX/GMTKJam - 0012 - Audio - Hits 2.wav"
+dest_files=["res://.godot/imported/GMTKJam - 0012 - Audio - Hits 2.wav-074468a6efe5b9dcf3e5d478a1f3141e.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

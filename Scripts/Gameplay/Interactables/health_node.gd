@@ -7,6 +7,7 @@ signal on_heal(heal_amount)
 signal enemy_killed2
 
 @onready var m_hurtbox = $hurtbox
+@onready var m_hit_sound : AudioStreamPlayer = $hit_sound
 
 var m_max_health : int
 var m_current_health : float = -1
@@ -44,6 +45,7 @@ func apply_damage(incoming_damage : float) -> void:
 		return
 	on_damage_taken.emit()
 	m_current_health -= incoming_damage
+	m_hit_sound.play()
 	if m_current_health <= 0:
 		on_death.emit(self)
 	if m_current_health > m_max_health:

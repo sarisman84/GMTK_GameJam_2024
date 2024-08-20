@@ -7,7 +7,7 @@ func _ready():
 	$options.hide()
 	$options.back_button.connect(_on_options_back_pressed)
 
-func _on_start_pressed(): #TODO: Start game
+func _on_start_pressed():
 	get_tree().change_scene_to_file(gameplay_scene_path)
 
 func _on_options_pressed():
