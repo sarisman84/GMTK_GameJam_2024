@@ -7,7 +7,19 @@
 
 [node name="onboarding_section" parent="." instance=ExtResource("1_1qphg")]
 
+[node name="player_avatar" parent="onboarding_section" index="0"]
+position = Vector2(1647, -532)
+
 [node name="central_hub_section" parent="." instance=ExtResource("2_7tluo")]
 position = Vector2(1680, -512)
 
+[editable path="onboarding_section"]
+[editable path="onboarding_section/player_avatar"]
+[editable path="onboarding_section/interactables/pickupable_element"]
+[editable path="onboarding_section/interactables/door_group"]
+[editable path="onboarding_section/interactables/door_group/door"]
+[editable path="onboarding_section/interactables/puzzle_door"]
 [editable path="central_hub_section"]
+[editable path="central_hub_section/popups2/popup_trigger"]
+[editable path="central_hub_section/interactables/puzzle_door"]
+[editable path="central_hub_section/interactables/puzzle_door/door3"]

@@ -38,6 +38,7 @@ var m_default_col_scale: Vector2
 var m_default_sprite_scale: Vector2
 var m_default_arrow_scale: Vector2
 var m_default_ceil_scale: float
+var m_default_ceil_pos_y: float
 var m_default_animation_scale: Vector2
 var m_default_book_animation_scale: Vector2
 
@@ -90,6 +91,7 @@ func m_init_default_scales() -> void:
 	#m_default_book_animation_scale = m_book_animation.scale
 	var m_sphere := m_ceiling_detector.shape as CircleShape2D
 	m_default_ceil_scale = m_sphere.radius
+	m_default_ceil_pos_y = m_ceiling_detector.position.y
 
 func m_init_health() -> void:
 	m_health.set_health_node_owner(self)
@@ -222,13 +224,14 @@ func m_apply_settings(type: int) -> void:
 
 
 	var m_sphere = m_ceiling_detector.shape as CircleShape2D
-	m_sphere.radius = m_default_ceil_scale * m_current_scale.scale_multiplier
+	m_sphere.radius = m_default_ceil_scale * m_next_scale.scale_multiplier
 
 	var m_rect = m_collider.shape as RectangleShape2D
 
 	position.y -= (m_rect.size.y * m_collider.scale.y) / 2.0
 
-	var m_skin_width: float = m_sphere.radius / 2.0
+	var m_skin_width: float = m_sphere.radius
+	m_ceiling_detector.position.y = m_default_ceil_pos_y - m_skin_width
 	m_ceiling_detector.target_position.y = -(((m_rect.size.y * m_next_scale.scale_multiplier)) + m_skin_width)
 
 	#Emit scale change event

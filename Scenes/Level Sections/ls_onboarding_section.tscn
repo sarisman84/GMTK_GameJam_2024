@@ -1,9 +1,11 @@
-[gd_scene load_steps=19 format=3 uid="uid://00jw4ax5ahmi"]
+[gd_scene load_steps=20 format=3 uid="uid://00jw4ax5ahmi"]
 
+[ext_resource type="PackedScene" uid="uid://4x0jtfwvvyxy" path="res://Assets/Presets/Gameplay/p_companion.tscn" id="1_1r53i"]
 [ext_resource type="PackedScene" uid="uid://22o2pk2n1acn" path="res://Assets/Presets/Gameplay/p_player_avatar.tscn" id="1_7my5f"]
 [ext_resource type="PackedScene" uid="uid://b54xxl7212wqv" path="res://Assets/Presets/Level Assets/Onboarding/Elements/pickupable_element.tscn" id="2_jgvli"]
 [ext_resource type="TileSet" uid="uid://k2svldbajy33" path="res://Assets/Presets/Level Assets/Onboarding/Tilesets/dungeon_tile_set.tres" id="3_nmrh0"]
 [ext_resource type="PackedScene" uid="uid://blxf78dkqm0cl" path="res://Assets/Presets/Level Assets/Onboarding/ShrunkSections/shrunk_dash_puzzle.tscn" id="4_ibmyu"]
+[ext_resource type="PackedScene" uid="uid://4tw0r252tg1n" path="res://Assets/Presets/UI/Popups/p_popup_trigger.tscn" id="5_gtpr3"]
 [ext_resource type="Script" path="res://Scripts/Gameplay/Interactables/popup_trigger.gd" id="5_hw1up"]
 [ext_resource type="PackedScene" uid="uid://tc2taw5r8oyf" path="res://Assets/Presets/Gameplay/Interactables/door_group.tscn" id="6_0ro81"]
 [ext_resource type="PackedScene" uid="uid://bp4cn1mly2p5f" path="res://Assets/Presets/Gameplay/Interactables/puzzle_door.tscn" id="7_rdwxo"]
@@ -20,9 +22,6 @@ size = Vector2(100, 51)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_uq0xp"]
 size = Vector2(262, 130.75)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_fvevv"]
-size = Vector2(397.25, 173)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xxyol"]
 size = Vector2(0.65625, 52.6707)
@@ -101,17 +100,10 @@ trigger_once = true
 position = Vector2(1118, -33.625)
 shape = SubResource("RectangleShape2D_uq0xp")
 
-[node name="pickup_tutorial" type="Area2D" parent="tutorial_popups"]
-collision_layer = 0
-collision_mask = 8
-script = ExtResource("5_hw1up")
-popup_text = "Pick up that block infront of you when you are large.
-[color=yellow]The  picked up block will scale with you![/color]"
-trigger_once = true
-
-[node name="shape" type="CollisionShape2D" parent="tutorial_popups/pickup_tutorial"]
-position = Vector2(1050.63, -134.5)
-shape = SubResource("RectangleShape2D_fvevv")
+[node name="pickup_tutorial" parent="tutorial_popups" node_paths=PackedStringArray("popup_anchor") instance=ExtResource("5_gtpr3")]
+popup_anchor = NodePath("../../companion")
+popup_text = "Become [b]even larger[/b] and try to [b]pick up this block to our left![/b]
+[color=yellow] The block scales in size with you! [/color]"
 
 [node name="interactables" type="Node" parent="."]
 
@@ -175,12 +167,17 @@ shape = SubResource("RectangleShape2D_etxqa")
 position = Vector2(-1.61316, 20.2737)
 shape = SubResource("RectangleShape2D_aal01")
 
-[node name="button" parent="interactables/puzzle_door" node_paths=PackedStringArray("target_door") instance=ExtResource("8_ljq3c")]
+[node name="button" parent="interactables/puzzle_door" instance=ExtResource("8_ljq3c")]
 position = Vector2(-1.93225, 18.8648)
 scale = Vector2(0.05, 0.05)
 required_size = -1
-target_door = NodePath("..")
 
+[node name="companion" parent="." node_paths=PackedStringArray("target_to_follow") instance=ExtResource("1_1r53i")]
+unique_name_in_owner = true
+smoothing = 1.8
+target_to_follow = NodePath("../player_avatar/shape/book_anchor")
+
+[editable path="player_avatar"]
 [editable path="interactables/pickupable_element"]
 [editable path="interactables/door_group"]
 [editable path="interactables/door_group/door"]

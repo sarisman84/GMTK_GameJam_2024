@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://4tw0r252tg1n"]
+
+[ext_resource type="Script" path="res://Scripts/Gameplay/Interactables/popup_trigger.gd" id="1_8itlm"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fvevv"]
+size = Vector2(397.25, 173)
+
+[node name="popup_trigger" type="Area2D"]
+collision_layer = 0
+collision_mask = 8
+script = ExtResource("1_8itlm")
+popup_text = "This is a popup!"
+trigger_once = true
+
+[node name="shape" type="CollisionShape2D" parent="."]
+position = Vector2(1050.63, -134.5)
+shape = SubResource("RectangleShape2D_fvevv")

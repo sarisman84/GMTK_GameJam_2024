@@ -5,13 +5,13 @@
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_logr6"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_aj4hb"]
-size = Vector2(0.65625, 61.9186)
+size = Vector2(0.65625, 61.9183)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_t7xqh"]
 size = Vector2(0.65625, 61.9186)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_thw54"]
-size = Vector2(6.64297, 0.534616)
+size = Vector2(6.64297, 0.878059)
 
 [node name="door" type="StaticBody2D" node_paths=PackedStringArray("open_position_node2d")]
 script = ExtResource("1_3ihtn")
