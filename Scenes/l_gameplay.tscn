@@ -1,8 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://f0x5w6hmn45w"]
+[gd_scene load_steps=9 format=3 uid="uid://f0x5w6hmn45w"]
 
 [ext_resource type="PackedScene" uid="uid://00jw4ax5ahmi" path="res://Scenes/Level Sections/ls_onboarding_section.tscn" id="1_1qphg"]
 [ext_resource type="Texture2D" uid="uid://burf8wwch7n5v" path="res://Assets/Art/Textures/3rd Party/5_Levels/INFERNO CARTOON 2D PLATFORMER TILESET/PNG/Background/Background_01.png" id="1_bpqcj"]
 [ext_resource type="PackedScene" uid="uid://bh4nqgn1uygok" path="res://Scenes/Level Sections/ls_central_hub_section.tscn" id="2_7tluo"]
+[ext_resource type="Texture2D" uid="uid://dw5tn267vdq8r" path="res://Assets/Art/Textures/3rd Party/5_Levels/INFERNO CARTOON 2D PLATFORMER TILESET/PNG/Background/Background_01_altenative.png" id="2_a8scg"]
 [ext_resource type="Texture2D" uid="uid://cknws1h4mixj4" path="res://Assets/Art/Textures/3rd Party/5_Levels/INFERNO CARTOON 2D PLATFORMER TILESET/PNG/Background/Background_02.png" id="2_on7mj"]
 [ext_resource type="PackedScene" uid="uid://68nfrbuhhe34" path="res://Assets/Presets/Gameplay/checkpoint.tscn" id="3_fc7vl"]
 
@@ -19,40 +20,61 @@ loop = true
 
 [node name="upper_visual" type="Sprite2D" parent="background"]
 z_index = -3
-position = Vector2(1270, -305)
+position = Vector2(1574, -608)
+scale = Vector2(1.98462, 1.49055)
+texture = ExtResource("1_bpqcj")
+
+[node name="upper_visual6" type="Sprite2D" parent="background"]
+z_index = -3
+position = Vector2(-1002, -640)
 scale = Vector2(1.98462, 1.49055)
 texture = ExtResource("1_bpqcj")
 
 [node name="upper_visual2" type="Sprite2D" parent="background"]
 z_index = -3
-position = Vector2(3924, -305)
+position = Vector2(4226, -608)
 scale = Vector2(1.98462, 1.49055)
-texture = ExtResource("1_bpqcj")
+texture = ExtResource("2_a8scg")
 
 [node name="upper_visual3" type="Sprite2D" parent="background"]
 z_index = -3
-position = Vector2(3924, 812)
+position = Vector2(3920.74, 611.966)
 rotation = 6.28318
 scale = Vector2(1.98462, 1.49055)
 texture = ExtResource("1_bpqcj")
 
 [node name="upper_visual4" type="Sprite2D" parent="background"]
 z_index = -3
-position = Vector2(1277, 820)
+position = Vector2(1273.74, 619.966)
 rotation = 6.28318
 scale = Vector2(1.98462, 1.49055)
 texture = ExtResource("1_bpqcj")
 
 [node name="upper_visual5" type="Sprite2D" parent="background"]
 z_index = -3
-position = Vector2(2730, -1420)
+position = Vector2(2737, -1725)
 rotation = 3.14159
 scale = Vector2(1.98462, 1.49055)
 texture = ExtResource("1_bpqcj")
 
 [node name="bottom_visual" type="Sprite2D" parent="background"]
 z_index = -3
-position = Vector2(2590, -114)
+position = Vector2(2594, -182)
+texture = ExtResource("2_on7mj")
+
+[node name="bottom_visual2" type="Sprite2D" parent="background"]
+z_index = -3
+position = Vector2(100, -200)
+texture = ExtResource("2_on7mj")
+
+[node name="bottom_visual3" type="Sprite2D" parent="background"]
+z_index = -3
+position = Vector2(1433, -200)
+texture = ExtResource("2_on7mj")
+
+[node name="bottom_visual4" type="Sprite2D" parent="background"]
+z_index = -3
+position = Vector2(2632, 963)
 texture = ExtResource("2_on7mj")
 
 [node name="central_hub_section" parent="." instance=ExtResource("2_7tluo")]
