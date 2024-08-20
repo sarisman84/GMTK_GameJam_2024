@@ -21,7 +21,7 @@ collision_layer = 0
 [node name="onboarding_section" parent="." instance=ExtResource("1_1qphg")]
 
 [node name="player_avatar" parent="onboarding_section" index="1"]
-position = Vector2(1738, -458)
+position = Vector2(1709, -455)
 metadata/_edit_group_ = true
 
 [node name="dash_tutorial" parent="onboarding_section/tutorial_popups" index="2"]

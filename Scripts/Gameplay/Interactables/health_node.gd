@@ -3,7 +3,8 @@ class_name HealthNode
 
 signal on_death(self_node)
 signal on_damage_taken
-signal on_heal
+signal on_heal(heal_amount)
+signal enemy_killed2
 
 @onready var m_hurtbox = $hurtbox
 
@@ -14,6 +15,9 @@ var m_default_scale : Vector2
 
 func _ready() -> void:
 	m_default_scale = m_hurtbox.scale
+
+func m_on_enemy_killed() -> void:
+	enemy_killed2.emit()
 
 func reset_health() -> void:
 	m_current_health = m_max_health
@@ -33,7 +37,7 @@ func set_current_health(new_health: int) -> void:
 func heal(healing_amount : float) -> void:
 	m_current_health += healing_amount
 	m_current_health = min(m_current_health, m_max_health)
-	on_heal.emit()
+	on_heal.emit(healing_amount)
 
 func apply_damage(incoming_damage : float) -> void:
 	if m_current_health <= 0:

@@ -166,6 +166,10 @@ small_scale = ExtResource("3_pkfp2")
 large_scale = ExtResource("4_ccf2v")
 sprites = Array[Texture2D]([ExtResource("3_030oj"), ExtResource("4_iv7co"), ExtResource("8_74o4t")])
 
+[node name="arrow" type="Sprite2D" parent="."]
+scale = Vector2(0.037963, 0.037963)
+texture = ExtResource("12_4q0xt")
+
 [node name="shape" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_idbre")
 
@@ -181,7 +185,7 @@ script = ExtResource("3_ou4yy")
 [node name="hurtbox" type="CollisionShape2D" parent="health"]
 shape = SubResource("CapsuleShape2D_7aaut")
 
-[node name="health_regen_bar" type="Node" parent="health"]
+[node name="health_regen_bar" type="Node2D" parent="health"]
 script = ExtResource("7_yxp3d")
 
 [node name="attack" type="Area2D" parent="."]
@@ -212,6 +216,7 @@ texture = ExtResource("4_iv7co")
 [node name="ceiling_detector" type="ShapeCast2D" parent="."]
 shape = SubResource("CircleShape2D_1e1d1")
 target_position = Vector2(0, -18)
+collision_mask = 33
 
 [node name="animation" type="AnimatedSprite2D" parent="."]
 scale = Vector2(0.037, 0.036)
