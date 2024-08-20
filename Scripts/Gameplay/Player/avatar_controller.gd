@@ -114,7 +114,7 @@ func m_hud_update_energy() -> void:
 
 func m_hud_update_damage() -> void:
 	m_hud.hud_take_damage()
-	
+
 	if m_current_size == 0:
 		m_sprite.hide()
 		m_animation.hide()
@@ -517,5 +517,5 @@ func _process(_delta: float) -> void:
 		m_pickup_manager.release_picked_up_element()
 	elif Input.is_action_just_pressed("interact"):
 		m_interact.try_to_interact()
-	
-	
+
+
