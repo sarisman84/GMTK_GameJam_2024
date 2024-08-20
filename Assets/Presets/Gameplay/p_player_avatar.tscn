@@ -40,7 +40,7 @@ size = Vector2(20, 35)
 height = 36.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_xvjqu"]
-radius = 30.0
+radius = 38.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_spgse"]
 size = Vector2(54, 52)
@@ -49,6 +49,14 @@ size = Vector2(54, 52)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_vmk4l"]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_030oj")
+}],
+"loop": true,
+"name": &"-1_walk",
+"speed": 5.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": ExtResource("14_v1wc3")
@@ -101,6 +109,14 @@ animations = [{
 "loop": true,
 "name": &"0_walk",
 "speed": 24.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("8_74o4t")
+}],
+"loop": true,
+"name": &"1_walk",
+"speed": 5.0
 }]
 
 [sub_resource type="Animation" id="Animation_7g53s"]
@@ -174,7 +190,7 @@ collision_mask = 2
 script = ExtResource("4_t4erc")
 
 [node name="hitbox" type="CollisionShape2D" parent="attack"]
-position = Vector2(28, 0)
+position = Vector2(34, 0)
 shape = SubResource("CircleShape2D_xvjqu")
 
 [node name="interact" type="Area2D" parent="."]
@@ -201,7 +217,7 @@ collision_mask = 33
 [node name="animation" type="AnimatedSprite2D" parent="."]
 scale = Vector2(0.037, 0.036)
 sprite_frames = SubResource("SpriteFrames_vmk4l")
-animation = &"0_walk"
+animation = &"1_walk"
 
 [node name="sfx_manager" type="Node" parent="."]
 script = ExtResource("11_dgpgr")

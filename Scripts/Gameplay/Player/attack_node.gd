@@ -38,6 +38,10 @@ func switch_face(_direction: int) -> void:
 func attack_current_targets(attack_damage: float, attack_rate_in_seconds: float) -> void:
 	if m_cur_rate <= 0:
 		for i in range(m_current_targets.size()):
+			if m_current_targets.is_empty():
+				return
+			if i >= m_current_targets.size():
+				i -= 1
 			var target = m_current_targets[i]
 			#Should the entry be invalid, remove it and continue
 			if not target:
