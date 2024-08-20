@@ -1,19 +1,31 @@
-[gd_scene load_steps=4 format=3 uid="uid://f0x5w6hmn45w"]
+[gd_scene load_steps=5 format=3 uid="uid://f0x5w6hmn45w"]
 
 [ext_resource type="PackedScene" uid="uid://00jw4ax5ahmi" path="res://Scenes/Level Sections/ls_onboarding_section.tscn" id="1_1qphg"]
 [ext_resource type="PackedScene" uid="uid://bh4nqgn1uygok" path="res://Scenes/Level Sections/ls_central_hub_section.tscn" id="2_7tluo"]
 [ext_resource type="PackedScene" uid="uid://68nfrbuhhe34" path="res://Assets/Presets/Gameplay/checkpoint.tscn" id="3_fc7vl"]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_von6s"]
+size = Vector2(20, 246)
+
 [node name="gameplay_scene" type="Node"]
-
-[node name="onboarding_section" parent="." instance=ExtResource("1_1qphg")]
-
-[node name="player_avatar" parent="onboarding_section" index="0"]
-position = Vector2(1737, -449)
-metadata/_edit_group_ = true
 
 [node name="central_hub_section" parent="." instance=ExtResource("2_7tluo")]
 position = Vector2(1680, -512)
+
+[node name="JumpPad" parent="central_hub_section" index="3"]
+collision_layer = 0
+
+[node name="goomba" parent="central_hub_section/enemies" index="0"]
+position = Vector2(432, 39)
+
+[node name="goomba2" parent="central_hub_section/enemies" index="6"]
+position = Vector2(166, 79)
+
+[node name="onboarding_section" parent="." instance=ExtResource("1_1qphg")]
+
+[node name="player_avatar" parent="onboarding_section" index="1"]
+position = Vector2(1738, -458)
+metadata/_edit_group_ = true
 
 [node name="checkpoints" type="Node2D" parent="."]
 
@@ -24,22 +36,21 @@ position = Vector2(1574, -522)
 position = Vector2(0, -15)
 
 [node name="checkpoint2" parent="checkpoints" instance=ExtResource("3_fc7vl")]
-position = Vector2(2474, -354)
+position = Vector2(2474, -344)
 
-[node name="checkpoint3" parent="checkpoints" instance=ExtResource("3_fc7vl")]
-position = Vector2(3004, -122)
+[node name="shape" parent="checkpoints/checkpoint2" index="0"]
+position = Vector2(1, -110)
+shape = SubResource("RectangleShape2D_von6s")
 
-[node name="checkpoint4" parent="checkpoints" instance=ExtResource("3_fc7vl")]
-position = Vector2(2806, -164)
-
+[editable path="central_hub_section"]
+[editable path="central_hub_section/popups2/popup_trigger"]
+[editable path="central_hub_section/interactables/puzzle_door"]
+[editable path="central_hub_section/interactables/puzzle_door/door3"]
 [editable path="onboarding_section"]
 [editable path="onboarding_section/player_avatar"]
 [editable path="onboarding_section/interactables/pickupable_element"]
 [editable path="onboarding_section/interactables/door_group"]
 [editable path="onboarding_section/interactables/door_group/door"]
 [editable path="onboarding_section/interactables/puzzle_door"]
-[editable path="central_hub_section"]
-[editable path="central_hub_section/popups2/popup_trigger"]
-[editable path="central_hub_section/interactables/puzzle_door"]
-[editable path="central_hub_section/interactables/puzzle_door/door3"]
 [editable path="checkpoints/checkpoint"]
+[editable path="checkpoints/checkpoint2"]
