@@ -58,7 +58,7 @@ func m_on_entity_enter(_body: Variant) -> void:
 	# Skip adding yourself to the list of targets to attack
 	if m_hn.owner.get_path() == self.get_parent().get_path():
 		return
-	m_hn.on_death.connect(m_clear_self)
+	#m_hn.on_death.connect(m_clear_self)
 	m_current_targets.append(m_hn)
 
 func m_clear_self(health_node : HealthNode) -> void:

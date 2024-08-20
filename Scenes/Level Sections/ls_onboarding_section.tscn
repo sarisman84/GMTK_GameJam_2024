@@ -164,6 +164,10 @@ shape = SubResource("RectangleShape2D_xxyol")
 position = Vector2(0, -8.94336)
 shape = SubResource("RectangleShape2D_s45pm")
 
+[node name="open_sound" parent="interactables/puzzle_door" index="9"]
+volume_db = 0.0
+bus = &"Master"
+
 [node name="visual2" type="Sprite2D" parent="interactables/puzzle_door"]
 z_index = -3
 position = Vector2(-0.065918, 28.7469)

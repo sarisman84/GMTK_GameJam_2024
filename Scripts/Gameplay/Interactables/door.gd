@@ -6,6 +6,7 @@ extends StaticBody2D
 
 @onready var m_animation
 @onready var m_sprite
+@onready var m_open_sound = $open_sound
 
 var m_closed_position: Vector2
 var m_tween: Tween
@@ -20,6 +21,7 @@ func _ready() -> void:
 	#m_tween.bind_node(self)
 
 func open() -> void:
+	m_open_sound.play()
 	if m_is_open_flag:
 		return
 	m_is_open_flag = true

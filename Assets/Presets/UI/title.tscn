@@ -39,7 +39,7 @@ theme_override_colors/font_outline_color = Color(0.2, 0, 0, 1)
 theme_override_constants/outline_size = 20
 theme_override_fonts/font = ExtResource("3_83wlu")
 theme_override_font_sizes/font_size = 72
-text = "GAME NAME"
+text = "HELLISH ESCAPE"
 horizontal_alignment = 1
 
 [node name="buttons" type="VBoxContainer" parent="title"]
@@ -73,6 +73,7 @@ text = "OPTIONS"
 
 [node name="music" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("2_cdxtf")
+volume_db = -11.917
 autoplay = true
 bus = &"Music"
 

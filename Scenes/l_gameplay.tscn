@@ -83,13 +83,23 @@ position = Vector2(1679, -512)
 [node name="popup_trigger" parent="central_hub_section/popups2" index="0" node_paths=PackedStringArray("popup_anchor")]
 popup_anchor = NodePath("../../../onboarding_section/companion")
 
+[node name="open_sound" parent="central_hub_section/interactables/puzzle_door" index="9"]
+volume_db = 0.0
+bus = &"Master"
+
 [node name="JumpPad" parent="central_hub_section" index="3"]
 collision_layer = 0
+
+[node name="EndTrigger" parent="central_hub_section" index="8"]
+position = Vector2(2352, 400)
+
+[node name="CollisionShape2D" parent="central_hub_section/EndTrigger" index="0"]
+position = Vector2(15, -16)
 
 [node name="onboarding_section" parent="." instance=ExtResource("1_1qphg")]
 
 [node name="player_avatar" parent="onboarding_section" index="1"]
-position = Vector2(-48, -30)
+position = Vector2(1659, -540)
 metadata/_edit_group_ = true
 
 [node name="movement_tutorial" parent="onboarding_section/tutorial_popups" index="0" node_paths=PackedStringArray("popup_anchor")]
@@ -136,6 +146,7 @@ bus = &"Music"
 [editable path="central_hub_section/popups2/popup_trigger"]
 [editable path="central_hub_section/interactables/puzzle_door"]
 [editable path="central_hub_section/interactables/puzzle_door/door3"]
+[editable path="central_hub_section/EndTrigger"]
 [editable path="onboarding_section"]
 [editable path="onboarding_section/player_avatar"]
 [editable path="onboarding_section/interactables/pickupable_element"]
