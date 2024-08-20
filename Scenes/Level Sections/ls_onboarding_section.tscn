@@ -112,8 +112,9 @@ popup_text = "Become [b]even larger[/b] and try to [b]pick up this block to our 
 [node name="door_group" parent="interactables" instance=ExtResource("6_0ro81")]
 position = Vector2(527, -26)
 
-[node name="button" parent="interactables/door_group" index="0"]
+[node name="button" parent="interactables/door_group" index="0" node_paths=PackedStringArray("target_doors")]
 position = Vector2(-54, 16)
+target_doors = [NodePath("../door")]
 
 [node name="door" parent="interactables/door_group" index="1"]
 position = Vector2(22, 1)
@@ -140,26 +141,31 @@ position = Vector2(0, -8.94336)
 shape = SubResource("RectangleShape2D_s45pm")
 
 [node name="visual2" type="Sprite2D" parent="interactables/puzzle_door"]
+z_index = -3
 position = Vector2(-0.065918, 28.7469)
 scale = Vector2(6, 4.51254)
 texture = SubResource("PlaceholderTexture2D_logr6")
 
 [node name="visual5" type="Sprite2D" parent="interactables/puzzle_door"]
+z_index = -3
 position = Vector2(-1.59898, 20.2831)
 scale = Vector2(2.54398, 1.83952)
 texture = SubResource("PlaceholderTexture2D_logr6")
 
 [node name="visual3" type="Sprite2D" parent="interactables/puzzle_door"]
+z_index = -3
 position = Vector2(2.82075, 12.1519)
 scale = Vector2(0.282926, 37.7024)
 texture = SubResource("PlaceholderTexture2D_logr6")
 
 [node name="visual4" type="Sprite2D" parent="interactables/puzzle_door"]
+z_index = -3
 position = Vector2(-2.85325, 7.50497)
 scale = Vector2(0.316232, 28.3512)
 texture = SubResource("PlaceholderTexture2D_logr6")
 
 [node name="door_edge5" type="CollisionShape2D" parent="interactables/puzzle_door"]
+z_as_relative = false
 position = Vector2(0.0128174, 28.7645)
 shape = SubResource("RectangleShape2D_etxqa")
 
@@ -167,10 +173,12 @@ shape = SubResource("RectangleShape2D_etxqa")
 position = Vector2(-1.61316, 20.2737)
 shape = SubResource("RectangleShape2D_aal01")
 
-[node name="button" parent="interactables/puzzle_door" instance=ExtResource("8_ljq3c")]
+[node name="button" parent="interactables/puzzle_door" node_paths=PackedStringArray("target_doors") instance=ExtResource("8_ljq3c")]
+z_index = -3
 position = Vector2(-1.93225, 18.8648)
 scale = Vector2(0.05, 0.05)
 required_size = -1
+target_doors = [NodePath("..")]
 
 [node name="companion" parent="." node_paths=PackedStringArray("target_to_follow") instance=ExtResource("1_1r53i")]
 unique_name_in_owner = true

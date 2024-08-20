@@ -1,6 +1,6 @@
 extends Node2D
 
-@export var m_max_health : int = 5 #TODO: Change health based on Player's Attack
+@export var m_max_health : int = 5
 @export var causes_damage: bool = true
 @export var damage_level: int = 1
 @export var m_health_regeneration_points : int = 1

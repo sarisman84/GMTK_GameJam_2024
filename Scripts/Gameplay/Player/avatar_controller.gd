@@ -73,6 +73,7 @@ func _ready() -> void:
 	m_hud.update_current_health(m_calculate_new_health_on_size_change(m_current_size))
 
 	m_companion_book.on_book_attack_apex.connect(m_on_book_swing)
+	
 
 func m_test() -> void:
 	var m_current_position = m_animation.frame
@@ -220,11 +221,12 @@ func m_apply_settings(type: int) -> void:
 		tween.kill()
 	tween = create_tween()
 	tween.tween_property(m_camera, "zoom", m_camera.zoom, 1)
-	tween.EASE_IN
+	#tween.EASE_IN 
+	# ^^ Godot says this line has no effect 
 
 
 	var m_sphere = m_ceiling_detector.shape as CircleShape2D
-	m_sphere.radius = m_default_ceil_scale * m_next_scale.scale_multiplier
+	m_sphere.radius = m_default_ceil_scale * (m_next_scale.scale_multiplier * 0.15)
 
 	var m_rect = m_collider.shape as RectangleShape2D
 
