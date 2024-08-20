@@ -6,7 +6,7 @@ extends Interactable
 @export var is_toggleable: bool = false
 
 var m_popup_id: int
-
+@onready var m_button_sound = $button_sound
 func _ready() -> void:
 	on_interact_enter.connect(m_show_popup)
 	on_interact_exit.connect(m_hide_popup)
@@ -16,6 +16,7 @@ func _ready() -> void:
 func m_body_entered(_owner: AvatarController) -> void:
 	if _owner.m_current_size != required_size:
 		return
+	m_button_sound.play()
 	for i in range(target_doors.size()):
 			var m_td = target_doors[i]
 			m_td.open()

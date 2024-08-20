@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://djy1n87y6ew66"
+path="res://.godot/imported/GMTKJam - 0029 - Audio - Walking large.wav-931cd58aa9683ffd3dc8c635f3192783.sample"
+
+[deps]
+
+source_file="res://Assets/SFX/GMTK Game Jam SFX/GMTKJam - 0029 - Audio - Walking large.wav"
+dest_files=["res://.godot/imported/GMTKJam - 0029 - Audio - Walking large.wav-931cd58aa9683ffd3dc8c635f3192783.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

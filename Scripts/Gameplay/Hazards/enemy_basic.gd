@@ -38,6 +38,7 @@ func m_init_shader() -> void:
 
 func m_on_hazard_death(_health_node: HealthNode) -> void:
 	HealthRegenBar.update_points(m_health_regeneration_points)
+	await get_tree().create_timer(0.25).timeout
 	queue_free()
 
 func m_on_damage_taken() -> void:

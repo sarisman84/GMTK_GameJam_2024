@@ -1,6 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://dft6ncnce52pc"]
+[gd_scene load_steps=7 format=3 uid="uid://dft6ncnce52pc"]
 
 [ext_resource type="Script" path="res://Scripts/Gameplay/Interactables/door.gd" id="1_3ihtn"]
+[ext_resource type="AudioStream" uid="uid://dakolqg2c2g0e" path="res://Assets/SFX/doorOpen.mp3" id="2_x5r2r"]
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_logr6"]
 
@@ -39,3 +40,8 @@ shape = SubResource("RectangleShape2D_thw54")
 [node name="door_edge4" type="CollisionShape2D" parent="."]
 position = Vector2(-0.00396776, 30.8844)
 shape = SubResource("RectangleShape2D_thw54")
+
+[node name="open_sound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_x5r2r")
+volume_db = -7.583
+bus = &"SFX"
