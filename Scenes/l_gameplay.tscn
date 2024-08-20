@@ -33,7 +33,7 @@ texture = ExtResource("1_bpqcj")
 
 [node name="upper_visual2" type="Sprite2D" parent="background"]
 z_index = -3
-position = Vector2(4226, -608)
+position = Vector2(4221.76, -608.265)
 scale = Vector2(1.98462, 1.49055)
 texture = ExtResource("2_a8scg")
 
@@ -61,6 +61,11 @@ texture = ExtResource("1_bpqcj")
 [node name="bottom_visual" type="Sprite2D" parent="background"]
 z_index = -3
 position = Vector2(2594, -182)
+texture = ExtResource("2_on7mj")
+
+[node name="bottom_visual5" type="Sprite2D" parent="background"]
+z_index = -3
+position = Vector2(3928, -180)
 texture = ExtResource("2_on7mj")
 
 [node name="bottom_visual2" type="Sprite2D" parent="background"]
