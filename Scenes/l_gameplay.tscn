@@ -9,7 +9,7 @@
 [node name="onboarding_section" parent="." instance=ExtResource("1_1qphg")]
 
 [node name="player_avatar" parent="onboarding_section" index="0"]
-position = Vector2(3506, -197)
+position = Vector2(1737, -449)
 metadata/_edit_group_ = true
 
 [node name="central_hub_section" parent="." instance=ExtResource("2_7tluo")]
