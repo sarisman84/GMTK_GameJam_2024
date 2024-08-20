@@ -114,6 +114,7 @@ func m_hud_update_energy() -> void:
 
 func m_hud_update_damage() -> void:
 	m_hud.hud_take_damage()
+	
 	if m_current_size == 0:
 		m_sprite.hide()
 		m_animation.hide()
@@ -123,6 +124,7 @@ func m_hud_update_damage() -> void:
 		m_hit_animation.hide()
 		m_sprite.show()
 		m_animation.show()
+		m_hit_animation.stop()
 
 func m_hud_update_heal(heal_amount) -> void:
 	for i in heal_amount:
@@ -374,10 +376,13 @@ func m_handle_movement(delta: float) -> void:
 
 		#Animation Handler:
 		if m_current_size == 0: #Normal Size
+			m_sprite.hide()
+			print(m_hit_animation.is_playing())
 			if !m_hit_animation.is_playing():
-				m_sprite.hide()
 				m_animation.show()
 				m_animation.play(str(m_current_size) + "_walk")
+			else:
+				m_animation.hide()
 		elif m_current_size == 1: #Big Size
 			m_sprite.show()
 			m_animation.hide()
@@ -401,7 +406,10 @@ func m_handle_movement(delta: float) -> void:
 
 	elif is_on_floor():
 		#Animation Handler P2:
-		m_sprite.show()
+		if !m_hit_animation.is_playing():
+			m_sprite.show()
+		else:
+			m_sprite.hide()
 		m_animation.hide()
 		m_small_animation.stop()
 
@@ -509,3 +517,5 @@ func _process(_delta: float) -> void:
 		m_pickup_manager.release_picked_up_element()
 	elif Input.is_action_just_pressed("interact"):
 		m_interact.try_to_interact()
+	
+	
