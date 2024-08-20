@@ -173,10 +173,6 @@ shape = SubResource("RectangleShape2D_idbre")
 position = Vector2(-29, -17)
 script = ExtResource("8_ujn02")
 
-[node name="camera" type="Camera2D" parent="."]
-zoom = Vector2(5, 5)
-position_smoothing_enabled = true
-
 [node name="health" type="StaticBody2D" parent="."]
 collision_layer = 2
 collision_mask = 0
@@ -209,10 +205,6 @@ shape = SubResource("RectangleShape2D_spgse")
 [node name="pickup_manager" type="Node" parent="."]
 script = ExtResource("6_2d2kh")
 
-[node name="arrow" type="Sprite2D" parent="."]
-scale = Vector2(0.037963, 0.037963)
-texture = ExtResource("12_4q0xt")
-
 [node name="sprite" type="Sprite2D" parent="."]
 scale = Vector2(0.0744512, 0.0720436)
 texture = ExtResource("4_iv7co")
@@ -237,6 +229,19 @@ script = ExtResource("11_dgpgr")
 libraries = {
 "": SubResource("AnimationLibrary_ctgtj")
 }
+
+[node name="camera_anchor" type="Node2D" parent="."]
+
+[node name="camera" type="Camera2D" parent="camera_anchor"]
+zoom = Vector2(5, 5)
+position_smoothing_enabled = true
+
+[node name="arrow_anchor" type="Node2D" parent="."]
+
+[node name="arrow" type="Sprite2D" parent="arrow_anchor"]
+position = Vector2(51, 1)
+scale = Vector2(0.037963, 0.037963)
+texture = ExtResource("12_4q0xt")
 
 [connection signal="body_entered" from="interact" to="interact" method="_on_body_entered"]
 [connection signal="body_exited" from="interact" to="interact" method="_on_body_exited"]
