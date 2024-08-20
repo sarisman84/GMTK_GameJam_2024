@@ -24,6 +24,9 @@ collision_layer = 0
 position = Vector2(1709, -455)
 metadata/_edit_group_ = true
 
+[node name="dash_tutorial" parent="onboarding_section/tutorial_popups" index="2"]
+popup_text = "[center]Hold [key:dash] and aim towards a direction with [key:mouse] the release [key:dash] to dash towards that direction[/center]"
+
 [node name="checkpoints" type="Node2D" parent="."]
 
 [node name="checkpoint" parent="checkpoints" instance=ExtResource("3_fc7vl")]
