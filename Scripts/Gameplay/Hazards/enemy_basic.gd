@@ -4,7 +4,6 @@ extends CharacterBody2D
 @export var m_health_regeneration_points : int = 1
 @onready var m_health : HealthNode = $health
 @onready var m_health_bar : ProgressBar = $health_bar
-@onready var m_sprite : Sprite2D = $sprite
 
 var m_speed : float = 10
 var m_gravity : float = 14
