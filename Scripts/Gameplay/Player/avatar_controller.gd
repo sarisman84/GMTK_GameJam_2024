@@ -112,7 +112,7 @@ func m_hud_update_heal(heal_amount) -> void:
 	for i in heal_amount:
 		m_hud.hud_heal()
 
-func m_on_player_death() -> void:
+func m_on_player_death(_self_node : HealthNode) -> void:
 	var coords = get_node("/root/Global").latest_checkpoint[1]
 	position = coords
 	reset_player()
@@ -350,7 +350,7 @@ func m_handle_movement(delta: float) -> void:
 		m_animation.flip_h = m_dir < 0
 		#m_book_animation.flip_h = dir < 0
 		m_companion_book.flip_side(m_dir as int)
-		
+
 		#Animation Handler:
 		if m_current_size == 0: #Normal Size
 			m_sprite.hide()
@@ -365,7 +365,7 @@ func m_handle_movement(delta: float) -> void:
 			m_animation.hide()
 			if is_on_floor():
 				m_small_animation.play("walk")
-		
+
 		if abs(m_dir * m_attributes.speed) > abs(velocity.x):
 			velocity.x = m_dir * m_attributes.speed
 		else:
@@ -374,13 +374,13 @@ func m_handle_movement(delta: float) -> void:
 		m_attack.switch_face(m_dir as int)
 		m_interact.switch_face(m_dir as int)
 		m_book_anchor.switch_face(m_dir)
-	
+
 	elif is_on_floor():
 		#Animation Handler P2:
 		m_sprite.show()
 		m_animation.hide()
 		m_small_animation.stop()
-		
+
 		#LERP back to 0
 		velocity.x = lerp(velocity.x, 0.0, 0.4)
 
