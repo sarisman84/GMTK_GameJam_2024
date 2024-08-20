@@ -1,6 +1,6 @@
 extends CharacterBody2D
 
-@export var m_max_health : int = 5 #TODO: Change health based on Player's Attack
+@export var m_max_health : int = 5
 @export var m_health_regeneration_points : int = 1
 @onready var m_health : HealthNode = $health
 @onready var m_health_bar : ProgressBar = $health_bar
@@ -31,3 +31,7 @@ func _physics_process(_delta):
 
 	if is_on_wall():
 		m_dir = -m_dir
+
+func _on_area_2d_body_entered(body):
+	if body.name == "player_avatar":
+		body.get_node("health").apply_damage(1)

@@ -21,7 +21,6 @@ var m_reset_anim_flag: bool
 signal on_book_attack_apex(msg)
 signal on_book_attack_start(msg)
 
-#TODO: Scaling
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

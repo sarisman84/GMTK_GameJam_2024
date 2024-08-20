@@ -261,7 +261,7 @@ position = Vector2(820, 1542)
 position = Vector2(1090, -175)
 
 [node name="breakbox4" parent="static_hazards" instance=ExtResource("9_3v1sl")]
-position = Vector2(935, -414)
+position = Vector2(896, -414)
 
 [node name="misc" type="Node2D" parent="."]
 
