@@ -1,7 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://f0x5w6hmn45w"]
+[gd_scene load_steps=8 format=3 uid="uid://f0x5w6hmn45w"]
 
 [ext_resource type="PackedScene" uid="uid://00jw4ax5ahmi" path="res://Scenes/Level Sections/ls_onboarding_section.tscn" id="1_1qphg"]
+[ext_resource type="Texture2D" uid="uid://burf8wwch7n5v" path="res://Assets/Art/Textures/3rd Party/5_Levels/INFERNO CARTOON 2D PLATFORMER TILESET/PNG/Background/Background_01.png" id="1_bpqcj"]
 [ext_resource type="PackedScene" uid="uid://bh4nqgn1uygok" path="res://Scenes/Level Sections/ls_central_hub_section.tscn" id="2_7tluo"]
+[ext_resource type="Texture2D" uid="uid://cknws1h4mixj4" path="res://Assets/Art/Textures/3rd Party/5_Levels/INFERNO CARTOON 2D PLATFORMER TILESET/PNG/Background/Background_02.png" id="2_on7mj"]
 [ext_resource type="PackedScene" uid="uid://68nfrbuhhe34" path="res://Assets/Presets/Gameplay/checkpoint.tscn" id="3_fc7vl"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_von6s"]
@@ -12,6 +14,46 @@ data = PackedByteArray(73, 68, 51, 3, 0, 0, 0, 0, 0, 92, 84, 80, 69, 49, 0, 0, 0
 loop = true
 
 [node name="gameplay_scene" type="Node"]
+
+[node name="background" type="Node2D" parent="."]
+
+[node name="upper_visual" type="Sprite2D" parent="background"]
+z_index = -3
+position = Vector2(1270, -305)
+scale = Vector2(1.98462, 1.49055)
+texture = ExtResource("1_bpqcj")
+
+[node name="upper_visual2" type="Sprite2D" parent="background"]
+z_index = -3
+position = Vector2(3924, -305)
+scale = Vector2(1.98462, 1.49055)
+texture = ExtResource("1_bpqcj")
+
+[node name="upper_visual3" type="Sprite2D" parent="background"]
+z_index = -3
+position = Vector2(3924, 812)
+rotation = 6.28318
+scale = Vector2(1.98462, 1.49055)
+texture = ExtResource("1_bpqcj")
+
+[node name="upper_visual4" type="Sprite2D" parent="background"]
+z_index = -3
+position = Vector2(1277, 820)
+rotation = 6.28318
+scale = Vector2(1.98462, 1.49055)
+texture = ExtResource("1_bpqcj")
+
+[node name="upper_visual5" type="Sprite2D" parent="background"]
+z_index = -3
+position = Vector2(2730, -1420)
+rotation = 3.14159
+scale = Vector2(1.98462, 1.49055)
+texture = ExtResource("1_bpqcj")
+
+[node name="bottom_visual" type="Sprite2D" parent="background"]
+z_index = -3
+position = Vector2(2590, -114)
+texture = ExtResource("2_on7mj")
 
 [node name="central_hub_section" parent="." instance=ExtResource("2_7tluo")]
 position = Vector2(1679, -512)
