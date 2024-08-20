@@ -6,12 +6,14 @@ extends Node2D
 @onready var m_interactable: Interactable = $interactable
 @onready var m_collider: StaticBody2D = $collider
 @onready var m_shape : CollisionShape2D = $collider/shape
+@onready var m_world_checker : Area2D = $world_checker
 
 var m_default_mode : Variant
 var m_default_scale: Vector2
 
 var m_popup_id : int = -1
 var m_pickup_flag : bool
+var m_can_placedown_flag : bool
 
 
 func _ready() -> void:
@@ -43,3 +45,13 @@ func enable_collisions() -> void:
 
 func disable_collisions() -> void:
 	m_shape.disabled = true
+
+
+func _on_world_checker_body_entered(body):
+	print("false")
+	m_can_placedown_flag = false
+
+
+func _on_world_checker_body_exited(body):
+	print("true")
+	m_can_placedown_flag = true
