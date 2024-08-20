@@ -23,15 +23,16 @@ func pick_up_element(new_element: Node2D) -> void:
 			m_picked_element.m_default_scale /= m_owner.small_scale.scale_multiplier
 
 	Popups.set_popup_text(m_picked_element.m_popup_id, "[key:interact]: Drop")
-	print("picked up ", m_picked_element.name)
+	#print("picked up ", m_picked_element.name)
 	#m_scale_pickup(m_owner.m_current_size, m_owner.m_attributes.scale_multiplier)
 
 func has_picked_up_something() -> bool:
 	return m_picked_element != null
 
 func release_picked_up_element() -> void:
-	m_picked_element.enable_collisions()
-	m_picked_element = null
+	if m_picked_element.m_can_placedown_flag:
+		m_picked_element.enable_collisions()
+		m_picked_element = null
 
 
 func _process(_delta) -> void:

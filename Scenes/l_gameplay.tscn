@@ -21,11 +21,28 @@ collision_layer = 0
 [node name="onboarding_section" parent="." instance=ExtResource("1_1qphg")]
 
 [node name="player_avatar" parent="onboarding_section" index="1"]
-position = Vector2(1709, -455)
+position = Vector2(1119, -60)
 metadata/_edit_group_ = true
 
-[node name="dash_tutorial" parent="onboarding_section/tutorial_popups" index="2"]
-popup_text = "[center]Hold [key:dash] and aim towards a direction with [key:mouse] the release [key:dash] to dash towards that direction[/center]"
+[node name="movement_tutorial" parent="onboarding_section/tutorial_popups" index="0" node_paths=PackedStringArray("popup_anchor")]
+popup_anchor = NodePath("../../companion")
+
+[node name="shape" parent="onboarding_section/tutorial_popups/movement_tutorial" index="0"]
+position = Vector2(118, -98)
+
+[node name="shrink_tutorial" parent="onboarding_section/tutorial_popups" index="1" node_paths=PackedStringArray("popup_anchor")]
+popup_anchor = NodePath("../../companion")
+
+[node name="dash_tutorial" parent="onboarding_section/tutorial_popups" index="2" node_paths=PackedStringArray("popup_anchor")]
+popup_anchor = NodePath("../../companion")
+popup_text = "[center]Hold [key:dash] and aim towards a direction with [key:mouse] 
+Release [key:dash] to dash towards that direction[/center] "
+
+[node name="enlarge_tutorial" parent="onboarding_section/tutorial_popups" index="3" node_paths=PackedStringArray("popup_anchor")]
+popup_anchor = NodePath("../../companion")
+
+[node name="pickupable_element" parent="onboarding_section/interactables" index="0"]
+visible = true
 
 [node name="checkpoints" type="Node2D" parent="."]
 

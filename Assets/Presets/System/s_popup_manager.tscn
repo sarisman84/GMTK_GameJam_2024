@@ -37,7 +37,7 @@ icon_size = Vector2(0, 0)
 script = ExtResource("2_evn27")
 keyword = "enlarge"
 bind_icon = "res://Assets/Art/Textures/UI/Input/Keyboard & Mouse/Default/keyboard_w.png"
-icon_size = Vector2(16, 16)
+icon_size = Vector2(0, 0)
 
 [sub_resource type="Resource" id="Resource_rekaq"]
 script = ExtResource("2_evn27")
@@ -48,8 +48,8 @@ icon_size = Vector2(0, 0)
 [sub_resource type="Resource" id="Resource_0b4mu"]
 script = ExtResource("2_evn27")
 keyword = "attack"
-bind_icon = "res://Assets/Art/Textures/UI/Input/Keyboard & Mouse/Default/keyboard_semicolon.png"
-icon_size = Vector2(0, 0)
+bind_icon = "res://Assets/Art/Textures/UI/Input/Keyboard & Mouse/Double/mouse_left.png"
+icon_size = Vector2(32, 32)
 
 [sub_resource type="Resource" id="Resource_0nu47"]
 script = ExtResource("2_evn27")
