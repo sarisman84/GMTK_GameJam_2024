@@ -1,12 +1,14 @@
-[gd_scene load_steps=3 format=3 uid="uid://tnk5ck8unlmk"]
+[gd_scene load_steps=4 format=3 uid="uid://dp0cxcmxv1ore"]
 
 [ext_resource type="Script" path="res://Assets/Presets/Gameplay/endTrigger.gd" id="1_b1b4x"]
+[ext_resource type="PackedScene" uid="uid://edqqfnbjwv66" path="res://Scenes/End.tscn" id="2_k0lg8"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yprvx"]
 
 [node name="EndTrigger" type="Area2D"]
 collision_layer = 0
 script = ExtResource("1_b1b4x")
+end_scene = ExtResource("2_k0lg8")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_yprvx")
