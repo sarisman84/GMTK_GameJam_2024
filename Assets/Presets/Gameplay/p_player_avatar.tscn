@@ -159,6 +159,7 @@ _data = {
 }
 
 [node name="player_avatar" type="CharacterBody2D"]
+collision_layer = 9
 script = ExtResource("1_mu8og")
 normal_scale = ExtResource("2_qrjke")
 small_scale = ExtResource("3_pkfp2")
