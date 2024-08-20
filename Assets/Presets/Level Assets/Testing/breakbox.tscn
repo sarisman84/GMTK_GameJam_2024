@@ -1,7 +1,6 @@
-[gd_scene load_steps=7 format=3 uid="uid://dq61gik3gp0w5"]
+[gd_scene load_steps=5 format=3 uid="uid://dq61gik3gp0w5"]
 
 [ext_resource type="Script" path="res://Scripts/Gameplay/Hazards/breakbox.gd" id="1_y34uk"]
-[ext_resource type="Script" path="res://Scripts/Gameplay/Interactables/health_node.gd" id="2_buvod"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3p638"]
 size = Vector2(20, 60)
@@ -11,9 +10,6 @@ size = Vector3(20, 60, 3)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_a0xsy"]
 size = Vector2(24, 60)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_abksl"]
-size = Vector2(20, 60)
 
 [node name="breakbox" type="Node2D"]
 script = ExtResource("1_y34uk")
@@ -30,13 +26,5 @@ mesh = SubResource("BoxMesh_6dssb")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="sprite/Area2D"]
 shape = SubResource("RectangleShape2D_a0xsy")
-
-[node name="health" type="StaticBody2D" parent="."]
-collision_layer = 2
-collision_mask = 0
-script = ExtResource("2_buvod")
-
-[node name="hurtbox" type="CollisionShape2D" parent="health"]
-shape = SubResource("RectangleShape2D_abksl")
 
 [connection signal="body_entered" from="sprite/Area2D" to="." method="_on_area_2d_body_entered"]

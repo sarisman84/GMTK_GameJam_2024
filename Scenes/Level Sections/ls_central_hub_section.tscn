@@ -38,7 +38,7 @@ size = Vector2(1.89788, 3.52203)
 size = Vector2(1.58721, 1.50357)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5incf"]
-size = Vector2(20, 407.336)
+size = Vector2(31.5899, 405.5)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_527q2"]
 size = Vector2(20, 24)
@@ -174,9 +174,10 @@ position = Vector2(1273.8, 1438.52)
 [node name="JumpPad" type="Area2D" parent="."]
 position = Vector2(1338.41, 271.836)
 script = ExtResource("7_3s3sf")
+jump_pad_speed = 20.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="JumpPad"]
-position = Vector2(0, -193.668)
+position = Vector2(5.79504, -194.586)
 shape = SubResource("RectangleShape2D_5incf")
 
 [node name="enemies" type="Node2D" parent="."]

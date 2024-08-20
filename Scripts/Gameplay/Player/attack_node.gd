@@ -46,8 +46,6 @@ func attack_current_targets(attack_damage: float, attack_rate_in_seconds: float)
 			target.apply_damage(attack_damage)
 			m_cur_rate = attack_rate_in_seconds
 
-
-
 func m_on_entity_enter(_body: Variant) -> void:
 	if not _body is HealthNode:
 		return
