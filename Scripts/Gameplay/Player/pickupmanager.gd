@@ -37,7 +37,7 @@ func release_picked_up_element() -> void:
 func _process(_delta) -> void:
 	if not m_picked_element:
 		return
-	m_picked_element.position = m_picked_element.get_global_mouse_position()
+	m_picked_element.global_position = m_picked_element.get_global_mouse_position()
 
 func m_scale_pickup(size_id: int, new_scale: float) -> void:
 	if not m_picked_element:

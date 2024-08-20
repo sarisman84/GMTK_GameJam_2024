@@ -7,9 +7,18 @@
 script = ExtResource("1_8x3h8")
 
 [node name="Health" type="HBoxContainer" parent="."]
-offset_right = 620.0
-offset_bottom = 74.0
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -310.0
+offset_top = -74.0
+offset_right = 310.0
+grow_horizontal = 2
+grow_vertical = 0
 size_flags_horizontal = 0
+alignment = 1
 
 [node name="HealthIcon" parent="Health" instance=ExtResource("2_qeryl")]
 layout_mode = 2

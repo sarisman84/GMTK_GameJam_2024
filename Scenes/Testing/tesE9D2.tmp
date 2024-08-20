@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://dg5exlrfhub1e"]
+[gd_scene load_steps=11 format=3 uid="uid://dg5exlrfhub1e"]
 
 [ext_resource type="PackedScene" uid="uid://22o2pk2n1acn" path="res://Assets/Presets/Gameplay/p_player_avatar.tscn" id="1_0n4tj"]
 [ext_resource type="Script" path="res://Scripts/Testing/test_level.gd" id="1_xrki1"]
@@ -7,17 +7,11 @@
 [ext_resource type="PackedScene" uid="uid://drgwce8forlmj" path="res://Assets/Presets/Gameplay/Enemies/e_goomba.tscn" id="4_cyvds"]
 [ext_resource type="PackedScene" uid="uid://68nfrbuhhe34" path="res://Assets/Presets/Gameplay/checkpoint.tscn" id="5_o74n6"]
 [ext_resource type="PackedScene" uid="uid://cjwn8wu630x8a" path="res://Assets/Presets/Level Assets/Testing/la_test_interact.tscn" id="6_7pydr"]
-[ext_resource type="Script" path="res://Scripts/Gameplay/Interactables/jumppad.gd" id="8_b3cou"]
 [ext_resource type="PackedScene" uid="uid://4x0jtfwvvyxy" path="res://Assets/Presets/Gameplay/p_companion.tscn" id="8_kcilo"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_oqbqu"]
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_u8inq"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_k85ad"]
-size = Vector2(20, 70)
-
-[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_6ukr2"]
 
 [node name="test_level" type="Node" node_paths=PackedStringArray("test")]
 script = ExtResource("1_xrki1")
@@ -68,23 +62,5 @@ position = Vector2(-72, -16)
 [node name="test_interact" parent="interactables" instance=ExtResource("6_7pydr")]
 position = Vector2(-378, -10)
 
-[node name="jump_pad" type="Area2D" parent="interactables"]
-position = Vector2(88, -11)
-collision_layer = 0
-script = ExtResource("8_b3cou")
-jump_pad_speed = 100.0
-
-[node name="shape" type="CollisionShape2D" parent="interactables/jump_pad"]
-position = Vector2(0, -25)
-shape = SubResource("RectangleShape2D_k85ad")
-
-[node name="visual" type="Sprite2D" parent="interactables/jump_pad"]
-scale = Vector2(20, 20)
-texture = SubResource("PlaceholderTexture2D_6ukr2")
-
 [node name="companion" parent="." node_paths=PackedStringArray("target_to_follow") instance=ExtResource("8_kcilo")]
-unique_name_in_owner = true
-smoothing = 1.8
 target_to_follow = NodePath("../player_avatar/shape/book_anchor")
-
-[editable path="player_avatar"]

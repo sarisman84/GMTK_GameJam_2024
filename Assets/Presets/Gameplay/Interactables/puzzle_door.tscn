@@ -1,0 +1,85 @@
+[gd_scene load_steps=8 format=3 uid="uid://bp4cn1mly2p5f"]
+
+[ext_resource type="PackedScene" uid="uid://dft6ncnce52pc" path="res://Assets/Presets/Gameplay/Interactables/door.tscn" id="1_s0nnw"]
+[ext_resource type="Texture2D" uid="uid://cpquud6awiogy" path="res://Assets/Art/Textures/UI/Menu/Grabber.png" id="2_j3w2n"]
+
+[sub_resource type="Animation" id="Animation_qysbp"]
+resource_name = "fade_out_door"
+length = 1.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("sprite:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_18pmd"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("sprite:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_70tku"]
+resource_name = "fade_in_door"
+length = 1.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("sprite:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_4podf"]
+_data = {
+"RESET": SubResource("Animation_18pmd"),
+"fade_in_door": SubResource("Animation_70tku"),
+"fade_out_door": SubResource("Animation_qysbp")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8ij65"]
+size = Vector2(26, 64)
+
+[node name="puzzle_door" instance=ExtResource("1_s0nnw")]
+
+[node name="visual" parent="." index="0"]
+position = Vector2(-2.98023e-08, 0)
+
+[node name="sprite" type="Sprite2D" parent="." index="6"]
+z_index = 4
+position = Vector2(0, 1.90735e-06)
+scale = Vector2(0.228571, 1.42222)
+texture = ExtResource("2_j3w2n")
+
+[node name="animation" type="AnimationPlayer" parent="." index="7"]
+libraries = {
+"": SubResource("AnimationLibrary_4podf")
+}
+
+[node name="player_checker" type="Area2D" parent="." index="8"]
+
+[node name="shape" type="CollisionShape2D" parent="player_checker" index="0"]
+shape = SubResource("RectangleShape2D_8ij65")
+
+[connection signal="body_entered" from="player_checker" to="." method="_on_player_checker_body_entered"]
+[connection signal="body_exited" from="player_checker" to="." method="_on_player_checker_body_exited"]

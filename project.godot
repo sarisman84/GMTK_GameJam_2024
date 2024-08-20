@@ -23,7 +23,7 @@ HealthRegenBar="*res://Scripts/Gameplay/Player/health_regen_bar.gd"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/Todo_Manager/plugin.cfg")
+enabled=PackedStringArray("res://addons/SpritesheetGenerator/plugin.cfg", "res://addons/Todo_Manager/plugin.cfg")
 
 [input]
 
@@ -133,6 +133,8 @@ menu_move_right={
 2d_physics/layer_2="Hurtbox"
 2d_physics/layer_3="Interactables"
 2d_physics/layer_4="Popups"
+2d_physics/layer_5="Walls for Enemies"
+2d_physics/layer_6="Shapecast Limiters"
 
 [rendering]
 

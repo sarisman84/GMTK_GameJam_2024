@@ -42,6 +42,9 @@ func enable_popup_at(target_anchor: Node2D, some_text: String) -> int:
 	return i
 
 func disable_popup(id : int) -> void:
+	if id >= m_spawned_tooltips.size():
+		return
+
 	m_spawned_tooltips[id].hide()
 	m_spawned_tooltips[id].m_target_anchor = null
 	m_available_id -= 1

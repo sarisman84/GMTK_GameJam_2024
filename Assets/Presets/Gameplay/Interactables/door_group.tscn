@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://tc2taw5r8oyf"]
+
+[ext_resource type="PackedScene" uid="uid://dwdbun3cjd8j1" path="res://Assets/Presets/Gameplay/Interactables/button.tscn" id="1_uh8v8"]
+[ext_resource type="PackedScene" uid="uid://dft6ncnce52pc" path="res://Assets/Presets/Gameplay/Interactables/door.tscn" id="2_r3jki"]
+
+[node name="door_group" type="Node2D"]
+
+[node name="button" parent="." node_paths=PackedStringArray("target_door") instance=ExtResource("1_uh8v8")]
+target_door = NodePath("../door")
+
+[node name="door" parent="." instance=ExtResource("2_r3jki")]

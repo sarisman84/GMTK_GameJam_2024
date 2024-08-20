@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://dwdbun3cjd8j1"]
+
+[ext_resource type="Script" path="res://Scripts/Gameplay/Interactables/button.gd" id="1_e5j1w"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ljw8r"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_qohbb"]
+
+[node name="button" type="StaticBody2D"]
+collision_layer = 4
+collision_mask = 0
+script = ExtResource("1_e5j1w")
+
+[node name="shape" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_ljw8r")
+
+[node name="visual" type="Sprite2D" parent="."]
+scale = Vector2(20, 20)
+texture = SubResource("PlaceholderTexture2D_qohbb")
