@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://f0x5w6hmn45w"]
+[gd_scene load_steps=14 format=3 uid="uid://f0x5w6hmn45w"]
 
 [ext_resource type="PackedScene" uid="uid://00jw4ax5ahmi" path="res://Scenes/Level Sections/ls_onboarding_section.tscn" id="1_1qphg"]
 [ext_resource type="Texture2D" uid="uid://burf8wwch7n5v" path="res://Assets/Art/Textures/3rd Party/5_Levels/INFERNO CARTOON 2D PLATFORMER TILESET/PNG/Background/Background_01.png" id="1_bpqcj"]
@@ -7,6 +7,26 @@
 [ext_resource type="Texture2D" uid="uid://cknws1h4mixj4" path="res://Assets/Art/Textures/3rd Party/5_Levels/INFERNO CARTOON 2D PLATFORMER TILESET/PNG/Background/Background_02.png" id="2_on7mj"]
 [ext_resource type="PackedScene" uid="uid://68nfrbuhhe34" path="res://Assets/Presets/Gameplay/checkpoint.tscn" id="3_fc7vl"]
 [ext_resource type="Texture2D" uid="uid://bbpnf8f8jc85k" path="res://Assets/Art/Textures/3rd Party/4_Main_location/FREE MARKET CARTOON 2D GAME TILESET/PNG/Building/Pillar_02.png" id="5_p14oy"]
+[ext_resource type="Texture2D" uid="uid://d1mpchgg1po1d" path="res://Assets/Art/Textures/Enviroment/Gust Tunnel/Wind 1.png" id="6_jyawb"]
+[ext_resource type="Texture2D" uid="uid://lri0bxr81c01" path="res://Assets/Art/Textures/Enviroment/Gust Tunnel/Wind 2.png" id="7_7pjc3"]
+[ext_resource type="Texture2D" uid="uid://4d45snys248h" path="res://Assets/Art/Textures/Enviroment/Gust Tunnel/Wind 3.png" id="8_c8f3l"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_hc1g6"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_jyawb")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_7pjc3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_c8f3l")
+}],
+"loop": true,
+"name": &"default",
+"speed": 12.0
+}]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_von6s"]
 size = Vector2(20, 246)
@@ -33,7 +53,7 @@ texture = ExtResource("1_bpqcj")
 
 [node name="upper_visual2" type="Sprite2D" parent="background"]
 z_index = -3
-position = Vector2(4221.76, -608.265)
+position = Vector2(4221.47, -608.28)
 scale = Vector2(1.98462, 1.49055)
 texture = ExtResource("2_a8scg")
 
@@ -130,11 +150,17 @@ texture = ExtResource("5_p14oy")
 [node name="JumpPad" parent="central_hub_section" index="3"]
 collision_layer = 0
 
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="central_hub_section/JumpPad" index="1"]
+position = Vector2(5.48707, -195.523)
+scale = Vector2(0.781286, 3.35493)
+sprite_frames = SubResource("SpriteFrames_hc1g6")
+frame_progress = 0.745589
+
 [node name="EndTrigger" parent="central_hub_section" index="8"]
-position = Vector2(2352, 400)
+position = Vector2(2407.15, 402.121)
 
 [node name="CollisionShape2D" parent="central_hub_section/EndTrigger" index="0"]
-position = Vector2(68.5, -79.25)
+position = Vector2(-0.796387, 1.36017)
 
 [node name="StaticBody2D" parent="central_hub_section" index="9"]
 metadata/_edit_group_ = true

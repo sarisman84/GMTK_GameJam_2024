@@ -5,7 +5,6 @@
 
 [node name="door_group" type="Node2D"]
 
-[node name="button" parent="." node_paths=PackedStringArray("target_door") instance=ExtResource("1_uh8v8")]
-target_door = NodePath("../door")
+[node name="button" parent="." instance=ExtResource("1_uh8v8")]
 
 [node name="door" parent="." instance=ExtResource("2_r3jki")]

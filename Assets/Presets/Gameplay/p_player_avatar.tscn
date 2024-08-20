@@ -15,7 +15,6 @@
 [ext_resource type="Script" path="res://Scripts/Gameplay/Player/book_anchor.gd" id="8_ujn02"]
 [ext_resource type="Script" path="res://Scripts/Gameplay/Player/sfx_manager.gd" id="11_dgpgr"]
 [ext_resource type="AudioStream" uid="uid://by45jcniijs50" path="res://Assets/SFX/GMTK Game Jam SFX/get hit 5.wav" id="11_r2xll"]
-[ext_resource type="Texture2D" uid="uid://dp05cpsg0fkci" path="res://Assets/Art/Textures/Player/Arrow.png" id="12_4q0xt"]
 [ext_resource type="Texture2D" uid="uid://djangaqk8asob" path="res://Assets/Art/Textures/Player/Imp_Regular_Run_Cycle_0015/Imp_Regular_Run_Cycle_0000.png" id="14_v1wc3"]
 [ext_resource type="Texture2D" uid="uid://clfl6huu7of0q" path="res://Assets/Art/Textures/Player/Imp_Regular_Run_Cycle_0015/Imp_Regular_Run_Cycle_0001.png" id="15_5cdkt"]
 [ext_resource type="Texture2D" uid="uid://c3m3u6srkklbw" path="res://Assets/Art/Textures/Player/Regular_Imp_Hit_0008/Regular_Imp_Hit_0000.png" id="15_saftm"]
@@ -46,6 +45,7 @@
 [ext_resource type="Texture2D" uid="uid://bruo82obklwvt" path="res://Assets/Art/Textures/Player/Imp_Regular_Run_Cycle_0015/Imp_Regular_Run_Cycle_0015.png" id="29_gnphl"]
 [ext_resource type="AudioStream" uid="uid://dsrmwrlejpy8w" path="res://Assets/SFX/GMTK Game Jam SFX/GMTKJam - 0009 - Audio - Attack 2.wav" id="33_kaglc"]
 [ext_resource type="AudioStream" uid="uid://dpk8qva8iicdu" path="res://Assets/SFX/GMTK Game Jam SFX/GMTKJam - 0008 - Audio - Attack 1.wav" id="34_d4o54"]
+[ext_resource type="Texture2D" uid="uid://bt8sq2grv1dgx" path="res://Assets/Art/Textures/UI/Other/gmtkjam arrow transparent.png" id="45_iq4jm"]
 [ext_resource type="PackedScene" uid="uid://jm6jhaxg4ep8" path="res://Assets/Presets/UI/hud.tscn" id="49_lndtj"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_idbre"]
@@ -295,7 +295,7 @@ position_smoothing_enabled = true
 [node name="arrow" type="Sprite2D" parent="arrow_anchor"]
 position = Vector2(51, 1)
 scale = Vector2(0.037963, 0.037963)
-texture = ExtResource("12_4q0xt")
+texture = ExtResource("45_iq4jm")
 
 [node name="dash_sound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("33_kaglc")

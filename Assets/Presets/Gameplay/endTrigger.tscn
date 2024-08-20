@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://edqqfnbjwv66" path="res://Scenes/End.tscn" id="2_k0lg8"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yprvx"]
+size = Vector2(269.367, 184.931)
 
 [node name="EndTrigger" type="Area2D"]
 collision_layer = 0

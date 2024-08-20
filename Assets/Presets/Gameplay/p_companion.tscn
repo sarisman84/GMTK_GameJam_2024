@@ -155,7 +155,7 @@ _data = {
 [node name="companion" type="Node2D"]
 position = Vector2(-24, 0)
 script = ExtResource("1_cy1n3")
-smoothing = 2.3
+smoothing = 2.8
 
 [node name="sprite" type="AnimatedSprite2D" parent="."]
 scale = Vector2(0.0227273, 0.0227273)

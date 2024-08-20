@@ -310,7 +310,6 @@ position = Vector2(883.009, -156.393)
 
 [node name="CollisionShape2D" parent="static_hazards/breakbox/Area2D" index="0"]
 position = Vector2(0, -20)
-scale = Vector2(0.999999, 0.999999)
 shape = SubResource("RectangleShape2D_qxogk")
 
 [node name="shape" parent="static_hazards/breakbox/collider" index="0"]
@@ -326,7 +325,6 @@ position = Vector2(629.428, 1353.96)
 
 [node name="CollisionShape2D" parent="static_hazards/breakbox3/Area2D" index="0"]
 position = Vector2(108.061, -15.3809)
-scale = Vector2(0.999999, 0.999999)
 shape = SubResource("RectangleShape2D_xf854")
 
 [node name="shape" parent="static_hazards/breakbox3/collider" index="0"]
@@ -375,7 +373,7 @@ position = Vector2(-17, -180.5)
 shape = SubResource("RectangleShape2D_3mdx6")
 
 [node name="EndTrigger" parent="." instance=ExtResource("10_nkk13")]
-position = Vector2(2304, 400)
+position = Vector2(2414.87, 316.095)
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 collision_layer = 64
