@@ -133,6 +133,8 @@ menu_move_right={
 2d_physics/layer_2="Hurtbox"
 2d_physics/layer_3="Interactables"
 2d_physics/layer_4="Popups"
+2d_physics/layer_5="Walls for Enemies"
+2d_physics/layer_6="Shapecast Limiters"
 
 [rendering]
 

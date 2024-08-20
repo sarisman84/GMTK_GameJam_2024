@@ -1,17 +1,42 @@
-[gd_scene load_steps=3 format=3 uid="uid://f0x5w6hmn45w"]
+[gd_scene load_steps=4 format=3 uid="uid://f0x5w6hmn45w"]
 
 [ext_resource type="PackedScene" uid="uid://00jw4ax5ahmi" path="res://Scenes/Level Sections/ls_onboarding_section.tscn" id="1_1qphg"]
 [ext_resource type="PackedScene" uid="uid://bh4nqgn1uygok" path="res://Scenes/Level Sections/ls_central_hub_section.tscn" id="2_7tluo"]
+[ext_resource type="PackedScene" uid="uid://68nfrbuhhe34" path="res://Assets/Presets/Gameplay/checkpoint.tscn" id="3_fc7vl"]
 
 [node name="gameplay_scene" type="Node"]
 
 [node name="onboarding_section" parent="." instance=ExtResource("1_1qphg")]
 
 [node name="player_avatar" parent="onboarding_section" index="0"]
-position = Vector2(1647, -532)
+position = Vector2(1293, -538)
+metadata/_edit_group_ = true
 
 [node name="central_hub_section" parent="." instance=ExtResource("2_7tluo")]
 position = Vector2(1680, -512)
+
+[node name="goomba" parent="central_hub_section/enemies" index="0"]
+position = Vector2(432, 39)
+
+[node name="goomba2" parent="central_hub_section/enemies" index="6"]
+position = Vector2(166, 79)
+
+[node name="checkpoints" type="Node2D" parent="."]
+
+[node name="checkpoint" parent="checkpoints" instance=ExtResource("3_fc7vl")]
+position = Vector2(1574, -522)
+
+[node name="shape" parent="checkpoints/checkpoint" index="0"]
+position = Vector2(0, -15)
+
+[node name="checkpoint2" parent="checkpoints" instance=ExtResource("3_fc7vl")]
+position = Vector2(2474, -354)
+
+[node name="checkpoint3" parent="checkpoints" instance=ExtResource("3_fc7vl")]
+position = Vector2(3004, -122)
+
+[node name="checkpoint4" parent="checkpoints" instance=ExtResource("3_fc7vl")]
+position = Vector2(2806, -164)
 
 [editable path="onboarding_section"]
 [editable path="onboarding_section/player_avatar"]
@@ -23,3 +48,4 @@ position = Vector2(1680, -512)
 [editable path="central_hub_section/popups2/popup_trigger"]
 [editable path="central_hub_section/interactables/puzzle_door"]
 [editable path="central_hub_section/interactables/puzzle_door/door3"]
+[editable path="checkpoints/checkpoint"]
