@@ -166,10 +166,6 @@ small_scale = ExtResource("3_pkfp2")
 large_scale = ExtResource("4_ccf2v")
 sprites = Array[Texture2D]([ExtResource("3_030oj"), ExtResource("4_iv7co"), ExtResource("8_74o4t")])
 
-[node name="arrow" type="Sprite2D" parent="."]
-scale = Vector2(0.037963, 0.037963)
-texture = ExtResource("12_4q0xt")
-
 [node name="shape" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_idbre")
 
