@@ -3,6 +3,7 @@ extends CanvasLayer
 var m_health_array : Array[TextureRect]
 var m_max_health : int = 6
 var m_health : int = 6
+@onready var m_energy_bar = $energy_bar
 
 func _ready():
 	for icon in $Health.get_children():
@@ -39,3 +40,9 @@ func hud_heal():
 	if m_health < m_max_health:
 		m_health_array[m_health/2].change_sprite((m_health%2)+1)
 		m_health += 1
+
+#Hardcoded, fix?
+func hud_gain_energy():
+	m_energy_bar.value += 1
+	if m_energy_bar.value == 2:
+		m_energy_bar.value = 0

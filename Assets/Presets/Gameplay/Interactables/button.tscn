@@ -1,10 +1,9 @@
 [gd_scene load_steps=4 format=3 uid="uid://dwdbun3cjd8j1"]
 
 [ext_resource type="Script" path="res://Scripts/Gameplay/Interactables/button.gd" id="1_e5j1w"]
+[ext_resource type="Texture2D" uid="uid://cpquud6awiogy" path="res://Assets/Art/Textures/UI/Menu/Grabber.png" id="2_4cv81"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ljw8r"]
-
-[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_qohbb"]
 
 [node name="button" type="StaticBody2D"]
 collision_layer = 4
@@ -15,5 +14,5 @@ script = ExtResource("1_e5j1w")
 shape = SubResource("RectangleShape2D_ljw8r")
 
 [node name="visual" type="Sprite2D" parent="."]
-scale = Vector2(20, 20)
-texture = SubResource("PlaceholderTexture2D_qohbb")
+scale = Vector2(0.571429, 0.444444)
+texture = ExtResource("2_4cv81")

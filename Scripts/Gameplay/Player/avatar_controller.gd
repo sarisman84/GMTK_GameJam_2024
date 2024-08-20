@@ -100,12 +100,17 @@ func m_init_health() -> void:
 	m_health.on_death.connect(m_on_player_death)
 	m_health.on_damage_taken.connect(m_hud_update_damage)
 	m_health.on_heal.connect(m_hud_update_heal)
+	HealthRegenBar.enemy_killed.connect(m_hud_update_energy)
+
+func m_hud_update_energy() -> void:
+	m_hud.hud_gain_energy()
 
 func m_hud_update_damage() -> void:
 	m_hud.hud_take_damage()
 
-func m_hud_update_heal() -> void:
-	m_hud.hud_heal()
+func m_hud_update_heal(heal_amount) -> void:
+	for i in heal_amount:
+		m_hud.hud_heal()
 
 func m_on_player_death() -> void:
 	var coords = get_node("/root/Global").latest_checkpoint[1]

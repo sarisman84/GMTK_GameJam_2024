@@ -1,11 +1,10 @@
-extends Node
+extends Node2D
 
-@export var m_max_bar_capacity : int = 1
-@export var m_health_points_regenerated : int = 3
+@export var m_max_bar_capacity : int = 2
+@export var m_health_points_regenerated : int = 2
 var m_current_points :int = 0
 
-func _ready():
-	pass # Replace with function body.
+signal enemy_killed
 
 func refill_player_health():
 	var player = get_tree().current_scene.find_child("player_avatar")
@@ -15,5 +14,6 @@ func refill_player_health():
 
 func update_points(delta):
 	m_current_points+=delta
+	enemy_killed.emit()
 	if m_current_points >= m_max_bar_capacity:
 		refill_player_health()

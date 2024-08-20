@@ -40,7 +40,7 @@ size = Vector2(20, 35)
 height = 36.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_xvjqu"]
-radius = 23.0217
+radius = 13.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_spgse"]
 size = Vector2(54, 52)
@@ -119,6 +119,21 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="Animation" id="Animation_7g53s"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("sprite:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
 [sub_resource type="Animation" id="Animation_dcykc"]
 resource_name = "walk"
 length = 0.4
@@ -137,21 +152,6 @@ tracks/0/keys = {
 "values": [Vector2(0, 0), Vector2(0, -1), Vector2(0, 0)]
 }
 
-[sub_resource type="Animation" id="Animation_7g53s"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("sprite:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(0, 0)]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ctgtj"]
 _data = {
 "RESET": SubResource("Animation_7g53s"),
@@ -164,6 +164,10 @@ normal_scale = ExtResource("2_qrjke")
 small_scale = ExtResource("3_pkfp2")
 large_scale = ExtResource("4_ccf2v")
 sprites = Array[Texture2D]([ExtResource("3_030oj"), ExtResource("4_iv7co"), ExtResource("8_74o4t")])
+
+[node name="arrow" type="Sprite2D" parent="."]
+scale = Vector2(0.037963, 0.037963)
+texture = ExtResource("12_4q0xt")
 
 [node name="shape" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_idbre")
@@ -184,7 +188,7 @@ script = ExtResource("3_ou4yy")
 [node name="hurtbox" type="CollisionShape2D" parent="health"]
 shape = SubResource("CapsuleShape2D_7aaut")
 
-[node name="health_regen_bar" type="Node" parent="health"]
+[node name="health_regen_bar" type="Node2D" parent="health"]
 script = ExtResource("7_yxp3d")
 
 [node name="attack" type="Area2D" parent="."]
@@ -193,7 +197,7 @@ collision_mask = 2
 script = ExtResource("4_t4erc")
 
 [node name="hitbox" type="CollisionShape2D" parent="attack"]
-position = Vector2(25, 0)
+position = Vector2(13, 0)
 shape = SubResource("CircleShape2D_xvjqu")
 
 [node name="interact" type="Area2D" parent="."]
@@ -208,10 +212,6 @@ shape = SubResource("RectangleShape2D_spgse")
 [node name="pickup_manager" type="Node" parent="."]
 script = ExtResource("6_2d2kh")
 
-[node name="arrow" type="Sprite2D" parent="."]
-scale = Vector2(0.037963, 0.037963)
-texture = ExtResource("12_4q0xt")
-
 [node name="sprite" type="Sprite2D" parent="."]
 scale = Vector2(0.0744512, 0.0720436)
 texture = ExtResource("4_iv7co")
@@ -219,6 +219,7 @@ texture = ExtResource("4_iv7co")
 [node name="ceiling_detector" type="ShapeCast2D" parent="."]
 shape = SubResource("CircleShape2D_1e1d1")
 target_position = Vector2(0, -18)
+collision_mask = 33
 
 [node name="animation" type="AnimatedSprite2D" parent="."]
 scale = Vector2(0.037, 0.036)
