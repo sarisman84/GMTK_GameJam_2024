@@ -11,7 +11,7 @@ enum Size {Normal = 0, Small = -1, Large = 1}
 @export var default_size: Size = Size.Normal
 @export var sprites: Array[Texture2D]
 
-@onready var m_camera: Camera2D = $camera
+@onready var m_camera: Camera2D = $camera_anchor/camera
 @onready var m_collider: CollisionShape2D = $shape
 @onready var m_sprite: Sprite2D = $sprite
 @onready var m_health: HealthNode = $health
@@ -20,7 +20,8 @@ enum Size {Normal = 0, Small = -1, Large = 1}
 @onready var m_pickup_manager: PickupManager = $pickup_manager
 @onready var m_sfx_manager: SFXManager = $sfx_manager
 @onready var m_ceiling_detector = $ceiling_detector
-@onready var m_arrow = $arrow
+@onready var m_arrow :Sprite2D = $arrow_anchor/arrow
+@onready var arrow_anchor :Node2D = $arrow_anchor
 #@onready var m_companion = $companion
 @onready var m_animation: AnimatedSprite2D = $animation
 @onready var m_small_animation: AnimationPlayer = $small_animation
@@ -28,6 +29,7 @@ enum Size {Normal = 0, Small = -1, Large = 1}
 @onready var m_hud: CanvasLayer = $hud
 @onready var m_book_anchor: Node2D = $shape/book_anchor
 @onready var m_companion_book: Companion = %companion
+@onready var m_camera_anchor : Node2D = $camera_anchor
 
 #Signals
 signal on_size_change(size_id, new_scale)
@@ -37,6 +39,7 @@ signal book_animation
 var m_default_col_scale: Vector2
 var m_default_sprite_scale: Vector2
 var m_default_arrow_scale: Vector2
+var m_default_arrow_position : Vector2
 var m_default_ceil_scale: float
 var m_default_ceil_pos_y: float
 var m_default_animation_scale: Vector2
@@ -60,6 +63,7 @@ var m_next_scale: ScaleSettings
 
 
 func _ready() -> void:
+	#m_camera_anchor.position = position
 	m_arrow.hide()
 	Popups.assign_new_owner(self)
 
@@ -88,6 +92,7 @@ func m_init_default_scales() -> void:
 	m_default_col_scale = m_collider.scale
 	m_default_sprite_scale = m_sprite.scale
 	m_default_arrow_scale = m_arrow.scale
+	m_default_arrow_position = m_arrow.position
 	m_default_animation_scale = m_animation.scale
 	#m_default_book_animation_scale = m_book_animation.scale
 	var m_sphere := m_ceiling_detector.shape as CircleShape2D
@@ -317,6 +322,7 @@ func m_get_scaled_attributes(scale_setting: ScaleSettings) -> ScaleSettings:
 	else:
 		m_result.sprite_scale = m_default_sprite_scale * scale_setting.scale_multiplier
 
+	m_arrow.position = m_default_arrow_position * scale_setting.scale_multiplier
 	m_arrow.scale = m_default_arrow_scale * scale_setting.scale_multiplier
 	m_animation.scale = m_default_animation_scale * scale_setting.scale_multiplier
 	#m_book_animation.scale = m_default_book_animation_scale * scale_setting.scale_multiplier
@@ -418,11 +424,13 @@ func m_handle_dash_aim(_delta) -> void:
 		m_cur_dash_direction = (m_mouse_pos - position).normalized()
 		m_companion_book.attack_towards(global_position - (m_cur_dash_direction * m_book_attack_val * m_current_scale.scale_multiplier), m_cur_dash_direction, 1)
 		m_arrow.hide()
+	elif m_cur_dash_hover_duration_in_seconds <= 0:
+		m_camera_anchor.position = Vector2.ZERO
 
 func m_rotate_dash_arrow():
 	var m_mouse_pos = get_global_mouse_position()
 	var m_arrow_direction = m_mouse_pos - position
-	m_arrow.rotation = m_arrow_direction.angle()
+	arrow_anchor.rotation = m_arrow_direction.angle()
 
 func m_can_aim_for_dash() -> bool:
 	return Input.is_action_just_pressed("dash") and m_cur_dash_hover_duration_in_seconds <= 0 and m_cur_dash_count > 0 and m_current_size < Size.Large
@@ -436,6 +444,7 @@ func m_can_dash(delta: float) -> bool:
 func m_on_book_swing(msg: Variant) -> void:
 	match msg:
 		1:
+			m_camera_anchor.position = Vector2.ZERO
 			m_cur_dash_duration_in_seconds = m_attributes.dash_duration_in_seconds
 			m_cur_dash_hover_duration_in_seconds = 0
 			pass
@@ -446,6 +455,8 @@ func m_on_book_swing(msg: Variant) -> void:
 
 func _physics_process(delta: float) -> void:
 	if m_cur_dash_hover_duration_in_seconds > 0:
+		var m_mouse_pos = get_global_mouse_position()
+		m_camera_anchor.position = ((m_mouse_pos - position).normalized() * m_current_scale.dash_range_in_px) / 4.0
 		m_handle_hover(delta)
 	elif m_cur_dash_duration_in_seconds > 0:
 
