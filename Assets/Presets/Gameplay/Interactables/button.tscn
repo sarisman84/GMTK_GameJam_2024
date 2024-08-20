@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://dwdbun3cjd8j1"]
 
 [ext_resource type="Script" path="res://Scripts/Gameplay/Interactables/button.gd" id="1_e5j1w"]
-[ext_resource type="Texture2D" uid="uid://cpquud6awiogy" path="res://Assets/Art/Textures/UI/Menu/Grabber.png" id="2_4cv81"]
+[ext_resource type="Texture2D" uid="uid://cjpdq003ltpsv" path="res://Assets/Art/Textures/3rd Party/5_Levels/INFERNO CARTOON 2D PLATFORMER TILESET/PNG/Environment/Statue.png" id="2_7sa8a"]
 [ext_resource type="AudioStream" uid="uid://1fwmaaun6pgh" path="res://Assets/SFX/buttonPush.mp3" id="3_jsvbj"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ljw8r"]
@@ -15,8 +15,8 @@ script = ExtResource("1_e5j1w")
 shape = SubResource("RectangleShape2D_ljw8r")
 
 [node name="visual" type="Sprite2D" parent="."]
-scale = Vector2(0.571429, 0.444444)
-texture = ExtResource("2_4cv81")
+scale = Vector2(0.078125, 0.078125)
+texture = ExtResource("2_7sa8a")
 
 [node name="button_sound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("3_jsvbj")

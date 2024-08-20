@@ -77,7 +77,7 @@ func _ready() -> void:
 	m_pickup_manager.init_manager(self)
 	m_hud.update_max_health(m_attributes.max_health)
 	m_hud.update_current_health(m_calculate_new_health_on_size_change(m_current_size))
-	
+
 	m_companion_book.on_book_attack_apex.connect(m_on_book_swing)
 
 
@@ -132,7 +132,7 @@ func m_on_player_death(_self_node : HealthNode) -> void:
 	var coords = get_node("/root/Global").latest_checkpoint[1]
 	position = coords
 	reset_player()
-	
+
 	pass
 
 func reset_player() -> void:
