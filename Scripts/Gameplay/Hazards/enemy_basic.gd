@@ -22,7 +22,7 @@ func m_on_hazard_death() -> void:
 func m_on_damage_taken() -> void:
 	m_health_bar.value = m_health.m_current_health - 1
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	if not is_on_floor():
 		velocity.y += m_gravity
 

@@ -31,7 +31,7 @@ func _ready():
 	m_attack_sprite.hide()
 	m_attack_animation.animation_finished.connect(m_reset)
 
-func m_reset(anim_name: StringName) -> void:
+func m_reset(_anim_name: StringName) -> void:
 	m_override_flip_flag = false
 	m_idle_animation.show()
 	m_attack_sprite.rotation = m_default_rot

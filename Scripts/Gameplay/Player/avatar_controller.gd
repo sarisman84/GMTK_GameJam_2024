@@ -221,7 +221,8 @@ func m_apply_settings(type: int) -> void:
 		tween.kill()
 	tween = create_tween()
 	tween.tween_property(m_camera, "zoom", m_camera.zoom, 1)
-	tween.EASE_IN
+	#tween.EASE_IN 
+	# ^^ Godot says this line has no effect 
 
 
 	var m_sphere = m_ceiling_detector.shape as CircleShape2D
