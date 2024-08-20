@@ -15,12 +15,6 @@ position = Vector2(1680, -512)
 [node name="JumpPad" parent="central_hub_section" index="3"]
 collision_layer = 0
 
-[node name="goomba" parent="central_hub_section/enemies" index="0"]
-position = Vector2(432, 39)
-
-[node name="goomba2" parent="central_hub_section/enemies" index="6"]
-position = Vector2(166, 79)
-
 [node name="onboarding_section" parent="." instance=ExtResource("1_1qphg")]
 
 [node name="player_avatar" parent="onboarding_section" index="1"]

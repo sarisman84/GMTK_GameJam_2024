@@ -15,7 +15,7 @@ func _ready() -> void:
 	m_health.on_death.connect(m_on_hazard_death)
 	m_health_bar.value = m_health.m_current_health
 
-func m_on_hazard_death() -> void:
+func m_on_hazard_death(_health_node : HealthNode) -> void:
 	HealthRegenBar.update_points(m_health_regeneration_points)
 	queue_free()
 

@@ -1,7 +1,7 @@
 extends StaticBody2D
 class_name HealthNode
 
-signal on_death
+signal on_death(self_node)
 signal on_damage_taken
 signal on_heal
 
@@ -41,7 +41,7 @@ func apply_damage(incoming_damage : float) -> void:
 	on_damage_taken.emit()
 	m_current_health -= incoming_damage
 	if m_current_health <= 0:
-		on_death.emit()
+		on_death.emit(self)
 	if m_current_health > m_max_health:
 		m_current_health = m_max_health
 
